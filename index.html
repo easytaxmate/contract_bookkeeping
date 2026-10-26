@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex">
-<title>세주 전자 기장계약</title>
+<title>세주 전자계약</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Myeongjo:wght@700;800&display=swap">
@@ -76,7 +76,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .msg.warn{background:color-mix(in srgb,var(--warn) 13%,transparent);color:var(--warn)}
 .paperwrap{overflow:hidden;border-radius:6px;border:1px solid var(--line);background:#cfd2dc}
 .paperscale{transform-origin:top left}
-.paper{width:794px;height:1123px;background:var(--paper);color:var(--paper-ink);padding:46px 58px 40px;font-family:"Noto Sans KR",sans-serif;font-size:12px;line-height:1.62;position:relative;overflow:hidden}
+.paper{width:794px;height:1123px;background:var(--paper);color:var(--paper-ink);padding:44px 58px 20px;font-family:"Noto Sans KR",sans-serif;font-size:12px;line-height:1.62;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.pbody{flex:1;min-height:0;overflow:hidden;padding-top:4px}
+.pbody>:first-child{margin-top:0!important}
 .paper + .paper{margin-top:14px}
 .p-head{display:flex;justify-content:flex-end;align-items:center;gap:8px;border-bottom:1.6px solid #111;padding-bottom:6px}
 .p-head img{width:30px;height:30px}
@@ -102,7 +104,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .sig-slot img{position:absolute;left:0;top:0;height:66px;max-width:190px;object-fit:contain}
 .seal-slot{position:relative}
 .seal-slot img{position:absolute;left:44px;top:-26px;width:72px;height:72px}
-.p-foot{position:absolute;left:58px;right:58px;bottom:22px;display:flex;justify-content:space-between;font-size:9.5px;color:#666;border-top:1px solid #ddd;padding-top:5px}
+.p-foot{flex:none;margin-top:6px;display:flex;justify-content:space-between;font-size:9.5px;color:#666;border-top:1px solid #ddd;padding-top:5px}
 .audit h3{font-size:17px;margin:30px 0 4px;text-align:center;letter-spacing:1px}
 .audit .sub{text-align:center;color:#555;margin-bottom:18px}
 .audit table{width:100%;border-collapse:collapse;font-size:11.5px}
@@ -135,6 +137,32 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
 .vres .ok{color:var(--ok);font-weight:700}.vres .bad{color:var(--err);font-weight:700}.vres .mid{color:var(--warn);font-weight:700}
 .sticky{position:sticky;bottom:0;padding-block:12px;background:linear-gradient(transparent,var(--bg) 30%)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.p-par{margin-top:8px}
+.p-art.cont{margin-top:1px}
+.li{display:flex;gap:4px}
+.li .lm{flex:none;min-width:16px}
+.li>div{flex:1;min-width:0}
+.sub{margin-top:1px}
+.sub .li{padding-left:8px}
+.dt{width:100%;border-collapse:collapse;margin:6px 0;font-size:11.5px}
+.dt th,.dt td{border:1px solid #444;padding:4px 7px;vertical-align:middle}
+.dt th{background:#f1f1f4;font-weight:700;text-align:center}
+.dt td.n{text-align:right;font-variant-numeric:tabular-nums;color:#140a80;font-weight:700;white-space:nowrap}
+.dt td.c{text-align:center}
+.parties{margin:0 auto 14px;border-collapse:collapse;font-size:13px}
+.parties td{padding:3px 8px}
+.parties td.k{font-weight:700}
+.parties td.v{color:#140a80;font-weight:700}
+.box-h{font-weight:700;margin-top:14px}
+.p-to{text-align:right;font-weight:700;font-size:14px;margin-top:26px}
+.p-signer{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:10px}
+.p-signer .sig-slot{width:170px;height:60px}
+.p-signer .sig-slot img{height:60px}
+.sumt{width:100%;border-collapse:collapse;font-size:14px}
+.sumt th,.sumt td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+.sumt th{color:var(--muted);font-weight:500;width:110px;white-space:nowrap}
+.sumt td b{color:var(--navy);font-variant-numeric:tabular-nums}
+.grp{display:grid;gap:12px}
 </style>
 
 <div class="wrap" id="app">
@@ -147,8 +175,8 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
 
   <!-- ================= 사무소 화면 ================= -->
   <section id="office" hidden>
-    <h1>전자 기장계약 발송</h1>
-    <p class="lead">계약 조건을 입력하면 고객에게 보낼 서명 링크가 만들어집니다. 고객은 링크에서 업무범위·지급일을 확인하고 서명한 뒤, 계약서 PDF를 카카오톡이나 메일로 회신합니다.</p>
+    <h1>전자계약 발송</h1>
+    <p class="lead">계약 종류와 조건을 입력하면 고객에게 보낼 서명 링크가 만들어집니다. 고객은 링크에서 계약 내용을 확인하고 서명한 뒤, 계약서 PDF를 카카오톡이나 메일로 회신합니다.</p>
     <div class="tabs" role="tablist">
       <button role="tab" data-tab="t-make" aria-selected="true">링크 만들기</button>
       <button role="tab" data-tab="t-hist" aria-selected="false">발송 이력·검증</button>
@@ -169,32 +197,88 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
       </div>
 
       <div class="card">
-        <div class="step-h"><span class="no">1</span><h2>계약 조건</h2></div>
+        <div class="step-h"><span class="no">1</span><h2>계약 종류와 조건</h2></div>
         <div class="grid2">
-          <label class="f">계약 구분
-            <select id="o-type"><option value="p">개인사업자</option><option value="c">법인사업자</option></select></label>
-          <label class="f">고객 상호 (미리 채움, 고객이 수정 가능)
+          <label class="f">계약 종류
+            <select id="o-type">
+              <option value="p">개인사업자 기장대리 계약서</option>
+              <option value="c">법인사업자 기장대리 계약서</option>
+              <option value="i">상속세 신고 및 조사대행 계약서</option>
+              <option value="a">세무조사 대행 계약서</option>
+              <option value="w">업무 대행 계약서</option>
+            </select></label>
+          <label class="f"><span id="o-nameLabel">고객 상호 (미리 채움, 고객이 수정 가능)</span>
             <input type="text" id="o-name" placeholder="예) 마포상사"></label>
-          <label class="f">월정액 (원, 부가가치세 포함)
-            <input type="text" id="o-fee" inputmode="numeric" placeholder="예) 165,000"></label>
           <label class="f">계약일
             <input type="date" id="o-date"></label>
         </div>
-        <div class="f" style="font-size:13px;color:var(--muted);font-weight:500">업무 범위 (제2조 제1항)</div>
-        <div class="chips" id="o-svc"></div>
-        <div class="grid2">
-          <label class="f">월정액 지급일
-            <select id="o-pay"><option value="">고객이 선택</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>30</option></select></label>
-          <label class="f">고객 수정 범위
-            <select id="o-lock"><option value="1">업무범위·보수 고정 (권장)</option><option value="0">업무범위는 고객이 선택</option></select></label>
+
+        <div class="grp" data-grp="bk">
+          <div class="grid2">
+            <label class="f">월정액 (원, 부가가치세 포함)
+              <input type="text" id="o-fee" class="money" inputmode="numeric" placeholder="예) 165,000"></label>
+            <label class="f">월정액 지급일
+              <select id="o-pay"><option value="">고객이 선택</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>30</option></select></label>
+            <label class="f">고객 수정 범위
+              <select id="o-lock"><option value="1">업무범위·보수 고정 (권장)</option><option value="0">업무범위는 고객이 선택</option></select></label>
+          </div>
+          <div class="f" style="font-size:13px;color:var(--muted);font-weight:500">업무 범위 (제2조 제1항)</div>
+          <div class="chips" id="o-svc"></div>
+        </div>
+
+        <div class="grp" data-grp="i" hidden>
+          <div class="grid2">
+            <label class="f">피상속인 성명
+              <input type="text" id="o-dec" placeholder="예) 홍길동"></label>
+            <label class="f">대행보수 총액 (원, 부가가치세 포함)
+              <input type="text" id="o-itotal" class="money" inputmode="numeric" placeholder="예) 44,000,000"></label>
+            <label class="f">착수금 (계약일 청구 · 기본 총보수의 50%, 수정 가능)
+              <input type="text" id="o-ia1" class="money" inputmode="numeric"></label>
+            <div class="f">잔금 (신고서 접수일 청구)<div class="urlbox" id="o-ia2" style="user-select:text">-</div></div>
+          </div>
+          <div class="chips">
+            <label class="chip on"><input type="checkbox" id="o-isu" checked>제3조 ③ 성공보수 조항 포함</label>
+          </div>
+        </div>
+
+        <div class="grp" data-grp="a" hidden>
+          <div class="grid2">
+            <label class="f">업무내용 (조사 종류)
+              <input type="text" id="o-aw" value="법인 통합 조사"></label>
+            <label class="f">총 보수 (원, 부가가치세 포함)
+              <input type="text" id="o-atotal" class="money" inputmode="numeric" placeholder="예) 33,000,000"></label>
+            <label class="f">착수금 (계약일 · 반환 없음 · 기본 총보수의 50%, 수정 가능)
+              <input type="text" id="o-aa1" class="money" inputmode="numeric"></label>
+            <div class="f">잔금 (세무조사 종결일)<div class="urlbox" id="o-aa2" style="user-select:text">-</div></div>
+          </div>
+        </div>
+
+        <div class="grp" data-grp="w" hidden>
+          <label class="f">업무내용 (한 줄에 하나씩)
+            <textarea id="o-wit" rows="4" placeholder="예)&#10;○○○님 증여세 신고&#10;주식회사 ○○ 주식평가업무&#10;위 업무에 수반하는 전반적인 업무"></textarea></label>
+          <div class="grid2">
+            <label class="f">총 보수 (원, 부가가치세 포함)
+              <input type="text" id="o-wtotal" class="money" inputmode="numeric" placeholder="예) 22,000,000"></label>
+            <label class="f">착수금 (기본 총보수의 50%, 수정 가능)
+              <input type="text" id="o-wa1" class="money" inputmode="numeric"></label>
+            <label class="f">착수금 지급시점
+              <input type="text" id="o-wt1" value="계약시"></label>
+            <div class="f">잔금<div class="urlbox" id="o-wa2" style="user-select:text">-</div></div>
+            <label class="f">잔금 지급시점
+              <input type="text" id="o-wt2" value="업무완료일"></label>
+            <label class="f">업무진행기간 종료 (제3조)
+              <input type="text" id="o-wen" value="최종신고 완료일"></label>
+            <label class="f">별도 청구 업무 예시 (제2조 제2항)
+              <input type="text" id="o-wex" value="추가 수정신고, 사후관리 소명, 세무조사, 조세불복 등"></label>
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div class="step-h"><span class="no">2</span><h2>배포 주소</h2><span class="hint">이 프로그램을 올려둔 인터넷 주소</span></div>
-        <label class="f">배포 주소 (예: https://easytaxmate.co.kr/contract/ 또는 GitHub Pages 주소)
+        <label class="f">배포 주소 (GitHub Pages 주소, 예: https://계정이름.github.io/contract/)
           <input type="url" id="o-base" placeholder="https://..."></label>
-        <div id="baseWarn" class="msg warn" hidden>지금 보고 계신 주소는 미리보기 주소라서 고객에게 보낼 수 없습니다. 이 파일을 홈페이지나 GitHub Pages에 올린 뒤 그 주소를 입력해 주세요. 입력값은 이 브라우저에 기억됩니다.</div>
+        <div id="baseWarn" class="msg warn" hidden>지금 보고 계신 주소는 미리보기 주소라서 고객에게 보낼 수 없습니다. GitHub Pages 주소를 입력해 주세요. 입력값은 이 브라우저에 기억됩니다.</div>
       </div>
 
       <div class="card">
@@ -211,9 +295,8 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
             <button class="btn sm" id="o-copyurl">링크 복사</button>
             <button class="btn sm ghost" id="o-copymsg">카카오톡 안내문 복사</button>
             <button class="btn sm ghost" id="o-copymail">메일 안내문 복사</button>
-            <span class="note" id="o-copied"></span>
           </div>
-          <p class="note">발송코드는 고객이 회신한 PDF 3쪽에 그대로 찍힙니다. 링크의 보수·업무범위가 고객 쪽에서 바뀌면 코드가 달라지므로 ‘발송 이력·검증’ 탭에서 대조하시면 됩니다.</p>
+          <p class="note">발송코드는 고객이 회신한 PDF 마지막 쪽 ‘전자서명 확인서’에 그대로 찍힙니다. ‘발송 이력·검증’ 탭에서 회신 PDF를 올리면 자동으로 대조합니다.</p>
         </div>
       </div>
     </div>
@@ -233,7 +316,7 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
       <div class="card">
         <div class="step-h"><h2>발송 이력</h2><span class="hint">이 브라우저에만 저장됩니다. 주기적으로 백업하세요</span></div>
         <div class="row"><button class="btn sm ghost" id="h-export">백업 파일 저장</button><label class="btn sm ghost" for="h-import">백업 불러오기</label><input type="file" id="h-import" accept=".json,application/json" hidden><span class="note" id="h-note"></span></div>
-        <div class="tblwrap"><table class="hist"><thead><tr><th>발송일</th><th>문서번호</th><th>구분</th><th>고객</th><th>월정액</th><th>발송코드</th><th>회신 확인</th><th></th></tr></thead><tbody id="h-body"></tbody></table></div>
+        <div class="tblwrap"><table class="hist"><thead><tr><th>발송일</th><th>문서번호</th><th>계약 종류</th><th>고객</th><th>금액</th><th>발송코드</th><th>회신 확인</th><th></th></tr></thead><tbody id="h-body"></tbody></table></div>
         <p class="note" id="h-empty">아직 발송한 링크가 없습니다. ‘링크 만들기’에서 첫 링크를 만들면 여기에 쌓입니다.</p>
       </div>
       <div class="card">
@@ -257,9 +340,9 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
       <div class="card">
         <div class="step-h"><h2>고객이 보게 되는 순서</h2></div>
         <div class="flow">
-          <div><b>① 링크 열기</b>휴대폰·PC 어디서나 열립니다. 앱 설치나 회원가입이 필요 없습니다.</div>
-          <div><b>② 계약 내용 확인</b>업무범위·월정액을 확인하고 매월 지급일을 고릅니다. 아래에 실제 계약서가 그대로 보입니다.</div>
-          <div><b>③ 사업자 정보 입력</b>상호, 사업자번호, 소재지, 대표자 이름을 적습니다.</div>
+          <div><b>① 링크 열기</b>휴대폰은 크롬(아이폰은 사파리)으로 엽니다. 카카오톡에서 누르면 자동으로 넘어갑니다.</div>
+          <div><b>② 계약 내용 확인</b>업무와 보수를 확인하고 필요한 항목(기장계약은 지급일)을 고릅니다. 아래에 실제 계약서가 그대로 보입니다.</div>
+          <div><b>③ 인적사항 입력</b>상호(성명), 사업자번호(생년월일), 주소, 대표자를 적습니다.</div>
           <div><b>④ 서명 또는 날인</b>손가락·마우스로 서명하거나 도장 찍은 종이를 사진으로 올립니다.</div>
           <div><b>⑤ PDF 만들기·보내기</b>‘보내기’를 누르면 카카오톡·메일로 바로 전송됩니다. PC는 저장 후 메일에 첨부합니다.</div>
         </div>
@@ -269,41 +352,50 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
     <div id="t-manual" class="stack doc" hidden>
       <div class="card">
         <div>
-          <h3>1. 처음 한 번: 프로그램 올리기</h3>
+          <h3>1. 계약 종류</h3>
+          <div class="tblwrap"><table class="hist">
+            <thead><tr><th>계약 종류</th><th>사무소가 정하는 것</th><th>고객이 하는 것</th><th>회신 PDF</th></tr></thead>
+            <tbody>
+              <tr><td>개인·법인 기장대리</td><td>월정액, 업무범위</td><td>지급일 선택, 서명</td><td>계약서 2쪽 + 확인서 1쪽</td></tr>
+              <tr><td>상속세 신고·조사대행</td><td>피상속인, 총 보수(착수금 기본 50%), 성공보수 조항</td><td>서명</td><td>계약서 + 전자서명 확인서</td></tr>
+              <tr><td>세무조사 대행</td><td>조사 종류, 총 보수(착수금 기본 50%)</td><td>서명</td><td>계약서 + 전자서명 확인서</td></tr>
+              <tr><td>업무 대행</td><td>업무내용, 총 보수(착수금 기본 50%), 지급시점</td><td>서명</td><td>계약서 + 전자서명 확인서</td></tr>
+            </tbody></table></div>
+          <h3>2. 처음 한 번: 프로그램 올리기</h3>
           <ol>
-            <li>이 HTML 파일을 사무소 홈페이지(easytaxmate.co.kr)의 한 폴더나 GitHub Pages에 올립니다. 서버 프로그램이나 데이터베이스는 필요 없습니다.</li>
+            <li>index.html 파일을 GitHub Pages에 올립니다. 서버 프로그램이나 데이터베이스는 필요 없습니다.</li>
             <li>올린 주소를 ‘링크 만들기 → 배포 주소’에 한 번 입력합니다. 이후에는 자동으로 기억됩니다.</li>
             <li>‘사무소 열쇠’(12자리)를 PC마다 한 번 입력합니다. 직인·입금계좌는 파일 안에 암호화되어 있어 열쇠 없이는 볼 수 없고, 열쇠는 서명 링크에만 담깁니다.</li>
-            <li>고객 정보와 서명은 고객의 휴대폰 안에서만 처리되어 PDF로 만들어지며, 사무소 서버나 제3자 서버에 저장되지 않습니다.</li>
+            <li>고객 정보와 서명은 고객의 휴대폰 안에서만 처리되어 PDF로 만들어지며, 어떤 서버에도 저장되지 않습니다.</li>
           </ol>
-          <h3>2. 계약할 때마다: 링크 보내기</h3>
+          <h3>3. 계약할 때마다: 링크 보내기</h3>
           <ol>
-            <li>개인/법인, 월정액, 업무범위를 정하고 ‘서명 링크 만들기’를 누릅니다.</li>
+            <li>계약 종류와 조건을 입력하고 ‘서명 링크 만들기’를 누릅니다.</li>
             <li>‘카카오톡 안내문 복사’를 눌러 고객 카톡방이나 카카오톡 채널 상담창에 붙여넣습니다.</li>
             <li>발송코드(8자리)는 발송 이력에 자동 저장됩니다.</li>
           </ol>
-          <h3>3. 회신받았을 때: 확인하고 보관하기</h3>
+          <h3>4. 회신받았을 때: 확인하고 보관하기</h3>
           <ol>
-            <li>회신 PDF는 3쪽입니다. 1~2쪽은 계약서 본문과 양 당사자 서명·직인, 3쪽은 전자서명 확인서입니다.</li>
-            <li>3쪽의 발송코드를 ‘발송 이력·검증’에서 대조합니다. 일치하면 사무소가 보낸 조건 그대로 서명된 것입니다.</li>
-            <li>PDF를 고객 폴더에 ‘기장대리계약서_상호_계약일.pdf’ 이름 그대로 보관합니다.</li>
+            <li>회신 PDF 마지막 쪽은 전자서명 확인서입니다. 그 앞은 계약서 본문입니다.</li>
+            <li>‘발송 이력·검증 → 회신 PDF 검증’에 받은 파일을 그대로 올립니다. 지문값·발송코드·계약 조건이 자동 대조됩니다.</li>
+            <li>PDF는 고객 폴더에 받은 이름 그대로 보관합니다.</li>
           </ol>
-          <h3>4. 기록은 어디에 남나요</h3>
+          <h3>5. 기록은 어디에 남나요</h3>
           <ul>
-            <li><b>발송코드(8자리)</b>: 서명 링크 내용으로 계산한 값입니다. 링크를 만든 PC 브라우저의 ‘발송 이력’과 회신 PDF 3쪽에 남습니다. 보낸 카카오톡·메일 속 링크로도 언제든 다시 계산할 수 있습니다.</li>
-            <li><b>문서 지문값(SHA-256)</b>: 고객이 서명하는 순간 고객 기기에서 계산됩니다. 회신 PDF 3쪽에 인쇄되고, 계산에 쓰인 원본 기록이 PDF 파일 속에도 함께 들어갑니다. ‘회신 PDF 검증’에 파일을 올리면 다시 계산해 대조합니다.</li>
-            <li><b>받은 파일 지문값</b>: 검증할 때 받은 PDF 파일 전체의 지문값을 발송 이력에 기록합니다. 나중에 보관 파일이 바뀌지 않았는지 확인하는 기준이 됩니다.</li>
+            <li><b>발송코드(8자리)</b>: 서명 링크 내용으로 계산한 값입니다. 링크를 만든 PC 브라우저의 ‘발송 이력’과 회신 PDF 확인서에 남습니다. 보낸 카카오톡·메일 속 링크로도 언제든 다시 계산할 수 있습니다.</li>
+            <li><b>문서 지문값(SHA-256)</b>: 고객이 서명하는 순간 고객 기기에서 계산됩니다. 회신 PDF 확인서에 인쇄되고, 계산에 쓰인 원본 기록이 PDF 파일 속에도 함께 들어갑니다.</li>
+            <li><b>받은 파일 지문값</b>: 검증할 때 받은 PDF 파일 전체의 지문값을 발송 이력에 기록합니다.</li>
             <li>서버에는 아무것도 저장되지 않습니다. 원본 PDF와 고객이 보낸 카카오톡·메일 원문을 함께 보관하시고, 발송 이력은 ‘백업 파일 저장’으로 주기적으로 받아 두세요.</li>
           </ul>
-          <h3>5. 법적 효력</h3>
-          <div class="law">「<a href="https://www.law.go.kr/법령/전자서명법/제3조" target="_blank" rel="noopener">전자서명법 제3조</a>」 ① 전자서명은 전자적 형태라는 이유만으로 서명·기명날인으로서의 효력이 부인되지 않고, ② 당사자 간 약정으로 전자서명을 선택한 경우 서명·기명날인으로서의 효력을 가집니다. 이 계약서는 제11조에 그 약정을 두었고, 고객이 서명 전에 별도로 동의하도록 했습니다.</div>
+          <h3>6. 법적 효력</h3>
+          <div class="law">「<a href="https://www.law.go.kr/법령/전자서명법/제3조" target="_blank" rel="noopener">전자서명법 제3조</a>」 ① 전자서명은 전자적 형태라는 이유만으로 서명·기명날인으로서의 효력이 부인되지 않고, ② 당사자 간 약정으로 전자서명을 선택한 경우 서명·기명날인으로서의 효력을 가집니다. 모든 계약서에 【전자계약】 조항을 두었고, 고객이 서명 전에 별도로 동의하도록 했습니다.</div>
           <p></p>
           <div class="law">「<a href="https://www.law.go.kr/법령/전자문서및전자거래기본법/제4조" target="_blank" rel="noopener">전자문서 및 전자거래 기본법 제4조 제1항</a>」 전자문서는 전자적 형태로 되어 있다는 이유만으로 법적 효력이 부인되지 않습니다.</div>
-          <h3>6. 자주 받는 질문</h3>
+          <h3>7. 자주 받는 질문</h3>
           <ul>
-            <li><b>도장을 꼭 찍어야 하나요?</b> 손 서명만으로 충분합니다. 법인 인감날인을 원하시는 고객은 종이에 찍은 도장을 촬영해 올리면 됩니다.</li>
             <li><b>카카오톡에서 안 열리거나 PDF가 안 만들어져요.</b> 카카오톡 안의 화면은 파일 저장을 막습니다. 화면 맨 위 [크롬·사파리로 열기]를 누르거나, 링크를 복사해 크롬(아이폰은 사파리)에 붙여넣어 열면 됩니다.</li>
-            <li><b>보내기 버튼이 안 보여요.</b> PC 브라우저 등 공유 기능이 없는 환경입니다. ‘PDF 저장’ 후 sejutaxmapo@gmail.com으로 첨부해 보내시면 됩니다.</li>
+            <li><b>도장을 꼭 찍어야 하나요?</b> 손 서명만으로 충분합니다. 인감날인을 원하시는 고객은 종이에 찍은 도장을 촬영해 올리면 됩니다.</li>
+            <li><b>주민등록번호 칸이 없어요.</b> 「개인정보 보호법」 제24조의2에 따라 계약서에는 생년월일만 받습니다. 신고서 작성에 필요한 주민등록번호는 신고 단계에서 별도로 받으세요.</li>
             <li><b>링크를 다시 보내야 하나요?</b> 같은 링크는 몇 번이든 다시 열 수 있습니다. 조건을 바꾸려면 새 링크를 만드세요.</li>
           </ul>
         </div>
@@ -323,37 +415,33 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
         <li>그래도 안 되면 [링크 복사]를 누르고 크롬(사파리) 주소창에 붙여넣습니다.</li>
       </ol>
     </div>
-    <h1 id="c-title">기장대리 계약서 전자서명</h1>
-    <p class="lead">아래 순서대로 확인·입력하고 서명해 주세요. 3분 정도 걸립니다. 입력하신 정보는 이 기기 안에서만 계약서 PDF로 만들어지고, 대표님이 직접 보내기 전까지 어디에도 전송되지 않습니다.</p>
+    <h1 id="c-title">계약서 전자서명</h1>
+    <p class="lead">아래 순서대로 확인·입력하고 서명해 주세요. 3분 정도 걸립니다. 입력하신 정보는 이 기기 안에서만 계약서 PDF로 만들어지고, 직접 보내기 전까지 어디에도 전송되지 않습니다.</p>
     <div class="stack">
       <div class="card">
         <div class="step-h"><span class="no">1</span><h2>계약 조건 확인</h2></div>
-        <div>
-          <div class="note">업무 범위 <span id="c-lockNote"></span></div>
-          <div class="chips" id="c-svc" style="margin-top:6px"></div>
+        <div id="c-bk" class="stack">
+          <div>
+            <div class="note">업무 범위 <span id="c-lockNote"></span></div>
+            <div class="chips" id="c-svc" style="margin-top:6px"></div>
+          </div>
+          <div class="fee"><span class="note">월정액</span><b id="c-fee"></b><span class="note">(부가가치세 포함)</span></div>
+          <div>
+            <div class="note">매월 지급일 <span style="color:var(--seal)">*</span></div>
+            <div class="chips" id="c-pay" style="margin-top:6px"></div>
+          </div>
         </div>
-        <div class="fee"><span class="note">월정액</span><b id="c-fee"></b><span class="note">(부가가치세 포함)</span></div>
-        <div>
-          <div class="note">매월 지급일 <span style="color:var(--seal)">*</span></div>
-          <div class="chips" id="c-pay" style="margin-top:6px"></div>
-        </div>
+        <div id="c-gen" class="stack" hidden></div>
       </div>
 
       <div class="card">
-        <div class="step-h"><span class="no">2</span><h2>계약서 전문</h2><span class="hint">선택하신 내용이 바로 반영됩니다</span></div>
+        <div class="step-h"><span class="no">2</span><h2>계약서 전문</h2><span class="hint">입력하신 내용이 바로 반영됩니다</span></div>
         <div class="paperwrap" id="pw"><div class="paperscale" id="ps"></div></div>
       </div>
 
       <div class="card">
-        <div class="step-h"><span class="no">3</span><h2>사업자 정보 (갑)</h2></div>
-        <div class="grid2">
-          <label class="f"><span>상호 <span class="req">*</span></span><input type="text" id="c-corp" autocomplete="organization"></label>
-          <label class="f"><span><span id="c-idLabel">사업자번호</span> <span class="req">*</span></span><input type="text" id="c-bizno" inputmode="numeric" placeholder="000-00-00000"></label>
-          <label class="f" style="grid-column:1/-1"><span>소재지 <span class="req">*</span></span><input type="text" id="c-addr" autocomplete="street-address"></label>
-          <label class="f"><span><span id="c-repLabel">대표자</span> <span class="req">*</span></span><input type="text" id="c-rep" autocomplete="name"></label>
-          <label class="f">연락처<input type="tel" id="c-tel" inputmode="tel" autocomplete="tel"></label>
-          <label class="f">이메일 (세무 안내 수신용)<input type="email" id="c-mail" autocomplete="email"></label>
-        </div>
+        <div class="step-h"><span class="no">3</span><h2 id="c-gTitle">인적사항 (갑)</h2></div>
+        <div class="grid2" id="c-fields"></div>
       </div>
 
       <div class="card">
@@ -371,8 +459,7 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
           <span class="note">흰 종이에 도장을 찍어 밝은 곳에서 촬영해 주세요. 흰 배경은 자동으로 지워집니다.</span>
           <img id="sg-stampImg" alt="" hidden>
         </div>
-        <label class="agree"><input type="checkbox" id="ag1"><span>계약서 전문(제1조~제11조)을 모두 읽고 내용을 확인했습니다.</span></label>
-        <label class="agree"><input type="checkbox" id="ag2"><span>이 계약을 전자적 방식으로 체결하고, 위 서명(날인 이미지)을 저의 서명·기명날인으로 하는 데 동의합니다. (전자서명법 제3조 제2항)</span></label>
+        <div id="c-agree" class="stack"></div>
       </div>
 
       <div id="c-err" class="msg err" hidden></div>
@@ -392,24 +479,31 @@ table.hist th,table.hist td{border-bottom:1px solid var(--line);padding:8px 6px;
           <div>카카오톡 채널: <a href="http://pf.kakao.com/_nrRhK" target="_blank" rel="noopener">pf.kakao.com/_nrRhK</a></div>
           <div>전화: 02-2205-0659 · 010-6510-0659</div>
         </div>
-        <p class="note" style="margin:0">PDF는 대표님도 1부 보관해 주세요. 이것으로 계약서 원본 보관이 끝납니다.</p>
+        <p class="note" style="margin:0">PDF는 고객님도 1부 보관해 주세요. 이것으로 계약서 원본 보관이 끝납니다.</p>
       </div>
     </div>
   </section>
 </div>
 <div class="offstage" id="stage"></div>
-
 <script>
 (()=>{
 const LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAYAAAA5ZDbSAAA44UlEQVR4nOWdd3gV1fb3P2tmTk2B0JuKNAsoIlhQEUQRBSxg7w0LNqzXcn/Xeq+99947oqgoIIgKVmyoNAVFmoBAenLazKz3j5nJCZBAEgJy3/v14QmGM/vs2Wvv1dfaoqpstVAHcEEcUBPEAtT/YwI2JSXlLFlYpAt/L+b3XwtZuHAZSxcXs2pFmuJCg4qyNJWJCjIpG4OoNyyKFbaJ5UbIzYmSn2/QbpumtNsmTMdObejcpQ2dujSlTbu4NGvRFMSsNikXsP2f+PMw/J9bH2RrJrC6GUQAMQABYOWfJcz+aal+/fkSZs1czvxf1/DX8gQV5S62hoAMBoKQC9iIVAIgCIJRNbarFiC4KBACFJcKwMEiQk6e0Kp1nC47NGfX3dvRZ69t6dGrtbRplw9kAAPVMCI2VI2x9WGrJjCkSKdt5s0u1E8/ms+nU+cx56c/WflnkrTGMIliEsGgEkNcQL3THvzUCLgxfywFSWeH1hDBpkEygIO3mwBVXBVcwCGEQ4oQSss2IXr0asFBg3agX/+udNupg4RjBt6JtrbMktQTWweBFX+tq/7Cgl+X6oR35zD+rTnM+r6I0pSLCViEMMRAJIPHJhU07D/nVj2fHcuo9v8BW10XUu2zgQgIiJ8CBFUD1RBpkihJ8qIRdundlsOHd2PwsJ3pvEOBgD8PNbLTyP7lb8FWQGD/xGGRSqb4ePIsfeX5b5k2ZQ2FJWswMAhTgCBrn8C/FYKrQoY0DpU0L4gx8KAuHH9Kb/oP2lEiUQDb3yZh/k75vBUQGErWVPDu2z/oc09+wcwZGWxswiiGWIABKj7rdTYykqCq/hnM/ufJWVj3Tb1zG/yHL6W9EycbO3jieoqfxnGwyFCOKYXsvncbTj9rX44YsbvkFUTxuMb/HIHTQJjykjRvvPy1PvHwNObNKcSgKSHxF0QDmeZ6i4mLR+wQiIIkUBUcBYcwDkkMUlhYxGMhcvNNcnIN8vNj5OXnEwkbhMJOFZHVtUgllUQyRVlJBeXlNpUVSSorUiSTQhoTJYRJBsHFRDCIICLZOanpiwdAkrhqkEEQlO49Ipx78b6MOL6P5OSFAAd1Q77SSPZ9NjO2IIEDmWng2gbjxszU++6YwsyZa7CIEcL0CLdBuDhqk8FFMcmJQNsOuXTuWsCOO7eic7eWbN+5JW3b5ZHf1JCc3BChUIRQyMK0AhMrgIAqmUwGO6NkUgalZZUUF5fpypXFLF9WwaLfivj9t2L++K2IZYtLKFpdSsJRIBcLAxMHwwj0AKvauCHSlONSSa/ebbn06kEMO2IXMUMW3uYOTKvNL5+3EIEVSAIxZn6zRG+/6QMmjf8dJYcQsSpTJvvZtV88ow42JhbQdhulV5/W7H9AF/batzOdOreUvCYxvEUL2KHibSi8/1d3LVOr6ntU/V8Z1H6aEjgZWLM6xcIFa3T2j8v48Yc/mf1jIQsXlFBYUoqNEiJCSPzvFtfjNGqRxkAoZdCw1lxz/eHs1mcbgRRobIvoX5udwKo2IhblJQkeuucjffTe2RSXpYlZNuqKJ1+z0wGNIGKjpMiohU2S1i0iDDi4C4cf1Z2++24vLVrHydqdgdbrP1/1d2Mdoau+OeRvIPXlO/jy3c0+h0FW+QvGDTaAJy4yaZtlSyp05vdL+OLThXz92XIWzF1JWdpj5SEMDHHASKJOjCQJmuanOf/S/bnw0kGS2yTirY1aYFT/nsbFZiRwsPAGX02fr//6xzvM+GoZYVphiOCd6JpeyCKtaVyUHrvmcdLpezDsyJ1l2+2bk1VW1j/ldZ9TgHWfr88ir//9FRWFLJhTpp99upipkxbyw3dL+KsoSQibsGGBm4NLgiQJ9um7Lf++6xD22KezqOMgZrCB/ksI7LouhgFOxuWx+z/VW2/8lPJyi4hhAp5dia7NEhWw1cXFpXeffM65aADDRvSQnNwY4KCqiGydzgRwUFK+SWSBJvltfplOfn8OY175mZ9++AvDjQE2CKRcJT9fufa6gZw9uo+YVmQd27nx0AgEDpwLUu3/Df5aUco1l72mb776CyZ5hMTytE4MEJusjDRQVZJUsEOXtlx01b4ce0JvieZkx8rK0K3T3+vJc9dfgoA7WUCYy85+R59++mui5PhiwWPxDkKGCo45fiduvW+otGzdlK30BCd9U8HwZZwwa+afev4Z45g5czkxiZGVb9W8RX4AIa0u0ZwEZ567K5f84zBp2Tp/nfGrP/v3eoVqxzp6gAKSYfJ7C/Xko19EM1aVpZ39vIlqiAR/sXvvFjz89In06LmdeLK/8dj1phPYfzcVRUSZ/MGvesk5k1i2rJCI1KKZigOESLgVdO+ex+33jmD/QTuJZ0JUU37+K6EoSUoL4fADn9CfZpYQrtH88216M0nCKad9+214+OmDGDh4J2nMzbzpKykKhoOI8Moz3+qZJz7J8mVFRAjX+oijBgk3xXEn7Mjbk0fK/oN2lKwt+d9MXABFiHDfbR/qzJnLCRu1vY96a+dEiNGCFctSnHrMm7z+wnfamJyqASdYgQrQHBBFSSNkePzBL/SfV3wOacU03KyHpzqMBBnHxLBMrv7XAVx6bX8xrRSeybO1KlB1QWB6eT+++myuHn3o86TKm2NIgvWdpAGqmV9iY7sRrEg5t9w9hLMu2NvjaG5sk/Z8w1ZVY/7k0gjCg3d/rddd9Qmmk4cpmRreR8FIYTutieet4vb7DuWkM/cWSADxhs9+q4Fvf4tNRYXNDVdNpKw8h+hadnlNUKr86ypYksJOhbjqkndwHUfPvrifYCSA2AbG2DAaQGABEVQzCBGefHCa3nTNFCynJcZaHqm1n0k7Ql6TEh575kSGjNjZ8+ZUeZ/+29kyBEH/Jx/8SL/44i9ikgdSia+g1HEMwRJwnBjXXjEByzL1jPP32iR+3SAly7P5TF555ke9ZNR4SCtiZNYOovs7GgHbMYjlOzz+3FEMHb67ZAPkQYx2azV/6gZVL/o0+6dFOmzAk5QVGZ6YwlzP3q/TeJLC1TBmOMWDTx7Psaf0lOA76osGHB0XAaaM/0OvvGQcTlq9CEtV0D2AgEZxXDAjFdz/6AiGDu8pkFnbMf9fTlwAkQwV5ZX88/L3WF0kmBLyfdEN40yiEUwENx3ligvf4uNJv6iI7e2keqJeM/BOuzBr5jK96OyxJMriWEZtMVrBUQubNNf952COOrF3li1vrebsJmDVqmKKi2wMMthqN8qYhijlpREuGPkac35epg05wvUgsGfnrl5ZzvlnjmX5ijWExPbZcoAgzcUGcUlRzFkj9+T8Swd4bFnj/lfWljrz3wnVENtu15bxU8+VO+4bQtsOFgl1UDX8WHYDgwkqWJJg6dIkF501jsLVZd5Y1f0qG0E9ZLCLYyujTntOX31lPnGpSbMLtEkl6drstXc7xk48U/Ka+J6u/xEs/n01t17/qY55dQbqxLAkyOzw0vjqBcmARkhoipNP78yDT50iphGEJTe+pnVcdc999sT9n+mrr8whJrWYNpIGBMfNpVmzEHc+eBh5TSJ4Hqq/PzVoS2HbTs149MXB8tTLJ7DN9lGSmvIzURrCugXEJSYFvPr8rzz9yMceq5a6rWkdTrBnxnz31WI94uBnSZQbWDjUyG7EBo2Q1DJuu/cgRl1yoKiLp4Q1RAX8r4VLkDu96PfV/OOi8Trhg6VEMfxl2Jh9XB1ZG9txDXIL4L0pI9ll922ynpUNoPYTrOCd3CQV5RVcc9nrlJVFsDaY4B0hpRn6D2jLWecNEBDEMP7HiAveskYAg+06teXFt86Qy6/eFdcqxssKCxxFdYG/EdTAFJOioghXXfgeFeXleObmxmeykcHjPHzXp/rVl4VEMUHKfMVh/c+6ahHLsfnXvw8nHP3fkbm1wwSFcES5/tYj5d5HjyEUryCjlbWs4YbgReGiGHz25R889fCnCiE2xoE3QgWTn79frI/c9z0R8vE04dxqdmx1CCkt5aTTd2GPfbcXzwb8Xzu5NUC8nG8QThm5lzz10tE0aVZBxm1IxMgFSRGhDQ/c+TlzZy3SjTHHWgnsUk4mlebWGyaxpiSJIRk/3lsTQjhq0ba1yYWXHsjWoVQ5ZJMKaoPrOQ82+1SDoILN0CN7y7OvjqSgpYWtFmK4dVaYAnlsSppVa4Rbr5+I69h4Mfman6iVwIZEmPDuTzrx/V+IBmo5ynrEEwUNkaKUU0fuRcfOLSVr//0NUPAIWwEI6VQSx1nfNLEdm3TK9vSDWjduY6D6EYsANgMO7iKPP3sMOU1S2I7pRebqZNB4p15JEiXC+HcW8+H78zxWXctmrnXUynK4747JqJuPsUGXm+IA7dqGOO3sPQUcBAtPAfgbTrGfBmtnorz50iw98ag7tHBVKetuzKLVZZw8/FEd+9IsdRrH8VQHeEmIkOSgod3k3keGYYZTuFoPzwUAggi4Tpi7//0RiXK/xLYG1EC5JABvv/69fvddIaGNlEUqQooyjjqmNx22K4AqE2pL+Jiz7Ek1W7P75bRFetywZ/XMU95g5tdgBvnK1WBg8cOMNGec8gbHDntSv/xkkf+BFK6rDXH71gGBPI4DDkeduIf8300HkcZXXKtqr+pyml0ipss3367hnTE/qhClpk2yzkjeTiorSfDYAx9jag6ykYIvVYuC/BQnn7kXHmHD/imqHlnaXPDjqZJBxGLezyv0gjOf0BGDn+CjDwsxsQiHQjXOR8QlEnEJoUyZVMKIQ59i1GnP6NyfVqthCCIuXry6MSldPcHeK2C/4Ir+csxxPUi4ju/Khbp5uwRcQTSXRx+eSKIioNPa3MBY7yFijB87S3/6qZBQHVxhKXUYOLgzO+/aVnSLuiO9+CvksGpFJf/5v3d1yIBHePHZRdjJ5njxmI1DEKJiYidzefmFpQwd8BQ3XPOarlhWQlU56Gabv4NhKrfce5j02LUpKfU3QJ09XkIIgx9/KOKDd370U31svKCOh/VOcDqZ4fmnvgFyNzCur0CpgWkIx57QF8TezOfVix1nxZVQWZ7hqUcm6yH9HtDb/vMdpYU5xIyYlyYjKeqez5DCkCQxEUqLLO68bSaD979Tn3hgulaUB4sV1FY1FrwqDtcVWrXN5Za7hhCNFvtnr+4JAiIOuPk8/ejnJBOBnpHdIOsduWmfzNbvvi4ibGxAs5QMiJLBoFuXHPYdsL1QpVhtJqhf4CkOrpvk/bd+1MMOvFMvvWACCxdkiIuJKWm8vh5BIkHdT4IHF1NsciWHpb9bXDl6AocOuEPfGfOtOpkgKpRh7R4dmwABw/BO7YBBO8lpZ/UhoQlUo3UcQIEUYeDbL8v5+ov56nG1CAGbXovAqvDqc9+TcSswNqRcuVFQA5tKDh6yA00KYv77bkYWLRVAmm+/XKonDX9ZTzv6bb6fkSJGcy+pvlFlpYslJlHJ5+fv4pxx7Bsce9jj+vmn89WTnXWxsesLm8uuHSydOuViK9TnfUQg5SR444WZoOC6WSfTWhRZtHA5H3+4EquqOKvG4TzWgkE0ogwbvguQgQZ5ZjaG7Cn5Y0GlXnb+WD1i0GN88N4yDJSwAWJsTqeKTdgox5QcJk/6ixGDx3DBaWN03uzV6p2StefYcAi4Fq3b5TL68n44lFDf5PewmEyesIwli1diVHtsrRK8D8f/oquLijHJpXZNzrO5bI3RdYcoPfu0FYj4VlFjmUZa9bNoTTl33vy+HrLfwzz16BzSFWGi4qUNeQrj5pT8viKEEpMIbirGSy/MZuj+T3LT1R/oXytKWLtaofrPen6PkUFVOPakPaRnzwLSGqRB1Q2GOKxYtYbJ43/X6kkGfsWTg51xGf/2bIzgUG/QueHgUMH+A7oSjfuaZqOss6Lqlb+kUylee+57PWS/+/Tm6z5j9coQMfEasGRdf5vb3y149VQCuBhSSVQsSgqVO2//ksH7Pq5PPPCxlpcGlZLpBjKTIHyo5DaJcs6F/XGlGGV9+31DMAgzftyPuI5FlkWrl2mw4Jc/deaMNYSI+Wr6hjRQG4skAw7auV4T2DgEEYOPJ87R4YOf1fPOGMMv8yqJST7m1hC3MFIgNiYR4hJn8e82V4z+kKEDHtJ33vhJHYdNCI2ankZMhsOO2lV22KGJ18Zlo10PqiZHiDy+/2YpCxes1Oxv1Rv8k8m/UVyZ8fm3u0H/bEZt2rSO+dXqDZBB6n8HzlqPz/5xmY484Q097vBn+fzTVYQln7CEQJKb2V9cR6ifBisuSBLLSBOlCT/+UMoZx73EcUNf1C8//c1fXN+sUvW7PQUaeG0w/T9Ck4Jchh/TC7uqCL0uRDYxEApL0kz/+BdvugoGhoAafDL1F/9QB4PV7k1xsOmxW1tatclDG8giVf2uOQb8ubSQf10xVocMeJIxr80FO4+IuAgOguEt6maVtXVEFbt2quYkkiZiKJbkMGXSKo465GkuOuMNnT+nUD0JmAKjWjuJWhGIHc8iOGxEL5rGXVyto/KqnpmqGEydPL/qEBngsHplGT/9sHQj2RpZuCh77dMREQNpgGmkuIiEKCt2eOjuKTq43716/90/U1HchKiEkEZj+3UZpxG+S01ElIi42Mlcnn/uZwb3e4Sb/zleV/6ZBvzOQPVYq513aSG99iwgrXXkkGqBOISJMvPrYlavLEfE9pSsWT8t1RUr0liycS1Y1SQkFr337uD/ZkMTqJbiWRXGU1xHefv1b3XIwHv12ismseyPODFyMY1C6p11uC7El1sGuETIZILx1j4FLmnS6QwOcTBs33ljNzDM6XMZqUCMCmKGUFoY4c5bvmTwvo/oE/dP1/LSwFdsA5Vs0AmjimGaHDikM1qHvKvgjcDFxOTPP0uZN/tPxTt+Jt/NWETKCfmBv40P07JFHl13aiHZ2qINQILFAwjx2dTf9Nhhj+lZJ77OrB8yxCSHkKRByn02s4ms2I3iuiEqnQpatza4+Mp9yWu6fg5Ubn4eF/6jDy3bJKl0bFw36pslDTH1/B2sYf+PiSkZYhJm8R9JrrhkLEMG3KnvvfWduk4KCIO7ge8Rz8++z/6diIdko2k53jPe4RGBtCb5bsYiPLmMMvO7JVjEkTooTA4223bMp2XrPLLxzdrfOahm+HXOCr3gjOf1mEOfZcqkYixt5hdGB89vCmG9BVAVkpRixdZw5shdmTDtHC76xwESCpvrceJoOMrFVw6UyZ9dyLnn7k0kt5xKLfeS1auNuakIiUFUWvDTDy6nH/0eJxz2jn45bZFipPDMwpq+xysO6NqttbTvkI9TL0VWEcL88N1Sb6Sykgrm/7LGk7+1qviBoFccMuzcoyXhcGCjrfuMC6T9R4S/VmS4+eoPdMj+j/LCc7/hpKNEjTRilICRZu3KiPqgmnapUdKqOFLBkGHtGffhKO5/8jjp1C3ipZbW1ODEUHAttuvcUu567BB596ORHDG8I65RSEodIIKXWB58TwM9dWoiahARE1MtJk5YwIjBz3LRWWN1/rzl6nXOq97GCQK7u0nTCB06Rv3YUIi6WiwWEX6dt4qKskqsP5cW6aoVDgYuuBGC7qrrT9TyPGrY7LRLM4J4ppfQHXwoiKGaVJSmee3Fz/TBez/kt9+UCDnEAxNMvcI0z0HSkAajfkKBmti42JTSa7f2XP7P/Rg2YlcRI3Ac5FK7E0bI+vRsdt+zs7z0ZhcmT/xJ7751Kl9+tgpL4/7Gd6s+V/+pZp8RUaKAnQzx/DNz+ODdXzj97J563ugB0rJ1c/9TXj41WCAWZ17Qh9mzJ7LqL5uohOs0BwOXFcsSrPizRGXCOz/qqcPfBjeEiNYygAJhHA0TjhXz1qTT2LtfV6le2+u1OQLXcZjwzmy957b3+fabUkxChIwQjZsiYeJoiBRFdNymCRdc3ouTT+8vuU2CKEoD5KiCYnuO+2SG11/8Vh+65xPmzismTGsscahqAdUoCOFolBQr6do5nwsv78txJ+8nOXmBXpPlbLN+XKhXX/Im0z4pJkIYEUU2MA/PtZHh1XdOQB6+6yP9vyu+ICTBrl9X0fLkZFoNWrQ0uPfRIQwdsYsEXifv896CfvPlr3rXvz/mo4mLcVyDcFWCt/o7uaFE9likYOCqkiRFs4IwJ5+xA6Mu6S/tt2mLxzksGtZ5PZN9DxXwU3zWrCrn6ccm6TMP/8qfK9NEEAwJokmQ7S/dQIiCG8bGwKGC3ns0ZfSVAxk2YjcxfNedqw6G2FRWKHfe/IE+fO932OmQn4xRvQPR2uOm3Ay33TMYuey85/TZxxYQMqwqYzn7Qa8HVtK16NIlnydePIzee28vHms2fBmVZuGCNfrAHZ/xxis/UV7hECGOIV4j3+wEGrAQalXNQQSSrk3IynD40R255JoD2WXXTrL2uA09XdXbGFb/nff/ixeu4oE7P9NXX/yOsnKDqBget3O93CpvjvU173xzzs/iUDVIU4lgc9CQblxx7UD22ne7rO/Jz66Z8O5Peu0lk/lt4UpiRk7V82sdTnFJu8p5F/VEjjvsQZ303hrChvoEzn4ITCrdJH33as+jzx1P5x2b+2w5CcQpWl3GUw9/pU8+No3lKzJEyffypxsNAhrHJoNDIfv0a8cV/zyYgYO7SDZct7kRsOY4M79ZpPfcPoEP3l6G7VpExAXC/mZvnGblriop4uTG0xx9QidGXzmIzju0kOqndckff3HNJR/o+HcWEiLf05+MRNbbJw5pN8TQw7dFDtzjbv3hGwfLCOxQfyARkq7N0MM78uBTR0nzlk0IWGUqkeHN12bo/Xd+zNy55USIYxo0spwVHFXSmHTrplxyVT+OPqGvRGPBJqx7KK3hCE5FEH6zUHWYMmGB3nvbh3wx/XevxzU5nr+8sWAkcJ04aSxatMhw1qjdOXvUAGnZNg+PwzqkkxZPPvyR3n7TdEpLo0Sq53FJGtttSu89miC7dbxTF/9R6XmxNAxmEeqGyahy9gU9uemOwyQa93cqwtRJc/TuWz5m+rQFWBR4srvq1MpGwow1IdCIfTZjJHHdGEmKaNsyztkX9uPM8/aW5q1y8GSlVGn0WwZZVu2qg4iNECGVcBjz6gx96K5PmDO3mDBhTMn1Mk82uWzHTyiUDLZrk0Hp2iXC+aMP5ITT95B4romSRMhhxmd/6JWj3+KH79cQNWKIOniViFG22z6OdG15mxauLsfUHBAbW8MYVgnX3jiQS67uL2J4NuGsmX/o3bd+xPixxaSdcr/lfmOsslHlR1UgpQbxSCVHn9yFSy4fQuedmvu27JYkal3gEb54TQVPPz5dn3pwDstWFHs1hUZjBke8Hp9pinGopM8enbn86gEccnh3MS0vB73wrzT/vm6ivvDkV+A2wZQIrlbSvHUUaR/7l2ZSBrhRbJLkNrW5/b7DOf60XqIqLFpQqk8+Mp2XnvmFotIEUckg0rDuMRt6AdcowYwm2Xf/rlxx9WD69u8snqzP4CWKb23NWgL27UWBFi/8iwfvnqZjX11BeVEJsqk+9SoYWWVTlRQullRy4JBtGH3FwfTp20HCERMI8eZL3+j113zIiqUhTBLE80ykpfxTwcJVk207R3n42WH07ddRIERJcZqzT35Ex77/O01phSl5iLHG+0JtrAX3HPVpKWXQ4O488/pxkpsvuK7XvUeCiznq7HTfQlgrQ0fBcACLu26epLfdMB2zwR66deH5tj0lzgCjBHVaUcpqOnVweGnsKHrtuY0ILr//UqanHfsyc34qwhLAcDGEEN41Ehny8yO0atmCQN42aRrh0WfPkX//6wiaNLdJaTHqRBqRuOAlF9iEJM4nUxZw7GEP6fSpv6lhRKpVF1S/D2krgfgn2HDAEBYtKNMLzhyj99w+BaNR10c94orXhyztxHCNlZx0XFfGvn8pu/VpLYLF9CmL9MhDHmHWT+VYgeh0DaSV3FCl+qbVpE1bk9sfOJTDj95VXHUx/MjGrJlL9dYbx/HBuCUYxLAMo5G1ZgCDlIaIRoo447xeXHbVMGnZ1jeH1nKJ/v1QEggW6QQ8/8w0vefWz1m6LE6UJIbYNNpkfT+AqwZJLaVnz+Zce/1ghgzvJVACxHj56e/1msveo6w0jzAWVOuPKS3lOg28REiGjJuHGVrDZdfuzeXXHCbhiOH341ZcW3j7jR/0jps/Ye68FUTI9xWtQEXfxJfyHQbqNiFJGd265fDPGw9m+LG9vMQO7GyGxxYhdhAGDBqGQlbuCjO++E3/fe1kPvl0DSFSWKFKsJvToG46ayFrmagbJwk0L0gyanQfzrlooDRtFgVM7IzNnTdP0Ltv+RycfMygwlBNEBsxFGkT/qfaGQND41UxRVeVNEmOPLozd9x3tLRu3xTUIbi5ZPXKch66Z6I+9dg3lJZGiBL3E8aCVkGbgmwIMaPeFTRHHLMt1950CF13bCNeusyGIl+NiSBvzO+QI55Jt3J5Efff8ZE+/+SXlFfEidLUi2c3at/NEEmtxDBSDD18V665fiDdd2stgbJZVpzm2svG6EvP/kyIgmpX/YHXbNwgGreRTgX/0bKSFOIG2ZTeLlBRkm6IHt1zeeCpIfTZu7NAAjTuR5yifD9jvt5y3VQ+mvQHQpyQhAnKTxsF4qBujCQVtGmT4aLLDuKs8wZIPM9LDGho/8b6wrs5xkVdg3Fv/KC33DCZub+UESWOafgbuxHlrqtpUuSy004FXHNDb444encRA1TTiMRYtHAJF498S6dOLSMmUUT9pIpqLldXTZo0B9mlw926fFkphkZY+/o4T/1PayVNmws3334ox5/WRywrjBeoBhETO5PgjZe/1Dtums78hWnihH22Xf0kb4JTXrxT4bhKihT77duGf/3nUPbp362aH7oxqexr6wrZlFVh7syVeuu/P+D9cQtQJ+w5eKqar+omhD2D73BRNUiRoWlemLMv7smoi/tL81ZNqU64779epKNOG8vcX1YTlTzvzqkgk6TKmyY4GmLbjmFk313u0Dk/KyGj0t+F1QjjC/iMq4RDlXw0YzTdd2sjnsvO/4iUAbksX1LOfXdM0JeemU15pUk0yNYwKsFtgrdx6htP9TeKKMGFHimtJCdmcvo5u3HJtftIy1Zt/AhQUE24qSfJa/qpjoVYLuVlFTzx0HR95J6fWbU6QURCSJWMrV7v24CuOb6DB0zSmkZJcujhnbjmuiHs2ru9gI26ltfJF2X8W3P1klHvUviXS1gML8UquGKveotIcbHdPHbZNYTRqnUcJV2zRuynhnop8GEcO1sSke1tloeq0HabHG5/8FgZ88Gp9OvXjKTaOJoDblN/7IYoHcFpykZLIhIlnXB44P6pDO3/io57/Xt/4hauIw1mFNmvtDwFxargowm/6OEDn9Ubr/2E4tVCTCJIVWuK6oRtiN5hg5HGVYtKLaPbTnk89eKJvPzWqbJr75YSvJMYimObPHbPV3r2KW+y5q8MlhlE6qSaaKg2B/XM3lbt4hht20eAhK9A1aIgiKDqkk57rQrXnajXBcC7Kmef/p3lzYnnyN0PHkzrDiUktDLImGrAItQExZAwcWnPb/MynH3SG5x5/DP66+y/1DAbQbsWWLwwwehz3tUThz/ND98WEpV8TCOBBr7wRoCiJN1KYnlJLr+qFx98eoYcffJOYhhhcKsHUoRJ73+vV18+gUxlAWGxEHdjczBQ0rTbJoKxfZe2ZO/7q3knCoLtKqVlSWreBIIXaPfyhqJxg5EX9pMJn14sp5/RDULFpDXkfY80hkfKEyWWkUCcfN584xcOG/gEj937sSYqk3jOkZquFqiObEqv63o1v+mUw/OPfaVD+j+izz45D003JVzV5qj6VXf1gZ9+oxH/tYWMxkirw8GHbMe7U0Zyw23HSPOWBd7HxVlviadNWYJNFFPK6zgHF8WmU6d2GJ27tPLqfjbyXMaF5UuLWZ/AQRZFQLRsdv62nZrzwNMnyWvvnsKe+7oe23bj1NYRpu7wZaB6N4HHjBBr/opz9WUTGXHIg/rVtD81m2xeC1QI8qANI8R3Xy/R44Y9pBeNeptlS9LEDNOTtWpl/zQo6c7w52njugaVWknHrpU8+uwRvPrOObLbni0Edf31t1i3JsyxXWb+sIJQlYzd+BwUCFnQqWtrjE7dmhGPBSK4Nhbt5QgtmFdUjzeTKhE68JAeMm7SlXLbPf0paFNEpVuJrhdtaSgL92xTU9JEpClfTq/g6KHPcd0/3taiNRUbfgyT1SsrueEf7+kRgx5j6pTVRMkhLOun2TYcXgO0pBYRyS3mokv2YOK0S+SE0/cUK+zbzVJbYiCs/LOE+fNWYeL5uuu2yQxyc8J07lqA0WGbAmneOoJDmA0pQgYhZv+8xt8JdVQqqp2gWDzCqEv3lYmfXMKJJ/VCzTKvLKPKkI3UcfLrfYmvGCXBKCdqKqnyKPfe+RWHDrhLx7/1o7rOummpYNsZ3h87R4cOfFDvuXMGqbICohJGzEQD5rDulFwQF8XFxiJFJQcc3IG3J43mlnuPklZtcnHdaony6xWY+eKDDN99s1AL16S9hIrg3zYCR4UWrSO036apGM1aFLB9lwIcLGrt7qKCicmvc4soKUxQd0LIOn8N03mH1vL4S8fLi2+dxi675ZFwC3E0gndVz7ovWhf4G04tcMOoa2CITVzizJul/OOi9ygpKl5v3OLCUq644D3mzUkRIxdDUt44bl37Y9QGAc3BdU0qtYJtOiV54Ikjef2dC2SPfdpVaceGIYHHk/XrnN2qgzTto1+9DrUa5E/XgcBAp65NyC/IwRARevZqj+PnM9c8Z68UedmyYmb/vFQ3XUnKcMjhO8v4qefLv24cRF5BKQlW4VZlhjQOfzT8SkCtgeMIgmHg3TzeePwYBZJaQShWygUX9GXS9Avl1LP7SDhaH3PKAEMoK3X4/JMlWPW8/cglTc+e24Dvuaf3ntthSaYGuZiFCKQd+GTqnGqv0kBoBMiQX+Bw5XVD5b2pF3Dk8C7YmiajkE2o87xpDd9QtVckeLHm4DMNeZdgTO95EQNbIa0VDBiYx9iJ53D7Q8Oldbs8/3MR6p5H5m3MWTP/1AXzE1j16GOJGpgovffcFrAxIEGv3ttIs+Y2Tm2lioEmCHz4wS+kU5uYQSjgvXAuqNJjt/by/JunyNMvn0DXnSMkNYGrYbxgt39FTYOc+Oo969bQ0Kwqb8puoFZv4FkPYVw1SbhltN82wr2PDGfMB6Ol7/7dfB4ceNfqsUnVBSqZOukXEnambv52NQELB4uWBTl037W9eP1FsGjboYCddm6NXasr0VvckAhzZxXz7RdL/C2/qR1ugtPlIkaSESf0lAmfXiSXX70bsbxyklqIGhWsFbLbWiA2qEVSFTNazshz+/DBtHPljFG7SjgiuO4mJCmIkKg0mDh+rtfxqM7zMXHI0L1XPm07NEHVxEANDEvpP7A7bq1atKfKG+KSSOXw2gszCNr9bzICx4fmgEKzFrlcd+sIeeejkRx86LZkKCVTdVMaNJylNgayTn/bVZIk2G+/5ox5/3Tufmy4dNguOK2m3+Cs4fju6yU6d3YZVl3f1e+r4pKh/0HbY4YMRCwM73Q6HDCoKzmhEKrBNeXVFS4Hr4OMQQSYMP5XFv1WqPW7e2CjMyTb1cml1x7byyvjzpWHnjqWjp3ilFOGoxnfrPqbTrPYqEZIqEOb9mHufvAg3p48UvoN9O78VWI03NyrDoe3X51L2rExpK5y20QJkRN16X9gt6rfGgGb7N6zvezYPd87LWqydqV7cGq8U/zX6gqeeXwangza1NPks2nJ/rVKJIQznHRGX5k4/WwZfeluWLEMCddBq7qybjkoSsrNQ0IVnHFWZyZMGyUjL9xLwlG7ygsl9dR2a8PqlZV8OGEeYYIoUV0maJKhjJ12yad7z+2rdph/z0uIWE6YIUfuiE0Sz81XmzxWQuTwyjNzWfhLYSOYTBuCVy7Zql2cW+45SsZNGsmAA5uQ5k9s3XKJeLa6JDXDXn1jvPbeCdz/1Mmybac8PBHVePceB8Xg7771gy5emvKdG3UlcAiHEgYP3REvjdbDWk8PHd6DJvFcXMqpvTBbMUVZucbmvrve9/QfB7J3BTUmLDwih1Bs9u7XVca8N1ruefQw2naIUKlpXPVzpEShPju+Nojrb24T1RgVatGync2tdx/IuMnnywGDdxbF8UVYjjfHTd5nwSIqycoELz39A1JlItZNw3elkqb5MY44uhfVuepaq7FT9w6y975tSFPJBmctGSLk8NrLv/LplPnquW6DwuXNA/HLQsNRgzPPO0AmTj9Xzhy5CxKuIK2Am0udeoZsDBoBt6nnRrXKOPWMdkz85FIuuOwAieWY/lwskE2xz2uAeOW4H038VWd+v8KzmKu8VxtHWivYb0AHdujefq1JrUURw7Q44fTuGBL32ivUPBPAwpAM6USE668eS/GaSv9VN7/y49UkZ+jQMcT9Tx4lY8afTZ++YZKU4WhwkhuuFziqJFhDrz0tXnnneB555jTp2LWFZLMpNwe8cJ6dSfDkw9+iatUz10wwCHP8qbvCOp65tSii6jBoyE6yY/cmZNzaFinr3A8bCX74PsVd/5mkHhtNkb2yvD4TrC9CoLkoCfoP6iLjPrxUbrv7YJq3dki6Nlp1Bb3vX67JtKpKgfUy91y1SKhNQatK/n3H/rw35XI5aEgXqYqK1TmS0xAokOKjiXP18+kr/OTFOsBPi0qrQ/cezRl48I6yrr96LQILJvlN8zjlzJ2xtbbGmtWc+xomYpo88chXvDvmR9/RuYWu0xEDIQ+wyMmNMOqyvjJh2jmcePLOqFVEWi08My4o0F6XwDbe68dIuw5qlXLiKTsz4dOLufjKQyQnL0KVybMFdLlkIsO9t31OJuMZXHWDlxdmU8Gp5+5Obl4Tsi0RPazNU33f7NHH9pVO24fJ1IFYQjlOqhlXjX6fWTNXaZXptMlB/XpAAZJ06pYjj754vLz01gn03D1CkiSOU9MNKt4mdZwwSVbTs3eUl986hcdeOFa67NhEVDfXrSvrI/B4jXl5jn755e++aVQXeFwpoy5dO0c5+ri9atyGNQrNVu3zOP3sAWTwraANEctpimWkWb68klFnvM7yZYXUr51+I0DAO60mqg6DD9tF3p16ntx40wCatTTQ9UwqwbaVglYJbvj3AYyfeqEMPqybeBmVkWqBiM0N/9Ltv0q4/85PMLWA+lYlOjiMPP9AmrXMqfHfa71etnB1GYP3eUF/n78cy3TADeK16w1BkEqS0AwHDmrDc6+fLk0Kgtu+/w5k874W/r6Itu1aE42uHectLy9nzeoituu4zXrPbLEpkgYx+NelE/T++74kJjXffVTbACl12HGn1kz8/BRpWpBPTfOvlQLNWuRx0VU9sEmjTu4Gvji7MDHDYMrkZVxw+jgtKar0/vVvcRuL/93K9p22W4+4ADk5OdWIm31mi0EcEOGrTxfrU49/Q4Q49dJM1UAlxYWX7YlH3JqtnloJrK7L0SfsJvv07UqSIrLa6Ia+NEycfN599yfOO+0NLSutrBZz3fKQDfDZDf3bloFQUpTimivGUJlwMIy6KqeeSZUiQ7/923H0yd3Euy+jZo9a7TxUhHg8j3/ePJB41PWz6IOyyNoWxyvhiEmc8e/9zlknvKqrVxYCirpajc5bSNPeGqFUZZjcduN4/fbbIqJGiLo5NAzQKI4kiOUl+b+bDycazSNIIKzliZohYgPl7HdgJzlt5N4k1AJt4hO5NgJlW/3EJcSED5Zy/GFv6fy5q1QMBakkW/LxvwgHJIlgMPbVGfrkI7OISUvqxB0BJA1GGUk3hzNH7sne/TqJ627YjKtVycpe/hRi1cpKhg18QH+d4xI2/JvANlpN58V4E5TTsZPNA4+eyoCDt5eqLIu/m0P+LfDW+ufvl+iIQ56kcJWFZUi9FJWkptm5Ry7vTb5YWrSJs7GF3MBR8hz9qkLL1jncctdQwtESHDXrQFwfUkHMzLDkdzj5qJd47J6vvatc/Trkvy9wvyWh1V7VZtniVZx/xqusXhXCMmw85WhDYs8gqAhx1SIaNbj1nmG0aBOv077YKK/0dJEMBx7aQ0ZfPoCkVlK3SyiDupAQYbFIlQtXX/425576oq78s2IjL/X/EVR8jdmltNjm/DNf0h9/KvV6ZavlR+02tNm9joO4uaRIcOlVuzNgUA/xasI2vn4bYNFrzRLIkEpkOHH4Mzp50nJiUs9WguKibh5JKtmhm8FNtw3n0CO7S1D/+/8tFBCHijKb809/Rce+tYAcifo5VHV4b3HBjZOgnEOHtuH5MSMlEhWfuBv3j9eNwD57QSpZtCCtIw55nN9+s4mI5Qn+uibEaQwva1cJhSo46axuXHH14dJ+u6Z4vTlM7077/68InqK8RLjs/Df11VdmEZUwRlVNb20IuJtXNpvSDF13MHn7w3Olw7at/eL7wJe+4bWq4wleG59NnacnjniBipJcrIa0CdYwikOCVXTcLofLrxnMiaftI+FoCCjH25mNkdv0d8LbqCWFpVxw1uv67rhFxMxQHS1Eq+rQ2BjkN6vglXEn0rdfV6lvnngDCOx9fszLn+v5Z45F082z3V3qPITfY0PS2OriYtNvQHMuvWYwAwftJJ4pFmLLddNpbHjevWV/lHDBma/r1I8XETOiKBmkLgqqhkFcXCnHCLs8/uypHHl8R1E3jBj1a7DWoBPsukkMw+DRe6frtVd8iOXG/O74dc2oMFi77YB4LfqsEoYc3p2L/7E/ffYKEscCuznweQeu0a2JjVf3Y3stGb7/+g+9YOS7zJlVRtS/b3nDosyL7Qad/xxcXHMVd9w/nJEX7C8eWw4+s1lPcPUJwR03TtH/3DCRMAUYfq+tukPIsncDVSVFmnjU4ZAjtuW80f3Za++ugviaZtX13wJ1uH5+y8HFSy7wNu4rL3yp/7p8KoVrTMI1xaJrgrjeydU4DkkylHL9zYO47P8O8KnZMFa2CQT2swDV4fYbPtbbb56GZSjGpvZoFFDXJIlDTiTNwMHtOev8fel3QHcJhb1e0a5rYxhbqiF4XZFm1coibr72M335ue/AbYIlCpKkPp1nHVUcUa6+bi/+cf0hImyamNokAvtTAhXuunmK3nLjNAw3hFnVRqm+MwtypJPgNkdxSFOMadrsuc92nHjq7hw8tKu0aB3GNPI2OtrmR5Y1T3j3R73x6mnMmbucKDm+/yBImtuQ2ArW38TRNK5ZzvU3D2X0NQdJ9tmGH5pGIDAEcufJB6fpdVdNIp2IYxmZeu3calMiqLMJCK5qkKESG6H3bk15e8ooKWhec4B78yIglFb9/G3+ar331im8/uIsbDtOWKp/zljn89URcF4vzJd2DSKxCLfefSBnjNq72sJtmtnYSFnbJopy9kX7S6s2Ub3s/HcoXJ1PWNLUP3Kk1WzEoDTT6wvluBm6dGtJ04JY40y73sgGU9asquTpR6fp0498y4qVFhHi/k1u3r972MDhqeormU9KU7Roqdz32KEMG7GrqLp+9ihsqjLZaGn5XqJ2miOO2V3ad2ilF418g1lzEn5vqU2HYmEYJRx5bE+/MVgNJaGbHRYrlxXz+stf63NPfc78+RkiFBCVhlRZKqhQqSm69zB56IkT6dN3W88F2YjVEo3EoqvDY9crlpZwxUVv6DvjVhDFwjD8RaipcVcdkNEQnXdwmfrVpZLXVPC6wDcW/LlUM2PUz5fy3ifEL7P+1Ndf+okxr3zFoiWVmMQIScjLoTKSdWv9IH5Kq0Zw1SJFCUeO2J47HjhK2rTP9/KhGzmLczMQOIt00ubhez/We277jLLSEBEieC7PIJpUd1RqmotH78F/7jtSvAhMI966or4JZgRmmHeCVi0vY/onv+i4sd8xbepC1hQJFl7wZO35C3V7H8+GTWkFubnClf93AKMuOUDCEaG+9m1dsVkJHNwX/Pkny/S6a15nxlelRGiCaST89ajbC6mChEt458Pz2bt/p2qliI0FT1tVtVm6qJgZXyzRyRNn8/mni1i62MbFJEzcvxOqoS0ZwdUwGcrZY+8Y/7nzRPbcr7NAyrN/N1P+9WYksHca1BXEUMpKkzx4x8f6+EPfUFziEpE4QgYkRbbDTs1OgYy67NE3l/c/uVSscNAvyvTvS6xlVWrsNVy9kBzstMOKP0uZO3uVfvvVYr7+fAFzfl7BX6srcYkSIsf7tHhtGutGAcGL36Z8V6uFqkVSEzRrmmbU6P05/5IDJa9pYPqse8Fn42Izn+D1MXPGEr395kl8+MEvuG5TwmJUo6my7h2HIkLKtTnxtO5cek0/8vNzJJ5rEItFMK3qHfbWgbqkMxkyKZdEpc2aVSW6elUpy5aU8sfCIubNXsPvvxexZGE5xYUpbGwEwcLErLpWtiEwvBNpVIIbJ4WNUMHgYZ34502D2KXXdltUM9xyBFZ82WvhOsp7b3+j990+ne+/XYNBhrCZD07Ytwt1nUcVwzAIRyzy8sPkNxHymwrxnDiRiBCLxxD/qlh1lWQiSTLpUl6WorQkQ0WZTVlpmsoKhzSK+mWmJoqF4/e3bqx19+qcMqSBCvrs1Y6LrziAYcN7iGFCY9YT12k2W+4Eq5/dEHh/lMryBG+8/I0+9ehnzPqxEGhGGPGvB1indZ8aPgNP4OKgvu3tMfa1NXLTr7DzVBcTIYJgIaS9m1zExetkE/TVbEhL4CAWq1V/VJU0Doqy226tOOeiXow4bg+J5fi+dNfc4jGSLc6is8i6+cqKU7w/bqY+99Q3fDtjGemMECYHk7DHssVvL6jVWWcDvWRrPS/VflfPdRCp8tQ56pKknGgoRZ+9OnP6WX0ZNmJXyc0PTKctXDVRfZp/H4EDBIqVQTqV5svpC/SV52bw8aSVrFhdgeAQEsUQE2m0y6Y2HY46Pht2adMynwMP2Y4TTu9N337bixUK2PDmLDmtG7YCAkN1NhfElBf/sYLJH/yq49/5kR9mrKGw2LtSx/LUIP/SrODZtQvLsr+vD6o/Vz1Q4tmnqoqDYuNdflHQNELvvVsz7IidOeiQLrJNx+BCMV+8uGH/NrSsXf13YCshMFX0UFzfgwRBtv6CX5fpZx//zieTFjNz5iKWLS4j5Ri+umRiYWIQQYjgFXSlfTmbHYOgcD1AUKXh3zGUlfmK4uCq+m21Qyhp4pbQftvm9OrTggGDtmG/ATuyfZeg9b4fC8by9Qz/fdbzTW95bD0E3igcIENRYZL581bqzO9W8v2MRfw6dw1/LimlpChFOmPg4qJ4LQ0Es6qY2o9Lga+YBa0OHD8v2Xsqg0GYsJVHkwKlfYcI3Xrk07NPB3bv05FuO7aVps1yyBZ6bYk7jDcN/0UEDlh4oIamgBCppM3KZRX6x8JVLPljJQt/L2PpojJW/eWwZnUR5WUVVFY4ZDIuqUoHMQ0ikQiRiEU0liKen6J5s3a0atWU7Tq1YLuOcbbt3IRttmshbdrmEYlFap7Gf0la9/8DSZDIYvcg0acAAAAASUVORK5CYII=", SECRET="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";
 const OFFICE={name:"세주세무회계",bizno:"206-30-68022",addr:"서울시 마포구 독막로 239 성진빌딩 4층",rep:"이 태 현"};
 const SVCS=["원천세신고","4대보험관리","부가세 신고","기장업무"];
 const PAYS=["5","10","15","20","25","30"];
+const TYPES={
+  p:{label:"개인사업자 기장대리 계약서",short:"기장대리계약서",menu:"개인 기장대리",hon:"대표님",bk:true,nameLabel:"고객 상호 (미리 채움, 고객이 수정 가능)",ph:"예) 마포상사"},
+  c:{label:"법인사업자 기장대리 계약서",short:"기장대리계약서",menu:"법인 기장대리",hon:"대표님",bk:true,nameLabel:"고객 법인명 (미리 채움, 고객이 수정 가능)",ph:"예) 주식회사 독막테크"},
+  i:{label:"상속세 신고 및 조사대행 계약서",short:"상속세신고조사대행계약서",menu:"상속세 신고·조사대행",hon:"님",nameLabel:"대표상속인 성명 (미리 채움)",ph:"예) 홍길순"},
+  a:{label:"세무 조사 대행 계약서",short:"세무조사대행계약서",menu:"세무조사 대행",hon:"대표님",nameLabel:"고객 법인명·상호 (미리 채움)",ph:"예) 주식회사 ○○"},
+  w:{label:"업무 대행 계약서",short:"업무대행계약서",menu:"업무 대행",hon:"님",nameLabel:"고객 성명 또는 상호 (미리 채움)",ph:"예) 홍길동"}
+};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const won=n=>n?Number(n).toLocaleString("ko-KR"):"";
+const won=n=>(n||n===0)&&n!==""?Number(n).toLocaleString("ko-KR"):"";
+const num=v=>+(String(v||"").replace(/\D/g,""))||0;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const b64e=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64e=s=>{const u=new TextEncoder().encode(s);let b="";for(let i=0;i<u.length;i+=32768)b+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(b).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")};
 const b64d=s=>{s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))};
 async function aesKey(k){const raw=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("seju:"+k));return crypto.subtle.importKey("raw",raw,"AES-GCM",false,["decrypt"])}
 async function openSecret(k){
@@ -423,78 +517,212 @@ const kst=d=>{const p=new Intl.DateTimeFormat("ko-KR",{timeZone:"Asia/Seoul",yea
 const todayISO=()=>{const d=new Date(Date.now()+9*3600e3);return d.toISOString().slice(0,10)};
 async function copy(text,btn){try{await navigator.clipboard.writeText(text);flash(btn,"복사했습니다")}catch(e){const t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand("copy")}catch(_){}t.remove();flash(btn,ok?"복사했습니다":"복사가 막혀 있습니다. 직접 선택해 복사해 주세요")}}
 function flash(btn,txt){const o=btn.textContent;btn.textContent=txt;setTimeout(()=>btn.textContent=o,1600)}
+async function saveBlob(name,blob){
+  try{const dl=window.claude&&await window.claude.use("downloads");if(dl){await dl.save({filename:name,data:blob});return true}}catch(e){return false}
+  const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return true;
+}
 
-/* ---------- 계약서 본문 ---------- */
-function pages(st,sig){
+/* ===================== 계약서 문안 도우미 ===================== */
+const CIRC="①②③④⑤⑥⑦⑧⑨⑩";
+const LI=(m,t)=>`<div class="li"><span class="lm">${m}</span><div>${t}</div></div>`;
+const NUM=a=>a.map((t,i)=>LI((i+1)+".",t));
+const CIR=a=>a.map((t,i)=>LI(CIRC[i],t));
+const SUB=(marks,a)=>`<div class="sub">${a.map((t,i)=>LI(marks[i],t)).join("")}</div>`;
+function ART(h,items){
+  if(!items.length)return [`<div class="p-art"><h4>${h}</h4></div>`];
+  return items.map((x,i)=>i===0?`<div class="p-art"><h4>${h}</h4>${x}</div>`:`<div class="p-art cont">${x}</div>`);
+}
+const PAR=t=>`<div class="p-art"><p>${t}</p></div>`;
+const box=on=>`<span class="bx${on?" on":""}"></span>`;
+const V=(v,w)=>`<span class="fill"${w?` style="min-width:${w}px"`:""}>${v?esc(v):"&nbsp;"}</span>`;
+const dateLine=dt=>{const d=(dt||todayISO()).split("-");return `<div class="p-date">${d[0]}년 &nbsp; ${+d[1]}월 &nbsp; ${+d[2]}일</div>`};
+const closeLine=`<div class="p-close">이를 증명하기 위하여 갑과 을은 본 계약서를 전자문서로 작성하여 각각 서명(날인)한 후 그 파일을 각 1부씩 보관한다.</div>`;
+function econ(head,attach){
+  return ART(head,NUM([
+    "갑과 을은 본 계약을 전자적 방식으로 체결하며, 갑이 전자적 방법으로 입력한 서명 또는 날인 이미지와 을의 직인 이미지를 각 당사자의 서명·기명날인으로 하기로 합의한다.",
+    `본 계약서에 첨부된 ${attach?attach+" 및 ":""}전자서명 확인서(문서번호·발송코드·서명일시·문서 지문값)는 본 계약서의 일부를 이룬다.`]));
+}
+function signBlock(st,sig,gRows,oRows,sealAt){
+  const tr=r=>`<tr><td class="k">${r[0]} :</td><td class="v">${r[1]}</td></tr>`;
+  const sigImg=sig?`<img src="${sig}" alt="">`:"";
+  const o=oRows.map((r,i)=>i===sealAt?[r[0],`<span class="seal-slot">${r[1]}${st.k?`<img src="${st.k}" alt="">`:""}</span>`]:r);
+  return `<div class="p-sign"><table>${gRows.map(tr).join("")}<tr><td></td><td><div class="sig-slot">${sigImg}</div></td></tr></table><table>${o.map(tr).join("")}</table></div>`;
+}
+const OROWS=[["을 &nbsp;상 &nbsp;호",OFFICE.name],["사업자등록번호",OFFICE.bizno],["소 &nbsp;재 &nbsp;지",OFFICE.addr],["대표세무사",OFFICE.rep]];
+const g=(st,k)=>esc((st.g||{})[k]||"");
+const signerName=st=>(st.g&&st.g.rep)||"";
+
+/* ---------- 기장대리 (개인·법인) ---------- */
+function docBK(st,sig){
   const corp=st.t==="c";
-  const box=on=>`<span class="bx${on?" on":""}"></span>`;
   const svc=SVCS.map((s,i)=>`${box(st.s[i])}${s}`).join(", ");
   const pay=PAYS.map(p=>`${box(st.pay===p)}${p}`).join(", ");
-  const fee=st.f?`<span class="fill">${won(st.f)}</span>`:`<span class="fill">&nbsp;</span>`;
-  const d=(st.dt||todayISO()).split("-");
-  const head=`<div class="p-head"><img src="${LOGO}" alt=""><span>세주세무회계 이태현세무사</span></div>`;
-  const foot=(n)=>`<div class="p-foot"><span>문서번호 ${esc(st.id||"-")} · 발송코드 ${esc(st.code||"-")}</span><span>${n} / 3</span></div>`;
-  const g=st.g||{};
-  const p1=`<div class="paper">${head}
-  <div class="p-title">${corp?"법인사업자":"개인사업자"} 기장대리 계약서</div>
-  <p><span class="fill" style="min-width:190px">${esc(g.corp||st.n||"")}</span> (이하 “갑”이라 한다)와 <span class="u" style="font-weight:400">세주세무회계 이태현 세무사</span>(이하 “을”이라 한다)은 다음과 같이 기장대리 계약을 체결한다.</p>
-  <div class="p-art"><h4>제1조【업 무】</h4><p>갑은 을을 대리인으로 하여 갑의 위 표시사업장의 기장대리에 대한 권한을 위임한다.</p></div>
-  <div class="p-art"><h4>제2조【보 수】</h4><ol>
-   <li>본 계약에 따른 기장대리 (<span class="u">${svc}</span>) 의 보수는 <span class="u">월정액 금 ${fee} 원정 (부가가치세 포함)</span>으로 하고 <span class="u">차후 매출액${corp?" 또는 지점수 등의":""} 증가 시에 기장대리 수수료의 인상을 조정</span>할 수 있다. <span class="u">갑은 계약과 동시에 1개월분의 월정액을 을에게 선불</span>하여야하며, 월정액은 매월 (${pay})일까지 지급키로 한다. 단, 갑의 사정에 의해 본 계약이 해지될 때는 선불금의 반환을 청구할 수 없다.</li>
-   <li>전기에 열거한 항목 이외의 업무<b>(${corp?"법인결산":"개인결산"} 업무, 세무신고대리, 세무조사입회, 조정계산서의 작성, 불복청구 등)</b>에 대해서는 <span class="u">전 항의 보수와는 별도로 세무사보수규정에 따른 수수료로 하고 차후 매출액 증가 시에 수수료의 인상을 조정할 수 있으며 ${corp?"동 금액은 법인세 신고 종료일에 지급키로 한다.":"개인결산 업무 및 조정계산서의 작성 보수는 소득세 신고 종료일에 지급키로 한다."}</span></li>
-   <li>기장에 필요한 장부 및 사무용 소모품의 비용은 갑이 부담하고 <span class="u">1월분 기장대리 수수료 청구시 월기장료와 동일한 금액을 청구한다.</span> <b>(입금계좌 : ${esc(st.a||"")} )</b></li></ol></div>
-  <div class="p-art"><h4>제3조【기 간】</h4><p>본 계약은 상호 통지가 없는 경우 계속 유효한 것으로 한다.</p></div>
-  <div class="p-art"><h4>제4조【의 무】</h4><p>갑은 본 계약의무 수행에 필요한 증빙자료 및 제반서류를 신속, 정확하게 을에게 제공하여야 하며, 을은 갑이 제공한 자료에 의해 합리적이고 타당한 회계기준에 따라 성실하게 업무를 수행하여야 한다.</p></div>
-  <div class="p-art"><h4>제5조【기밀의 보장】</h4><p>을은 본 계약업무 수행과정에서 지득한 갑의 기밀을 엄수하여야 한다.</p></div>
-  <div class="p-art"><h4>제6조【해약의 책임】</h4><ol><li>갑의 사정에 의해 본 계약이 해지될 경우 해약 이후에 야기되는 세무처리에 대하여 을은 그 책임을 지지 아니한다.</li><li>을의 사정에 의해 본 계약업무를 수행하지 못할 경우, 을은 그 시점까지의 모든 업무를 정리하고 갑과 을은 상호협의 하여 본 계약업무를 종결시키기로 한다.</li></ol></div>
-  <div class="p-art"><h4>제7조【업무수행의 불능】</h4><ol><li>갑이 제공한 자료의 불비 및 사실과 다른 자료의 제시 등의 사유로 본 계약업무수행이 불가능할 경우에 발생하는 문제에 대하여는 을은 그 책임을 지지 아니한다. 이러한 경우에도 갑은 월정액을 지불하여야 한다.</li><li><span class="u">위 제2조에 명시한 수수료를 3개월 이상 연체되는 경우 계약은 자동 해지 되고, 을의 갑에 대한 제2조에 대한 일체의 업무는 모두 중지되며, 이에 대하여 갑은 을에게 어떠한 책임도 묻지 아니한다.</span></li><li>천재지변, 이에 준하는 사유로 본 계약을 이행할 수 없을 때는 계약불이행의 책임은 갑ㆍ을 쌍방이 없는 것으로 한다.</li></ol></div>
-  ${foot(1)}</div>`;
-  const sigImg=sig?`<img src="${sig}" alt="">`:"";
-  const p2=`<div class="paper">${head}
-  <div class="p-art"><h4>제8조【을의 면책】</h4><ol><li>갑이 을의 업무수행에 필요한 자료를 적시에 제공하지 아니하거나 허위, 부정 및 사실과 다른 자료를 제공하는 경우 이로 인하여 발생되는 모든 문제에 대하여는 을은 책임을 지지 아니한다. 기타 갑의 비협조로 인하여 업무수행이 불가능한 때에는 을은 그 사유를 갑에게 통보하는 것으로 책임을 면한다.</li><li>갑은 을의 기장대리내용을 면밀히 검토하여 이견이 있을 경우에 을에게 즉시 통보하여야 하며, 그렇지 않은 경우 갑은 기장 대리내용과 관련하여 을에게 어떠한 배상도 청구하지 아니한다.</li><li>갑은 을의 업무수행과 관련하여 발생하는 모든 손실, 청구, 손해 또는 책임에 대하여 을과 을의 임직원 또는 대리인을 면책한다. 단, 이러한 일이 을과 을의 임직원 또는 대리인의 고의 또는 중대한 과실에 의하여 발생한 것이라고 명백하게 입증되는 경우에는 그러지 아니한다.</li></ol></div>
-  <div class="p-art"><h4>제9조【손해배상 및 손해배상의 예정, 책임의 제한】</h4><ol>
-   <li>각 당사자는 본 계약을 위반하거나 고의 또는 중대한 과실로 상대방에게 손해를 입힌 경우에는 ${corp?"제2조에 따른 금액을":"제 2조에 따른 금액 중 손해를 입힌 연도의 보수를"} 손해배상 예정액으로 상대방에게 지급하기로 하고 각 당사자는 일체의 민·형사상 책임을 묻지 않기로 한다.</li>
-   <li><span class="u">손해배상 예정액은 제2조에 따라 실제로 수령한 기장대리의 보수금액${corp?"":" 중 손해를 입힌 연도의 기장대리 보수금액"}과 실제 손해액 중 적은 금액으로 한다.</span></li>
-   <li>실제 손해액이 손해배상 예정액을 초과할 경우 각 당사자가 실제 손해액을 입증하더라도 손해배상 예정액을 초과하는 손해에 대해서는 그 어떠한 경우에도 이를 상대방에게 청구할 수 없다.</li></ol></div>
-  <div class="p-art"><h4>제10조【기 타】</h4><p>본 계약에 명시하지 아니한 사항은 일반관례에 따라 갑과 을이 상호협의 하여 결정한다.</p></div>
-  <div class="p-art"><h4>제11조【전자계약】</h4><ol><li>갑과 을은 본 계약을 전자적 방식으로 체결하며, 갑이 전자적 방법으로 입력한 서명 또는 날인 이미지와 을의 직인 이미지를 각 당사자의 서명·기명날인으로 하기로 합의한다.</li><li>본 계약서에 첨부된 전자서명 확인서(문서번호·발송코드·서명일시·문서 지문값)는 본 계약서의 일부를 이룬다.</li></ol></div>
-  <p class="p-close">이를 증명하기 위하여 갑과 을은 본 계약서를 전자문서로 작성하여 각각 서명(날인)한 후 그 파일을 각 1부씩 보관한다.</p>
-  <div class="p-date">${d[0]}년 &nbsp; ${+d[1]}월 &nbsp; ${+d[2]}일</div>
-  <div class="p-sign">
-   <table><tr><td class="k">갑 &nbsp;상 &nbsp;호 :</td><td class="v">${esc(g.corp||"")}</td></tr>
-    <tr><td class="k">${corp?"사업자번호<br>(법인등록번호)":"사업자등록번호<br>(미등록 시 생년월일)"} :</td><td class="v">${esc(g.bizno||"")}</td></tr>
-    <tr><td class="k">소 &nbsp;재 &nbsp;지 :</td><td class="v">${esc(g.addr||"")}</td></tr>
-    <tr><td class="k">${corp?"사내이사(대표자)":"대 &nbsp;표 &nbsp;자"} :</td><td class="v">${esc(g.rep||"")} <span style="color:#444;font-weight:400">(서명 또는 인)</span></td></tr>
-    <tr><td></td><td><div class="sig-slot">${sigImg}</div></td></tr></table>
-   <table><tr><td class="k">을 &nbsp;상 &nbsp;호 :</td><td class="v">${OFFICE.name}</td></tr>
-    <tr><td class="k">사업자등록번호 :</td><td class="v">${OFFICE.bizno}</td></tr>
-    <tr><td class="k">소 &nbsp;재 &nbsp;지 :</td><td class="v">${OFFICE.addr}</td></tr>
-    <tr><td class="k">대표세무사 :</td><td class="v"><span class="seal-slot">${OFFICE.rep}${st.k?`<img src="${st.k}" alt="">`:""}</span></td></tr></table>
-  </div>
-  ${foot(2)}</div>`;
-  return p1+p2;
+  const B=[];
+  B.push(`<div><div class="p-title">${corp?"법인사업자":"개인사업자"} 기장대리 계약서</div><p>${V((st.g&&st.g.corp)||st.n,190)} (이하 “갑”이라 한다)와 세주세무회계 이태현 세무사(이하 “을”이라 한다)은 다음과 같이 기장대리 계약을 체결한다.</p></div>`);
+  B.push(...ART("제1조【업 무】",["<p>갑은 을을 대리인으로 하여 갑의 위 표시사업장의 기장대리에 대한 권한을 위임한다.</p>"]));
+  B.push(...ART("제2조【보 수】",NUM([
+    `본 계약에 따른 기장대리 (<span class="u">${svc}</span>) 의 보수는 <span class="u">월정액 금 ${V(won(st.f))} 원정 (부가가치세 포함)</span>으로 하고 <span class="u">차후 매출액${corp?" 또는 지점수 등의":""} 증가 시에 기장대리 수수료의 인상을 조정</span>할 수 있다. <span class="u">갑은 계약과 동시에 1개월분의 월정액을 을에게 선불</span>하여야하며, 월정액은 매월 (${pay})일까지 지급키로 한다. 단, 갑의 사정에 의해 본 계약이 해지될 때는 선불금의 반환을 청구할 수 없다.`,
+    `전기에 열거한 항목 이외의 업무<b>(${corp?"법인결산":"개인결산"} 업무, 세무신고대리, 세무조사입회, 조정계산서의 작성, 불복청구 등)</b>에 대해서는 <span class="u">전 항의 보수와는 별도로 세무사보수규정에 따른 수수료로 하고 차후 매출액 증가 시에 수수료의 인상을 조정할 수 있으며 ${corp?"동 금액은 법인세 신고 종료일에 지급키로 한다.":"개인결산 업무 및 조정계산서의 작성 보수는 소득세 신고 종료일에 지급키로 한다."}</span>`,
+    `기장에 필요한 장부 및 사무용 소모품의 비용은 갑이 부담하고 <span class="u">1월분 기장대리 수수료 청구시 월기장료와 동일한 금액을 청구한다.</span> <b>(입금계좌 : ${esc(st.a||"")} )</b>`])));
+  B.push(...ART("제3조【기 간】",["<p>본 계약은 상호 통지가 없는 경우 계속 유효한 것으로 한다.</p>"]));
+  B.push(...ART("제4조【의 무】",["<p>갑은 본 계약의무 수행에 필요한 증빙자료 및 제반서류를 신속, 정확하게 을에게 제공하여야 하며, 을은 갑이 제공한 자료에 의해 합리적이고 타당한 회계기준에 따라 성실하게 업무를 수행하여야 한다.</p>"]));
+  B.push(...ART("제5조【기밀의 보장】",["<p>을은 본 계약업무 수행과정에서 지득한 갑의 기밀을 엄수하여야 한다.</p>"]));
+  B.push(...ART("제6조【해약의 책임】",NUM(["갑의 사정에 의해 본 계약이 해지될 경우 해약 이후에 야기되는 세무처리에 대하여 을은 그 책임을 지지 아니한다.","을의 사정에 의해 본 계약업무를 수행하지 못할 경우, 을은 그 시점까지의 모든 업무를 정리하고 갑과 을은 상호협의 하여 본 계약업무를 종결시키기로 한다."])));
+  B.push(...ART("제7조【업무수행의 불능】",NUM(["갑이 제공한 자료의 불비 및 사실과 다른 자료의 제시 등의 사유로 본 계약업무수행이 불가능할 경우에 발생하는 문제에 대하여는 을은 그 책임을 지지 아니한다. 이러한 경우에도 갑은 월정액을 지불하여야 한다.",`<span class="u">위 제2조에 명시한 수수료를 3개월 이상 연체되는 경우 계약은 자동 해지 되고, 을의 갑에 대한 제2조에 대한 일체의 업무는 모두 중지되며, 이에 대하여 갑은 을에게 어떠한 책임도 묻지 아니한다.</span>`,"천재지변, 이에 준하는 사유로 본 계약을 이행할 수 없을 때는 계약불이행의 책임은 갑ㆍ을 쌍방이 없는 것으로 한다."])));
+  B.push(...ART("제8조【을의 면책】",NUM(["갑이 을의 업무수행에 필요한 자료를 적시에 제공하지 아니하거나 허위, 부정 및 사실과 다른 자료를 제공하는 경우 이로 인하여 발생되는 모든 문제에 대하여는 을은 책임을 지지 아니한다. 기타 갑의 비협조로 인하여 업무수행이 불가능한 때에는 을은 그 사유를 갑에게 통보하는 것으로 책임을 면한다.","갑은 을의 기장대리내용을 면밀히 검토하여 이견이 있을 경우에 을에게 즉시 통보하여야 하며, 그렇지 않은 경우 갑은 기장 대리내용과 관련하여 을에게 어떠한 배상도 청구하지 아니한다.","갑은 을의 업무수행과 관련하여 발생하는 모든 손실, 청구, 손해 또는 책임에 대하여 을과 을의 임직원 또는 대리인을 면책한다. 단, 이러한 일이 을과 을의 임직원 또는 대리인의 고의 또는 중대한 과실에 의하여 발생한 것이라고 명백하게 입증되는 경우에는 그러지 아니한다."])));
+  B.push(...ART("제9조【손해배상 및 손해배상의 예정, 책임의 제한】",NUM([`각 당사자는 본 계약을 위반하거나 고의 또는 중대한 과실로 상대방에게 손해를 입힌 경우에는 ${corp?"제2조에 따른 금액을":"제 2조에 따른 금액 중 손해를 입힌 연도의 보수를"} 손해배상 예정액으로 상대방에게 지급하기로 하고 각 당사자는 일체의 민·형사상 책임을 묻지 않기로 한다.`,`<span class="u">손해배상 예정액은 제2조에 따라 실제로 수령한 기장대리의 보수금액${corp?"":" 중 손해를 입힌 연도의 기장대리 보수금액"}과 실제 손해액 중 적은 금액으로 한다.</span>`,"실제 손해액이 손해배상 예정액을 초과할 경우 각 당사자가 실제 손해액을 입증하더라도 손해배상 예정액을 초과하는 손해에 대해서는 그 어떠한 경우에도 이를 상대방에게 청구할 수 없다."])));
+  B.push(...ART("제10조【기 타】",["<p>본 계약에 명시하지 아니한 사항은 일반관례에 따라 갑과 을이 상호협의 하여 결정한다.</p>"]));
+  const EC=econ("제11조【전자계약】","");
+  const gRows=[["갑 &nbsp;상 &nbsp;호",g(st,"corp")],[corp?"사업자번호<br>(법인등록번호)":"사업자등록번호<br>(미등록 시 생년월일)",g(st,"bizno")],["소 &nbsp;재 &nbsp;지",g(st,"addr")],[corp?"사내이사(대표자)":"대 &nbsp;표 &nbsp;자",`${g(st,"rep")} <span style="color:#444;font-weight:400">(서명 또는 인)</span>`]];
+  B.push(`<div>${EC.join("")}${closeLine}${dateLine(st.dt)}${signBlock(st,sig,gRows,OROWS,3)}</div>`);
+  return [{blocks:B}];
 }
-function auditPage(st,a){
-  const row=(k,v,cls="")=>`<tr><th>${k}</th><td class="${cls}">${v}</td></tr>`;
-  return `<div class="paper audit"><div class="p-head"><img src="${LOGO}" alt=""><span>세주세무회계 이태현세무사</span></div>
-  <h3>전자서명 확인서</h3><div class="sub">본 확인서는 계약서 제11조 제2항에 따라 계약서의 일부를 이룹니다.</div>
-  <table>
-  ${row("계약서",`${st.t==="c"?"법인사업자":"개인사업자"} 기장대리 계약서 (본문 2쪽)`)}
-  ${row("문서번호",esc(st.id||"-"))}
-  ${row("발송코드",`<b>${esc(st.code||"-")}</b> — 사무소가 발송한 계약 조건의 지문입니다. 사무소 발송 이력과 대조합니다.`)}
-  ${row("발송일시",esc(st.iss?kst(new Date(st.iss)):"-"))}
-  ${row("계약 조건",`업무범위: ${SVCS.filter((s,i)=>st.s[i]).join(", ")||"-"} / 월정액 ${won(st.f)||"-"}원(VAT 포함) / 매월 ${esc(st.pay)}일 지급`)}
-  ${row("서명자(갑)",`${esc(a.g.corp)} · ${esc(a.g.rep)} · ${esc(a.g.bizno)}<br>연락처 ${esc(a.g.tel||"-")} · 이메일 ${esc(a.g.mail||"-")}`)}
-  ${row("서명 방식",a.method)}
-  ${row("서명 이미지",`<img class="sigprev" src="${a.sig}" alt="">`)}
-  ${row("열람 시작",esc(a.opened))}
-  ${row("서명 완료",`<b>${esc(a.signed)}</b>`)}
-  ${row("동의 내용","① 계약서 전문(제1조~제11조) 확인<br>② 전자적 방식 체결 및 입력한 서명(날인 이미지)을 서명·기명날인으로 하는 데 동의 (전자서명법 제3조 제2항)")}
-  ${row("작성 환경",esc(a.ua),"mono")}
-  ${row("문서 지문값 (SHA-256)",esc(a.hash),"mono")}
-  </table>
-  <p style="margin-top:14px;color:#555;font-size:11px">문서 지문값은 서명 완료 시점의 계약 조건·갑의 입력정보·서명 이미지·서명일시를 하나로 묶어 계산한 값입니다. 내용이 한 글자라도 달라지면 값이 바뀝니다. 이 PDF 파일 안에는 지문값 계산에 쓰인 원본 기록이 함께 들어 있어, 을은 받은 파일로 지문값을 다시 계산해 대조할 수 있습니다.</p>
-  <div class="p-foot"><span>문서번호 ${esc(st.id||"-")} · 발송코드 ${esc(st.code||"-")}</span><span>3 / 3</span></div></div>`;
+
+/* ---------- 상속세 신고 및 조사대행 ---------- */
+function docI(st,sig){
+  const d=esc(st.d||""),rep=g(st,"rep"),f=st.f||0,a1=st.a1||0,a2=Math.max(0,f-a1);
+  const p1=f?Math.round(a1/f*100):0,p2=f?100-p1:0;
+  const B=[];
+  B.push(`<div><div class="p-title">상속세 신고 및 조사대행 계약서</div>
+    <table class="parties"><tr><td class="k">위임자(갑) :</td><td class="v">(고) ${d||"&nbsp;&nbsp;&nbsp;&nbsp;"} 대표 상속인 ${rep||"&nbsp;&nbsp;&nbsp;&nbsp;"}</td></tr><tr><td class="k">수임자(을) :</td><td class="v">세무사 이태현</td></tr></table>
+    <p>위 갑의 상속세 신고 및 조사대행업무를 위하여 갑·을 양자는 다음과 같이 본 계약을 체결한다.</p></div>`);
+  B.push(...ART("제1조(목적)",["<p>본 계약은 갑과 을이 상속세 신고대행 및 조사대행업무(이하 “대행업무”) 수임계약을 체결하는 데에 있어서 필요한 사항을 정함을 목적으로 한다.</p>"]));
+  B.push(...ART("제2조(업무범위)",CIR([`을은 피상속인 (고)${d}의 사망으로 인한 상속세 신고에 관한 업무 및 상속세 신고 후 이에 관한 조사대응 업무를 갑을 대행하여 수행한다.`,"제1항 이외의 업무에 대해서는 추후 해당사유 발생 시 별도계약에 의해 보수 및 업무범위 등을 산정하기로 한다."])));
+  const pay=`제1항의 보수는 착수금과 잔금으로 구분하여 지급하기로 하며 아래 표와 같이 지급하기로 한다.
+    <table class="dt"><tr><th>구 분</th><th>청구일</th><th>금액(VAT 포함)</th><th>비 고</th></tr>
+    <tr><td class="c">착수금</td><td class="c">계약일</td><td class="n">${won(a1)}원</td><td>총액의 ${p1}%, 계약즉시 지급하며 반환되지 아니한다.</td></tr>
+    <tr><td class="c">잔 금</td><td class="c">신고서 접수일</td><td class="n">${won(a2)}원</td><td>총액의 ${p2}%, 청구일로부터 3일 이내에 지급한다.</td></tr></table>
+    <div style="text-align:right">(입금계좌 : ${esc(st.a||"")})</div>`;
+  const art3=[`대행업무 보수는 금 ${V(won(f),120)} 원(부가가치세 포함)으로 한다.`,pay];
+  if(st.su)art3.push("제1항의 보수와는 별도로 본 상속세 신고 후 과세관청의 상속세 세무조사 과정에서 야기되는 추징예정세액 중 을의 기여에 의하여 절감되는 세액의 일정비율을 성공보수로 지급하기로 하며 지급액, 지급시기 등 세부사항은 별도 협의에 의한다.");
+  B.push(...ART("제3조(보수 및 지급방법)",CIR(art3)));
+  B.push(...ART("제4조(자료 등의 제공의무 및 책임)",CIR(["갑은 을이 본 업무 수행에 필요한 설명, 서류, 기록, 증빙자료, 제반서류, 기타자료(이하 “자료 등”이라 함)을 갑의 책임과 비용으로 신속, 정확하게 을에게 제공하여야 한다.","갑은 을로부터 자료 등의 청구가 있는 때에는 신속, 성실하게 제출하여야 한다. 자료의 제출이 을의 정확한 업무수행에 필요한 기간을 경과한 후에 있을 때에는 그에 기인하는 불이익은 갑이 부담한다.","갑은 을이 본 수임업무 수행에 필요한 서면 또는 구두질문에 신속히 회답하여야 하며, 질의에 대한 답변이 을의 정확한 업무수행에 필요한 기간을 경과한 후에 있을 때에는 그에 기인하는 불이익은 갑이 부담한다."])));
+  B.push(...ART("제5조(비밀엄수)",["<p>을은 본 계약업무 수행과정에서 지득한 갑의 기밀을 엄수하여야 한다. 다만 법령의 규정 또는 법원의 명령, 갑의 명시적인 동의에 의하여 정보의 전부 또는 일부를 공개하여야 하는 경우는 예외로 한다.</p>"]));
+  B.push(...ART("제6조(해약 및 책임)",CIR(["갑의 사정에 의하여 을이 상속세 신고대행업무 착수 전에 해약할 때에는 갑은 기지급한 착수금 등 보수의 반환을 청구하지 못하며, 상속세 신고대행업무 착수 후에 해약을 할 때에는 제3조에서 규정한 보수의 전액을 지급한다.","을의 사정에 의하여 해약할 때에는 을은 기수령한 보수 전액을 반환한다.","을이 업무수행 중 갑으로부터 부당한 청탁이나 압력을 받고 정당한 업무를 수행할 수 없다고 판단될 경우에는 을은 일방적으로 해약할 수 있으며, 서면으로 통보하여야 한다. 이 경우에는 갑은 착수금의 반환을 청구할 수 없다.","갑이 본 계약에 정한 의무를 이행하지 아니하거나 위임사무의 내용에 관하여 자료를 지연제출하거나 제공한 자료가 불비 또는 허위인 때에는, 고의가 아닌 경우라도 을은 이 계약을 즉시 해지하고 사임할 수 있다. 이 경우 을이 수령한 보수는 반환하지 않는다."])));
+  B.push(...ART("제7조(을의 면책)",CIR(["갑은 을의 본 업무수행이 갑에게 세무상 불이익이 전혀 없을 것이라는 보장을 하는 것이 아님을 이해한다.","갑이 을의 상속세 대행업무 수행에 필요한 자료를 적시에 제공하지 아니하거나 허위, 부정 및 정확하지 아니한 자료를 제공하는 경우 이로 인하여 발생되는 모든 문제에 대하여는 을은 책임을 지지 아니한다. 기타 갑의 비협조로 인하여 정확한 상속세 신고대행업무의 수행이 불가능한 때에는 을은 그 사유를 갑에게 통보하는 것으로 책임을 면한다.","갑은 상속세 대행업무 결과를 면밀히 검토하여 이견이 있을 경우에 을에게 즉시 통지하여야 하며, 그렇지 않은 경우 갑은 상속세 대행업무 결과와 관련하여 을에게 어떠한 배상도 청구하지 아니한다.","갑은 을의 업무 수행과 관련하여 발생하는 모든 손실, 청구, 손해 또는 책임(판결 여부와 상관없이 책임에 대한 여하한 소송, 청구 또는 법적 절차를 조사, 준비, 방어하기 위해 지출된 모든 비용)에 대하여 을과 을의 임직원 또는 대리인을 면책한다. 단, 이러한 일이 을과 을의 임직원 또는 대리인의 고의 또는 중대한 과실에 의하여 발생한 것이라고 명백하게 입증되는 경우에는 그러지 아니한다.",
+    "이 건 상속세 대행업무시 상속세 과세가액에 가산(증액)되는 다음 각 호의 사유로 인한 재산가액의 과소신고 및 신고누락과 관련하여 발생하는 상속세 및 가산세에 대해서는 을은 그 어떠한 책임도 지지 아니하며 이와 관련하여 갑은 을에게 일체의 민·형사상 이의를 제기하지 않기로 한다."+SUB(["1.","2.","3."],["상속세및증여세법 제13조에 따른 사전증여재산가액","상속세및증여세법 제15조에 따른 추정상속재산가액","상속세및증여세법사무처리규정 제72조에 의한 과세관청의 부동산 사후감정평가"])])));
+  B.push(...ART("제8조(손해배상 및 손해배상의 예정, 책임의 제한)",CIR(["각 당사자는 본 계약을 위반하거나 고의 또는 중대한 과실로 상대방에게 손해를 입힌 경우에는 제2항에 따른 금액을 손해배상 예정액으로 상대방에게 지급하기로 하고 각 당사자는 일체의 민·형사상 책임을 묻지 않기로 한다.","손해배상 예정액은 다음 각호의 금액 중 적은 금액으로 한다."+SUB(["1.","2."],["제3조에 따라 실제로 수수된 보수금액","실제 손해액(조세의 경우 본세 상당액은 손해로 보지 아니한다. 이하 같다)"]),"실제 손해액이 손해배상 예정액을 초과할 경우 각 당사자가 실제 손해액을 입증하더라도 손해배상 예정액을 초과하는 손해에 대해서는 그 어떠한 경우에도 이를 상대방에게 청구할 수 없다."])));
+  B.push(...ART("제9조(분쟁의 해결)",CIR(["갑과 을간에 본 계약의 해석에 관하여 이견이 있을 경우 관계법령 및 상관례에 따른다.","본 계약과 관련하여 분쟁이 발생한 경우 동 분쟁의 소송 관할 법원은 을의 소재지 법원으로 한다."])));
+  B.push(...ART("제10조(불가항력으로 인한 면책)",["<p>갑 또는 을이 천재지변 기타 불가항력적 사유로 인하여 본 계약을 수행할 수 없을 때에는 계약 불이행의 책임이 없는 것으로 한다.</p>"]));
+  B.push(...ART("제11조(조서 및 지적재산권의 소유권)",["<p>상속세 신고대행업무 과정에서 을이 작성한 조서, 기타 전자문서 및 전자파일 및 동 업무과정에서 발생하거나 사용된 지적재산권에 대한 소유권은 을에게 있다.</p>"]));
+  B.push(...ART("제12조(상호협의)",["<p>본 계약에 명시되지 아니한 사항은 상호협의에 의하여 정한다.</p>"]));
+  const EC=econ("제13조(전자계약)","");
+  const gRows=[["갑 &nbsp;성 &nbsp;명",`${rep} <span style="color:#444;font-weight:400">(서명 또는 인)</span>`],["생년월일",g(st,"birth")],["연 &nbsp;락 &nbsp;처",g(st,"tel")],["주 &nbsp;&nbsp;&nbsp;소",g(st,"addr")]];
+  const oRows=[["을 &nbsp;상 &nbsp;호",OFFICE.name],["사업자등록번호",OFFICE.bizno],["대 &nbsp;표 &nbsp;자",`세무사 ${OFFICE.rep}`],["소 &nbsp;재 &nbsp;지",OFFICE.addr]];
+  B.push(`<div>${EC.join("")}${closeLine}${dateLine(st.dt)}${signBlock(st,sig,gRows,oRows,2)}</div>`);
+  return [{blocks:B}];
+}
+
+/* ---------- 세무조사 대행 / 업무 대행 공통 조항 ---------- */
+function commonArts(start,kind,opt){
+  const n=k=>`제${start+k}조`;const B=[];let k=0;
+  B.push(...ART(`${n(k++)}【질의확인】`,["<p>갑은 을이 본 수임업무 수행에 필요한 서면 또는 구두질문에 신속히 회답하여야 하며, 질의에 대한 답변이 을의 정확한 업무수행에 필요한 기간을 경과한 후에 있을 때에는 그것에 기인하는 불이익은 갑이 부담한다.</p>"]));
+  B.push(...ART(`${n(k++)}【자료 등의 제공 및 책임】`,NUM(["갑은 위임업무의 수행에 필요한 설명, 서류, 기록 기타자료(이하 “자료 등”이라 한다.)를 그 책임과 비용 부담으로 을에게 제공하여야 한다.","갑은 을로부터 자료 등의 청구가 있는 경우에는 신속히 제출하여야 한다. 자료의 제출이 을의 정확한 업무수행에 필요한 기간을 경과한 후에 있을 때에는 그것에 기인하는 불이익은 갑이 부담한다.",`갑은 을의 제출자료를 면밀히 검토하여 이견이 있을 경우에 을에게 즉시 통보하여야 하며, 그렇지 않은 경우 갑은 ${kind}내용과 관련하여 을에게 어떠한 배상도 청구하지 아니한다.`])));
+  B.push(...ART(`${n(k++)}【기밀의 보장】`,["<p>을은 본 계약 업무수행 과정에서 인지한 갑의 기밀을 엄수하여야 한다.</p>"]));
+  if(opt.cancel)B.push(...ART(`${n(k++)}【해약 및 책임】`,NUM([`갑의 사정에 의하여 을이 ${kind}업무 착수 전에 해약할 때에는 갑은 기지급한 착수금 등 보수의 반환을 청구하지 못하며, ${kind}업무 착수 후에 해약을 할 때에는 제2조에서 규정한 보수의 전액을 지급한다.`,"을의 사정에 의하여 해약할 때에는 을은 기수령한 보수 전액을 반환한다.","을이 업무수행 중 갑으로부터 부당한 청탁이나 압력을 받고 정당한 업무를 수행할 수 없다고 판단될 경우에는 을은 일방적으로 해약할 수 있으며, 서면으로 통보하여야 한다. 이 경우에는 갑은 착수금의 반환을 청구할 수 없다."])));
+  B.push(...ART(`${n(k++)}【을의 면책】`,NUM(["갑은 을의 본 업무수행이 갑에게 세무상 불이익이 전혀 없을 것이라는 보장을 하는 것이 아님을 이해한다.",`갑이 을의 ${kind}업무 수행에 필요한 자료를 적시에 제공하지 아니하거나 허위, 부정 및 정확하지 아니한 자료를 제공하는 경우 이로 인하여 발생되는 모든 문제에 대하여는 을은 책임을 지지 아니한다. 기타 갑의 비협조로 인하여 정확한 ${kind}업무의 수행이 불가능한 때에는 을은 그 사유를 갑에게 통보하는 것으로 책임을 면한다. 이 경우 을이 수령한 보수는 반환하지 않는다.`,`갑은 ${kind}업무 결과를 면밀히 검토하여 이견이 있을 경우에 을에게 즉시 통지하여야 하며, 그렇지 않은 경우 갑은 ${kind}업무 결과와 관련하여 을에게 어떠한 배상도 청구하지 아니한다.`,"갑은 을의 업무 수행과 관련하여 발생하는 모든 손실, 청구, 손해 또는 책임(판결 여부와 상관없이 책임에 대한 여하한 소송, 청구 또는 법적 절차를 조사, 준비, 방어하기 위해 지출된 모든 비용)에 대하여 을과 을의 임직원 또는 대리인을 면책한다. 단, 이러한 일이 을과 을의 임직원 또는 대리인의 고의 또는 중대한 과실에 의하여 발생한 것이라고 명백하게 입증되는 경우에는 그러지 아니한다."])));
+  B.push(...ART(`${n(k++)}【손해배상 및 손해배상의 예정, 책임의 제한】`,NUM(["각 당사자는 본 계약을 위반하거나 고의 또는 중대한 과실로 상대방에게 손해를 입힌 경우에는 제2항에 따른 금액을 손해배상 예정액으로 상대방에게 지급하기로 하고 각 당사자는 일체의 민·형사상 책임을 묻지 않기로 한다.","손해배상 예정액은 다음 각 호의 금액 중 적은 금액으로 한다."+SUB(["가.","나."],["제2조에 따라 실제로 수수된 보수금액","실제 손해액(조세의 경우 본세 상당액은 손해로 보지 아니한다. 이하 같다)"]),"실제 손해액이 손해배상 예정액을 초과할 경우 각 당사자가 실제 손해액을 입증하더라도 손해배상 예정액을 초과하는 손해에 대해서는 그 어떠한 경우에도 이를 상대방에게 청구할 수 없다."])));
+  B.push(...ART(`${n(k++)}【분쟁의 해결】`,NUM(["갑과 을 간에 본 계약의 해석에 관하여 이견이 있을 경우 관계법령 및 상관례에 따른다.","본 계약과 관련하여 분쟁이 발생한 경우 동 분쟁의 소송 관할 법원은 을의 소재지 법원으로 한다."])));
+  B.push(...ART(`${n(k++)}【불가항력으로 인한 면책】`,["<p>갑 또는 을이 천재지변 기타 불가항력적 사유로 인하여 본 계약을 수행할 수 없을 때에는 계약 불이행의 책임이 없는 것으로 한다.</p>"]));
+  B.push(...ART(`${n(k++)}【조서 및 지적재산권의 소유권】`,[`<p>${kind}업무 과정에서 을이 작성한 조서, 기타 전자문서 및 전자파일 및 동 업무과정에서 발생하거나 사용된 지적재산권에 대한 소유권은 을에게 있다.</p>`]));
+  B.push(...ART(`${n(k++)}【상호협의】`,["<p>본 계약에 명시되지 아니한 사항은 상호협의에 의하여 정한다.</p>"]));
+  B.push(...ART(`${n(k++)}【기 타】`,["<p>본 계약에 없는 사항은 일반적인 상관례를 기준으로 갑과 을이 협의하여 정한다.</p>"]));
+  B.ecNo=start+k;
+  return B;
+}
+function docA(st,sig){
+  const a1=st.a1||0,a2=st.a2||0,f=a1+a2;const B=[];
+  B.push(`<div><div class="p-title">세무 조사 대행 계약서</div><p>${V((st.g&&st.g.corp)||st.n,190)} (이하 “갑”이라 한다)과 세주세무회계 이태현 세무사(이하 “을”이라 한다)은 다음과 같이 세무조사대행계약을 체결한다.</p></div>`);
+  B.push(...ART("제1조【목 적】",["<p>본 계약은 갑이 위임하고 을이 수임하는 하기 제2조에 기재된 조사대행업무를 원활하게 수행함을 목적으로 한다.</p>"]));
+  B.push(...ART("제2조【업무내용 및 보수】",NUM([`을은 다음 내용에 관한 업무에 세무전문가로서의 조력을 다하기로 한다.
+    <table class="dt"><tr><th>업무내용</th><th>구분</th><th>대금 지급일</th><th>금액 (원, 부가세 포함)</th><th>비고</th></tr>
+    <tr><td class="c" rowspan="3"><b>${esc(st.w||"")}</b></td><td class="c">착수금</td><td class="c">계 약 일</td><td class="n">${won(a1)}</td><td class="c">반환 없음</td></tr>
+    <tr><td class="c">잔금</td><td class="c">세무조사 종결일</td><td class="n">${won(a2)}</td><td></td></tr>
+    <tr><td class="c" colspan="2"><b>합 계</b></td><td class="n">${won(f)}</td><td></td></tr></table>`,"을은 갑에게 전항에 열거한 항목 이외의 업무(불복청구 등) 발생 시 전 항의 보수와는 별도의 수수료를 청구할 수 있다."])));
+  B.push(...ART("제3조【업무진행기간】",["<p>본 계약업무는 수임한 계약일부터 세무조사 종결일까지로 한다.</p>"]));
+  const CA=commonArts(4,"조사대행",{cancel:true});B.push(...CA);const EC=econ(`제${CA.ecNo}조【전자계약】`,"");
+  const gRows=[["갑 &nbsp;상 &nbsp;호",g(st,"corp")],["사업자등록번호<br>(법인등록번호)",g(st,"bizno")],["소 &nbsp;재 &nbsp;지",g(st,"addr")],["대표이사(대표자)",`${g(st,"rep")} <span style="color:#444;font-weight:400">(서명 또는 인)</span>`]];
+  B.push(`<div>${EC.join("")}${closeLine}${dateLine(st.dt)}${signBlock(st,sig,gRows,OROWS,3)}</div>`);
+  return [{blocks:B}];
+}
+function docW(st,sig){
+  const a1=st.a1||0,a2=st.a2||0,f=a1+a2,it=st.it||[];const B=[];
+  B.push(`<div><div class="p-title">업무 대행 계약서</div><p>${V((st.g&&st.g.corp)||st.n,170)}(이하 “갑”이라 한다)과 세주세무회계 이태현세무사(이하 “을”이라 한다)은 다음과 같이 업무대행계약을 체결한다.</p></div>`);
+  B.push(...ART("제1조【목 적】",["<p>본 계약은 갑이 위임하고 을이 수임하는 하기 업무를 원활하게 수행함을 목적으로 한다.</p>"]));
+  const items=it.map((t,i)=>LI((i+1)+".",esc(t))).join("");
+  B.push(...ART("제2조【업무내용 및 보수】",NUM([`을은 다음 내용에 관한 업무에 세무 전문가로서의 조력을 다하며, 갑은 다음과 같이 대금을 지급하기로 한다.
+    <table class="dt"><tr><th>업무내용</th><th>대금지급</th><th>일자</th><th>금액 (원 / 부가세포함)</th></tr>
+    <tr><td rowspan="3" style="vertical-align:top">${items}</td><td class="c">착수금</td><td class="c">${esc(st.t1||"계약시")}</td><td class="n">${won(a1)}</td></tr>
+    <tr><td class="c">잔금</td><td class="c">${esc(st.t2||"업무완료일")}</td><td class="n">${won(a2)}</td></tr>
+    <tr><td class="c" colspan="2"><b>합 계</b></td><td class="n">${won(f)}</td></tr></table>`,`을은 갑에게 전기에 열거한 항목 이외의 업무(${esc(st.ex||"")}) 발생 시 전 항의 보수와는 별도로 을의 보수 규정에 따른 수수료를 별도 청구하기로 한다.`])));
+  B.push(...ART("제3조【업무진행기간】",[`<p>본 계약업무는 수임한 계약일부터 ${esc(st.en||"최종신고 완료일")}까지로 한다.</p>`]));
+  const CA=commonArts(4,"업무대행",{cancel:false});B.push(...CA);const EC=econ(`제${CA.ecNo}조【전자계약】`,"");
+  const gRows=[["갑 &nbsp;상 &nbsp;호",g(st,"corp")],["사업자등록번호<br>(미등록 시 생년월일)",g(st,"bizno")],["소 &nbsp;재 &nbsp;지",g(st,"addr")],["성명(대표자)",`${g(st,"rep")} <span style="color:#444;font-weight:400">(서명 또는 인)</span>`]];
+  B.push(`<div>${EC.join("")}${closeLine}${dateLine(st.dt)}${signBlock(st,sig,gRows,OROWS,3)}</div>`);
+  return [{blocks:B}];
+}
+const DOCS={p:docBK,c:docBK,i:docI,a:docA,w:docW};
+
+/* ---------- 자동 쪽 나눔 ---------- */
+const HEAD=`<div class="p-head"><img src="${LOGO}" alt=""><span>세주세무회계 이태현세무사</span></div>`;
+function paginate(host,sections,st){
+  host.innerHTML="";const pages=[];
+  const newPage=()=>{const p=document.createElement("div");p.className="paper";p.innerHTML=`${HEAD}<div class="pbody"></div><div class="p-foot"><span>문서번호 ${esc(st.id||"-")} · 발송코드 ${esc(st.code||"-")}</span><span class="pn"></span></div>`;host.appendChild(p);pages.push(p);return p.querySelector(".pbody")};
+  for(const sec of sections){
+    let body=newPage();
+    for(const html of sec.blocks){
+      const t=document.createElement("div");t.innerHTML=html.trim();const el=t.firstElementChild||t;
+      body.appendChild(el);
+      if(body.scrollHeight>body.clientHeight+1&&body.children.length>1){body.removeChild(el);body=newPage();body.appendChild(el)}
+    }
+  }
+  pages.forEach((p,i)=>p.querySelector(".pn").textContent=`${i+1} / ${pages.length}`);
+  return pages;
+}
+
+/* ---------- 조건 요약 · 비교 ---------- */
+function condText(x){
+  if(!x||!x.t)return "-";
+  if(x.t==="p"||x.t==="c")return `${x.t==="c"?"법인":"개인"} 기장 · 월정액 ${won(x.f)}원 · 업무범위 ${SVCS.filter((_,i)=>x.s&&x.s[i]).join(", ")||"-"}`;
+  if(x.t==="i")return `상속세 · 피상속인 ${x.d||"-"} · 보수 ${won(x.f)}원(착수금 ${won(x.a1)}/잔금 ${won(Math.max(0,(x.f||0)-(x.a1||0)))})${x.su?" · 성공보수 별도협의":""}`;
+  if(x.t==="a")return `세무조사 대행 · ${x.w||"-"} · 착수금 ${won(x.a1)}/잔금 ${won(x.a2)} · 합계 ${won((x.a1||0)+(x.a2||0))}원`;
+  if(x.t==="w")return `업무 대행 · ${(x.it||[]).join(", ")} · 착수금 ${won(x.a1)}(${x.t1||""})/잔금 ${won(x.a2)}(${x.t2||""})`;
+  return "-";
+}
+function condDiff(L,R){
+  const d=[];const ck=(name,a,b)=>{if(JSON.stringify(a)!==JSON.stringify(b))d.push(`${name}: 발송 ${a} / 회신 ${b}`)};
+  ck("계약 종류",L.t,R.t);ck("금액",L.f,R.f);
+  if(L.t==="p"||L.t==="c"){if(L.l)ck("업무범위",(L.s||[]).join(),(R.s||[]).join());if(L.p)ck("지급일",L.p,R.pay)}
+  if(L.t==="i"){ck("착수금",L.a1,R.a1);ck("피상속인",L.d,R.d);ck("성공보수 조항",!!L.su,!!R.su)}
+  if(L.t==="a"||L.t==="w"){ck("착수금",L.a1,R.a1);ck("잔금",L.a2,R.a2)}
+  if(L.t==="w")ck("업무내용",(L.it||[]).join("/"),(R.it||[]).join("/"));
+  return d;
+}
+
+/* ---------- 링크 ---------- */
+/* v3(기장): 3|구분|월정액|업무4자리|고정|지급일|계약일6|발송시각36|난수|열쇠|상호
+   v4(그 외): 4|{JSON} */
+function packLink(s){
+  const dt6=s.dt.replace(/-/g,"").slice(2),is=Math.floor(Date.parse(s.iss)/1000).toString(36);
+  if(s.t==="p"||s.t==="c")return b64e(["3",s.t,s.f,s.s.map(x=>x?1:0).join(""),s.l?1:0,s.p||"",dt6,is,s.r,s.key,s.n].join("|"));
+  const o={t:s.t,dt:dt6,is,r:s.r,k:s.key,n:s.n};
+  if(s.t==="i")Object.assign(o,{d:s.d,f:s.f,a1:s.a1,su:s.su?1:0});
+  if(s.t==="a")Object.assign(o,{w:s.w,a1:s.a1,a2:s.a2});
+  if(s.t==="w")Object.assign(o,{it:s.it,a1:s.a1,a2:s.a2,t1:s.t1,t2:s.t2,en:s.en,ex:s.ex});
+  return b64e("4|"+JSON.stringify(o));
+}
+function unpackLink(c){
+  const raw=b64d(c);
+  if(raw[0]==="{")return JSON.parse(raw);
+  if(raw.startsWith("4|")){
+    const o=JSON.parse(raw.slice(2)),dt="20"+o.dt.slice(0,2)+"-"+o.dt.slice(2,4)+"-"+o.dt.slice(4,6);
+    const s={...o,v:4,dt,iss:new Date(parseInt(o.is,36)*1000).toISOString(),key:o.k,id:"SJ-"+o.dt+"-"+o.r,su:!!o.su,cf:false,ev:false,re:[]};delete s.k;
+    if(s.t==="a"||s.t==="w")s.f=(s.a1||0)+(s.a2||0);
+    return s;
+  }
+  const p=raw.split("|");if(p[0]!=="3"||p.length<11)throw new Error("bad");
+  const dt="20"+p[6].slice(0,2)+"-"+p[6].slice(2,4)+"-"+p[6].slice(4,6);
+  return {v:3,t:p[1],f:+p[2],s:p[3].split("").map(x=>x==="1"),l:p[4]==="1",p:p[5],dt,iss:new Date(parseInt(p[7],36)*1000).toISOString(),r:p[8],key:p[9],n:p.slice(10).join("|"),id:"SJ-"+p[6]+"-"+p[8]};
 }
 
 /* ---------- 앱 안 브라우저(카카오톡 등) ---------- */
@@ -507,11 +735,25 @@ function openExternal(){
   if(isAndroid){location.href="intent://"+here.replace(/^https?:\/\//,"")+"#Intent;scheme=https;package=com.android.chrome;end";return}
 }
 
-/* ---------- 공통 상태 ---------- */
+/* ===================== 사무소 ===================== */
 const params=new URLSearchParams(location.search);
-let st=null, previewMode=false, secret=null, officeKey="";
-
-/* ---------- 사무소 ---------- */
+let st=null, previewMode=false, secret=null, officeKey="", lastGen=null;
+const DEP_RATE=0.5;
+const DEP={i:["o-itotal","o-ia1","o-ia2"],a:["o-atotal","o-aa1","o-aa2"],w:["o-wtotal","o-wa1","o-wa2"]},depAuto={i:true,a:true,w:true};
+function syncType(){
+  const t=$("o-type").value,T=TYPES[t];
+  document.querySelectorAll("[data-grp]").forEach(e=>e.hidden=e.dataset.grp!==(T.bk?"bk":t));
+  $("o-nameLabel").textContent=T.nameLabel;$("o-name").placeholder=T.ph;
+  store.set("seju.type",t);
+}
+function syncSums(){
+  for(const k in DEP){
+    const [tI,aI,bI]=DEP[k],f=num($(tI).value);
+    if(depAuto[k])$(aI).value=f?won(Math.round(f*DEP_RATE)):"";
+    const a1=num($(aI).value);
+    $(bI).textContent=f?(a1>f?"착수금이 총 보수보다 큽니다":`${won(f-a1)}원 (총보수의 ${100-Math.round(a1/f*100)}%)`):"-";
+  }
+}
 function initOffice(){
   $("office").hidden=false;$("client").hidden=true;$("modeBadge").textContent="사무소용";
   document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>{x.setAttribute("aria-selected",x===b);$(x.dataset.tab).hidden=x!==b});if(b.dataset.tab==="t-hist")renderHist()});
@@ -524,38 +766,59 @@ function initOffice(){
   $("o-key").value=store.get("seju.key","");tryKey($("o-key").value,true);
   $("o-keyBtn").onclick=()=>tryKey($("o-key").value);
   $("o-key").onkeydown=e=>{if(e.key==="Enter")tryKey($("o-key").value)};
+  $("o-type").value=store.get("seju.type","p");$("o-type").onchange=syncType;syncType();
   $("o-svc").innerHTML=SVCS.map((s,i)=>`<label class="chip on"><input type="checkbox" id="o-s${i}" checked>${s}</label>`).join("");
-  $("o-svc").querySelectorAll("input").forEach(i=>i.onchange=()=>i.parentElement.classList.toggle("on",i.checked));
-  $("o-fee").oninput=e=>{const n=e.target.value.replace(/\D/g,"");e.target.value=n?Number(n).toLocaleString("ko-KR"):""};
+  document.querySelectorAll("#office .chips input[type=checkbox]").forEach(i=>i.addEventListener("change",()=>i.parentElement.classList.toggle("on",i.checked)));
+  document.querySelectorAll(".money").forEach(el=>el.addEventListener("input",e=>{const n=e.target.value.replace(/\D/g,"");e.target.value=n?Number(n).toLocaleString("ko-KR"):"";for(const k in DEP){if(e.target.id===DEP[k][1])depAuto[k]=!n}syncSums()}));
   const inPreviewHost=/claude|claudeusercontent|^$/.test(location.host)||location.protocol==="blob:"||location.protocol==="file:";
   $("o-base").value=store.get("seju.base","")||(inPreviewHost?"":location.origin+location.pathname);
   $("baseWarn").hidden=!inPreviewHost||!!$("o-base").value;
   $("o-base").onchange=()=>{store.set("seju.base",$("o-base").value.trim());$("baseWarn").hidden=true};
   $("o-gen").onclick=gen;
-  $("o-preview").onclick=()=>{const s=collect();if(!s)return;s.code="미리보기";s.id="PREVIEW";previewMode=true;startClient(s)};
+  $("o-preview").onclick=()=>{const s=collect();if(!s)return;previewMode=true;startClient({...s,code:"미리보기",id:"PREVIEW"})};
   $("o-copyurl").onclick=e=>copy($("o-url").textContent,e.target);
   $("o-copymsg").onclick=e=>copy(kakaoMsg(lastGen),e.target);
   $("o-copymail").onclick=e=>copy(mailMsg(lastGen),e.target);
   $("v-btn").onclick=verify;
   $("v-file").onchange=e=>{const f=e.target.files[0];e.target.value="";if(f)verifyPdf(f)};
   $("v-linkBtn").onclick=verifyLink;
-  $("h-export").onclick=async e=>{const data=JSON.stringify({app:"seju-econtract",at:new Date().toISOString(),hist:store.get("seju.hist",[])},null,1);const ok=await saveBlob(`전자기장계약_발송이력_${todayISO()}.json`,new Blob([data],{type:"application/json"}));$("h-note").textContent=ok?"백업 파일을 저장했습니다.":"저장하지 못했습니다."};
+  $("h-export").onclick=async()=>{const data=JSON.stringify({app:"seju-econtract",at:new Date().toISOString(),hist:store.get("seju.hist",[])},null,1);const ok=await saveBlob(`전자계약_발송이력_${todayISO()}.json`,new Blob([data],{type:"application/json"}));$("h-note").textContent=ok?"백업 파일을 저장했습니다.":"저장하지 못했습니다."};
   $("h-import").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;try{const j=JSON.parse(await f.text()),add=(j.hist||[]).filter(x=>x&&x.code),h=store.get("seju.hist",[]),have=new Set(h.map(x=>x.code));let n=0;add.forEach(x=>{if(!have.has(x.code)){h.push(x);n++}else{const o=h.find(y=>y.code===x.code);if(x.rcv&&!o.rcv)o.rcv=x.rcv}});h.sort((a,b)=>b.d<a.d?-1:1);store.set("seju.hist",h);renderHist();$("h-note").textContent=`${n}건을 새로 불러왔습니다.`}catch(_){$("h-note").textContent="백업 파일 형식이 아닙니다."}};
   document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copy($(b.dataset.copy).textContent,b));
-  $("g-kakao").textContent=kakaoMsg({n:"○○상사",url:"https://(배포주소)/?c=…"});
-  $("g-mail").textContent=mailMsg({n:"○○상사",url:"https://(배포주소)/?c=…"});
+  $("g-kakao").textContent=kakaoMsg({t:"p",n:"○○상사",url:"https://(배포주소)/?c=…"});
+  $("g-mail").textContent=mailMsg({t:"p",n:"○○상사",url:"https://(배포주소)/?c=…"});
   renderHist();
 }
-let lastGen=null;
 function collect(){
-  const f=$("o-fee").value.replace(/\D/g,""),s=SVCS.map((_,i)=>$("o-s"+i).checked);
-  const err=$("o-err");err.hidden=true;
-  if(!f){err.textContent="월정액을 입력해 주세요.";err.hidden=false;return null}
-  if(!s.some(Boolean)){err.textContent="업무 범위를 하나 이상 선택해 주세요.";err.hidden=false;return null}
-  if(!secret){err.textContent="맨 위 ‘사무소 열쇠’를 먼저 입력해 주세요.";err.hidden=false;return null}
-  const dt=$("o-date").value||todayISO(),r=Math.random().toString(36).slice(2,6).toUpperCase();
-  return {v:3,a:secret.a,k:secret.k,key:officeKey,t:$("o-type").value,n:$("o-name").value.trim(),f:+f,s,l:$("o-lock").value==="1",p:$("o-pay").value,dt,iss:new Date(Math.floor(Date.now()/1000)*1000).toISOString(),r,
-    id:"SJ-"+dt.replace(/-/g,"").slice(2)+"-"+r};
+  const err=$("o-err");err.hidden=true;const bad=m=>{err.textContent=m;err.hidden=false;return null};
+  if(!secret)return bad("맨 위 ‘사무소 열쇠’를 먼저 입력해 주세요.");
+  const t=$("o-type").value,dt=$("o-date").value||todayISO(),r=Math.random().toString(36).slice(2,6).toUpperCase();
+  const s={t,n:$("o-name").value.trim(),dt,iss:new Date(Math.floor(Date.now()/1000)*1000).toISOString(),r,id:"SJ-"+dt.replace(/-/g,"").slice(2)+"-"+r,a:secret.a,k:secret.k,key:officeKey};
+  if(TYPES[t].bk){
+    const f=num($("o-fee").value),sv=SVCS.map((_,i)=>$("o-s"+i).checked);
+    if(!f)return bad("월정액을 입력해 주세요.");
+    if(!sv.some(Boolean))return bad("업무 범위를 하나 이상 선택해 주세요.");
+    Object.assign(s,{v:3,f,s:sv,l:$("o-lock").value==="1",p:$("o-pay").value});
+  }else if(t==="i"){
+    const f=num($("o-itotal").value),a1=num($("o-ia1").value);
+    if(!$("o-dec").value.trim())return bad("피상속인 성명을 입력해 주세요.");
+    if(!f)return bad("대행보수 총액을 입력해 주세요.");
+    if(a1>f)return bad("착수금이 총 보수보다 큽니다.");
+    Object.assign(s,{v:4,d:$("o-dec").value.trim(),f,a1,su:$("o-isu").checked});
+  }else if(t==="a"){
+    const f=num($("o-atotal").value),a1=num($("o-aa1").value),a2=f-a1;
+    if(!$("o-aw").value.trim())return bad("업무내용을 입력해 주세요.");
+    if(!f)return bad("총 보수를 입력해 주세요.");
+    if(a1>f)return bad("착수금이 총 보수보다 큽니다.");
+    Object.assign(s,{v:4,w:$("o-aw").value.trim(),a1,a2,f:a1+a2});
+  }else{
+    const it=$("o-wit").value.split("\n").map(x=>x.trim()).filter(Boolean),f=num($("o-wtotal").value),a1=num($("o-wa1").value),a2=f-a1;
+    if(!it.length)return bad("업무내용을 한 줄 이상 입력해 주세요.");
+    if(!f)return bad("총 보수를 입력해 주세요.");
+    if(a1>f)return bad("착수금이 총 보수보다 큽니다.");
+    Object.assign(s,{v:4,it,a1,a2,f:a1+a2,t1:$("o-wt1").value.trim()||"계약시",t2:$("o-wt2").value.trim()||"업무완료일",en:$("o-wen").value.trim()||"최종신고 완료일",ex:$("o-wex").value.trim()});
+  }
+  return s;
 }
 async function gen(){
   const s=collect();if(!s)return;
@@ -565,86 +828,40 @@ async function gen(){
   const enc=packLink(s),code=(await sha(enc)).slice(0,8).toUpperCase()||"-";
   const url=base+(base.includes("?")?"&":"?")+"c="+enc;
   lastGen={...s,url,code};
-  $("o-url").textContent=url;$("o-code").textContent="발송코드 "+code;$("o-docno").textContent="문서번호 "+s.id;$("o-out").hidden=false;
-  $("o-len").textContent=`링크 길이 ${url.length}자`;
-  const h=store.get("seju.hist",[]);h.unshift({d:s.iss,id:s.id,t:s.t,n:s.n,f:s.f,s:s.s,code,url});store.set("seju.hist",h.slice(0,1000));
+  $("o-url").textContent=url;$("o-code").textContent="발송코드 "+code;$("o-docno").textContent=`${TYPES[s.t].menu} · 문서번호 ${s.id}`;$("o-len").textContent=`링크 길이 ${url.length}자`;$("o-out").hidden=false;
+  const h=store.get("seju.hist",[]);h.unshift({d:s.iss,id:s.id,t:s.t,n:s.n,f:s.f,s:s.s,code,url,cs:condText(s)});store.set("seju.hist",h.slice(0,1000));
 }
-/* 짧은 링크: 3|구분|월정액|업무4자리|고정|지급일|계약일6|발송시각36|난수|열쇠|상호 */
-function packLink(s){return b64e(["3",s.t,s.f,s.s.map(x=>x?1:0).join(""),s.l?1:0,s.p||"",s.dt.replace(/-/g,"").slice(2),Math.floor(Date.parse(s.iss)/1000).toString(36),s.r,s.key,s.n].join("|"))}
-function unpackLink(c){
-  const raw=b64d(c);
-  if(raw[0]==="{")return JSON.parse(raw);
-  const p=raw.split("|");if(p[0]!=="3"||p.length<11)throw new Error("bad");
-  const dt="20"+p[6].slice(0,2)+"-"+p[6].slice(2,4)+"-"+p[6].slice(4,6);
-  return {v:3,t:p[1],f:+p[2],s:p[3].split("").map(x=>x==="1"),l:p[4]==="1",p:p[5],dt,iss:new Date(parseInt(p[7],36)*1000).toISOString(),r:p[8],key:p[9],n:p.slice(10).join("|"),id:"SJ-"+p[6]+"-"+p[8]};
-}
-async function saveBlob(name,blob){
-  try{const dl=window.claude&&await window.claude.use("downloads");if(dl){await dl.save({filename:name,data:blob});return true}}catch(e){return false}
-  const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return true;
-}
-const condText=x=>`${x.t==="c"?"법인":"개인"} · 월정액 ${won(x.f)}원 · 업무범위 ${SVCS.filter((_,i)=>x.s&&x.s[i]).join(", ")||"-"}`;
-async function verifyLink(){
-  const o=$("v-linkOut");o.hidden=false;
-  try{const u=new URL($("v-link").value.trim()),c=u.searchParams.get("c");if(!c)throw 0;const x=unpackLink(c),code=(await sha(c)).slice(0,8).toUpperCase();
-    o.className="msg ok";o.textContent=`발송코드 ${code} · 문서번호 ${x.id} · ${x.n||"상호 미입력"} · ${condText(x)} · 계약일 ${x.dt}. 회신 PDF 3쪽의 발송코드와 같으면 이 링크로 서명한 것입니다.`;}
-  catch(e){o.className="msg err";o.textContent="서명 링크 전체(https://부터 끝까지)를 붙여넣어 주세요."}
-}
-async function verifyPdf(file){
-  const box=$("v-res");box.hidden=false;box.innerHTML="확인 중…";
-  const buf=new Uint8Array(await file.arrayBuffer());let txt="";for(let i=0;i<buf.length;i+=65536)txt+=String.fromCharCode.apply(null,buf.subarray(i,i+65536));
-  let fh="";try{const d=await crypto.subtle.digest("SHA-256",buf);fh=[...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){}
-  const m=/SEJU1:([A-Za-z0-9_-]+)\.([0-9a-f]{64})/.exec(txt);
-  const L=[];
-  if(!m){box.innerHTML='<div class="bad">이 PDF에는 검증용 원본 기록이 없습니다.</div><div class="note">이 프로그램으로 만든 PDF가 아니거나, 다른 프로그램으로 다시 저장·인쇄한 파일입니다. 고객이 처음 보낸 파일을 그대로 올려 주세요. 구버전으로 만든 PDF라면 3쪽 발송코드로 아래 ‘발송코드만으로 찾기’를 이용하세요.</div>';return}
-  let recJson,rec;try{recJson=b64d(m[1]);rec=JSON.parse(recJson)}catch(e){box.innerHTML='<div class="bad">✖ 검증 기록이 손상되었습니다.</div><div class="note">PDF 파일이 받은 뒤 변경되었거나 전송 중 깨졌습니다. 고객에게 원본 파일을 다시 받아 주세요.</div>';return}
-  const re=await sha(recJson);
-  L.push(re===m[2]?`<span class="ok">✔ 문서 지문값 일치</span> <span class="note">서명 후 계약 조건·갑의 정보·서명이 바뀌지 않았습니다. (3쪽 값과 같은지 눈으로도 확인하세요: ${m[2].slice(0,12)}…)</span>`:`<span class="bad">✖ 문서 지문값 불일치</span> <span class="note">서명 후 내용이 변경되었습니다. 고객에게 다시 받으세요.</span>`);
-  const h=store.get("seju.hist",[]),r=h.find(x=>x.code===rec.code);
-  let codeOk=false;
-  if(rec.c){const cc=(await sha(rec.c)).slice(0,8).toUpperCase();codeOk=cc===rec.code}
-  if(r){
-    const same=r.f===rec.f&&r.t===rec.t&&(!r.s||!rec.l||r.s.every((v,i)=>!!v===!!rec.s[i]));
-    L.push(`<span class="ok">✔ 발송 이력과 일치</span> <span class="note">${esc(r.d.slice(0,10))} 발송 · ${esc(r.n||"상호 미입력")} · 문서번호 ${esc(r.id)}</span>`);
-    if(!same)L.push(`<span class="mid">! 계약 조건이 발송 때와 다릅니다</span> <span class="note">발송: ${esc(condText(r))} / 회신: ${esc(condText(rec))}</span>`);
-    r.rcv={at:new Date().toISOString(),file:file.name,fh,hash:m[2],corp:rec.g&&rec.g.corp,signed:rec.signed};store.set("seju.hist",h);renderHist();
-  }else{
-    L.push(codeOk?`<span class="mid">! 이 PC의 발송 이력에는 없는 코드입니다 (${esc(rec.code)})</span> <span class="note">다른 PC에서 보냈다면 ‘보낸 링크로 대조’나 그 PC의 백업 파일로 확인하세요.</span>`:`<span class="bad">✖ 발송코드가 링크와 맞지 않습니다</span>`);
-  }
-  L.push(`<span class="note">서명자: ${esc(rec.g&&rec.g.corp)} · ${esc(rec.g&&rec.g.rep)} · ${esc(rec.g&&rec.g.bizno)} / ${esc(condText(rec))} · 매월 ${esc(rec.pay)}일 / 서명 ${esc(rec.signed)}</span>`);
-  L.push(`<span class="note">받은 파일 지문값(SHA-256): <span style="font-family:Consolas,monospace;word-break:break-all">${fh}</span>${r?" — 발송 이력에 기록했습니다.":""}</span>`);
-  box.innerHTML=L.map(x=>`<div>${x}</div>`).join("");
-}
-function kakaoMsg(g){return `[세주세무회계] ${g.n?g.n+" ":""}대표님, 안녕하세요.
-기장대리 계약서를 전자계약으로 보내드립니다.
+function kakaoMsg(gg){const T=TYPES[gg.t]||TYPES.p;return `[세주세무회계] ${gg.n?gg.n+" ":""}${T.hon}, 안녕하세요.
+${T.label}를 전자계약으로 보내드립니다.
 
 아래 링크를 열어
-① 업무범위·월정액 확인 후 지급일 선택
-② 사업자 정보 입력
+${T.bk?"① 업무범위·월정액 확인 후 지급일 선택":"① 계약 내용(업무·보수) 확인"}
+② 인적사항 입력
 ③ 서명(또는 도장 사진)
 ④ [PDF 만들기] → [카카오톡·메일로 보내기]
 순서로 진행해 주시면 됩니다. 3분 정도 걸립니다.
 
-▶ ${g.url}
+▶ ${gg.url}
 
 ※ 카카오톡 안에서는 PDF 저장·전송이 되지 않습니다.
 링크를 누른 뒤 [크롬·사파리로 열기]를 누르시거나, 링크를 길게 눌러 복사한 다음 크롬(아이폰은 사파리) 주소창에 붙여넣어 열어 주세요.
 
-회신은 이 카카오톡 채널 또는 sejutaxmapo@gmail.com 으로 보내주세요. 만들어진 PDF는 대표님도 1부 보관해 주세요.
+회신은 이 카카오톡 채널 또는 sejutaxmapo@gmail.com 으로 보내주세요. 만들어진 PDF는 1부 보관해 주세요.
 문의 02-2205-0659 / 010-6510-0659
 세주세무회계 이태현세무사`}
-function mailMsg(g){return `제목: [세주세무회계] 기장대리 계약서 전자서명 요청${g.n?" ("+g.n+")":""}
+function mailMsg(gg){const T=TYPES[gg.t]||TYPES.p;return `제목: [세주세무회계] ${T.label} 전자서명 요청${gg.n?" ("+gg.n+")":""}
 
-${g.n?g.n+" ":""}대표님, 안녕하세요. 세주세무회계 이태현세무사입니다.
+${gg.n?gg.n+" ":""}${T.hon}, 안녕하세요. 세주세무회계 이태현세무사입니다.
 
-기장대리 계약서를 종이 대신 전자계약으로 보내드립니다. 출력·스캔 없이 휴대폰이나 PC에서 바로 서명하실 수 있습니다.
+${T.label}를 종이 대신 전자계약으로 보내드립니다. 출력·스캔 없이 휴대폰이나 PC에서 바로 서명하실 수 있습니다.
 
 ■ 서명 링크
-${g.url}
+${gg.url}
 
 ■ 진행 순서 (약 3분)
-1. 링크를 열어 업무범위와 월정액을 확인하고 매월 지급일을 선택합니다.
+1. 링크를 열어 계약 내용(업무·보수)을 확인하고 필요한 항목을 선택합니다.
 2. 화면 아래 계약서 전문을 확인합니다.
-3. 상호·사업자번호·소재지·대표자를 입력합니다.
+3. 인적사항(상호·성명, 사업자번호 또는 생년월일, 주소 등)을 입력합니다.
 4. 서명란에 서명하거나, 도장을 찍은 종이를 촬영해 올립니다.
 5. [서명 완료 · 계약서 PDF 만들기]를 누른 뒤
    - 휴대폰: [카카오톡·메일로 보내기]로 바로 전송
@@ -652,9 +869,9 @@ ${g.url}
 
 ■ 안내
 - 휴대폰에서는 크롬(아이폰은 사파리)으로 열어 주세요. 카카오톡·네이버 앱 안의 화면에서는 PDF 저장이 되지 않습니다.
-- 입력하신 정보는 대표님 기기 안에서만 PDF로 만들어지며, 대표님이 보내시기 전까지 어디에도 저장되지 않습니다.
+- 입력하신 정보는 고객님 기기 안에서만 PDF로 만들어지며, 직접 보내시기 전까지 어디에도 저장되지 않습니다.
 - 본 계약은 전자서명법 제3조에 따라 종이 계약서와 같은 효력을 가집니다.
-- 완성된 PDF는 대표님도 1부 보관해 주세요.
+- 완성된 PDF는 1부 보관해 주세요.
 
 세주세무회계 이태현세무사
 02-2205-0659 / 010-6510-0659 · sejutaxmapo@gmail.com
@@ -662,49 +879,105 @@ ${g.url}
 서울시 마포구 독막로 239 성진빌딩 4층`}
 function renderHist(){
   const h=store.get("seju.hist",[]);$("h-empty").hidden=h.length>0;
-  $("h-body").innerHTML=h.map((r,i)=>`<tr><td>${esc(r.d.slice(0,10))}</td><td>${esc(r.id)}</td><td>${r.t==="c"?"법인":"개인"}</td><td>${esc(r.n||"-")}</td><td>${won(r.f)}</td><td><b>${esc(r.code)}</b></td><td>${r.rcv?`<span style="color:var(--ok);font-weight:700">✔ ${esc(r.rcv.at.slice(0,10))}</span>`:'<span class="note">대기</span>'}</td><td><button class="btn sm ghost" data-hi="${i}">링크 복사</button></td></tr>`).join("");
+  $("h-body").innerHTML=h.map((r,i)=>`<tr><td>${esc(r.d.slice(0,10))}</td><td>${esc(r.id)}</td><td>${esc((TYPES[r.t]||{}).menu||r.t)}</td><td>${esc(r.n||"-")}</td><td>${won(r.f)}</td><td><b>${esc(r.code)}</b></td><td>${r.rcv?`<span style="color:var(--ok);font-weight:700">✔ ${esc(r.rcv.at.slice(0,10))}</span>`:'<span class="note">대기</span>'}</td><td><button class="btn sm ghost" data-hi="${i}">링크 복사</button></td></tr>`).join("");
   $("h-body").querySelectorAll("[data-hi]").forEach(b=>b.onclick=()=>copy(h[+b.dataset.hi].url,b));
 }
 function verify(){
   const c=$("v-code").value.trim().toUpperCase(),o=$("v-out"),h=store.get("seju.hist",[]),r=h.find(x=>x.code===c);
   o.hidden=false;
   if(!c){o.className="msg warn";o.textContent="발송코드를 입력해 주세요.";return}
-  if(r){o.className="msg ok";o.textContent=`일치합니다. ${r.d.slice(0,10)} 발송 · ${r.n||"고객명 미입력"} · ${r.t==="c"?"법인":"개인"} · 월정액 ${won(r.f)}원 · 문서번호 ${r.id}. 회신 PDF 3쪽의 계약 조건이 이 내용과 같은지 확인해 주세요.`}
-  else{o.className="msg err";o.textContent="이 브라우저의 발송 이력에 없는 코드입니다. 다른 PC에서 발송했는지 확인하시고, 아니라면 고객이 링크의 조건을 바꿨을 수 있으니 PDF의 업무범위·월정액을 다시 확인해 주세요."}
+  if(r){o.className="msg ok";o.textContent=`일치합니다. ${r.d.slice(0,10)} 발송 · ${r.n||"고객명 미입력"} · ${r.cs||condText(r)} · 문서번호 ${r.id}.`}
+  else{o.className="msg err";o.textContent="이 브라우저의 발송 이력에 없는 코드입니다. 다른 PC에서 발송했다면 ‘보낸 링크로 대조’나 그 PC의 백업 파일로 확인해 주세요."}
+}
+async function verifyLink(){
+  const o=$("v-linkOut");o.hidden=false;
+  try{const u=new URL($("v-link").value.trim()),c=u.searchParams.get("c");if(!c)throw 0;const x=unpackLink(c),code=(await sha(c)).slice(0,8).toUpperCase();
+    o.className="msg ok";o.textContent=`발송코드 ${code} · 문서번호 ${x.id} · ${x.n||"이름 미입력"} · ${condText(x)} · 계약일 ${x.dt}. 회신 PDF 확인서의 발송코드와 같으면 이 링크로 서명한 것입니다.`;}
+  catch(e){o.className="msg err";o.textContent="서명 링크 전체(https://부터 끝까지)를 붙여넣어 주세요."}
+}
+async function verifyPdf(file){
+  const out=$("v-res");out.hidden=false;out.innerHTML="확인 중…";
+  const buf=new Uint8Array(await file.arrayBuffer());let txt="";for(let i=0;i<buf.length;i+=65536)txt+=String.fromCharCode.apply(null,buf.subarray(i,i+65536));
+  let fh="";try{const d=await crypto.subtle.digest("SHA-256",buf);fh=[...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){}
+  const m=/SEJU1:([A-Za-z0-9_-]+)\.([0-9a-f]{64})/.exec(txt);
+  if(!m){out.innerHTML='<div class="bad">이 PDF에는 검증용 원본 기록이 없습니다.</div><div class="note">이 프로그램으로 만든 PDF가 아니거나, 다른 프로그램으로 다시 저장·인쇄한 파일입니다. 고객이 처음 보낸 파일을 그대로 올려 주세요. 구버전으로 만든 PDF라면 확인서의 발송코드로 ‘발송코드만으로 찾기’를 이용하세요.</div>';return}
+  let recJson,rec;try{recJson=b64d(m[1]);rec=JSON.parse(recJson)}catch(e){out.innerHTML='<div class="bad">✖ 검증 기록이 손상되었습니다.</div><div class="note">PDF 파일이 받은 뒤 변경되었거나 전송 중 깨졌습니다. 고객에게 원본 파일을 다시 받아 주세요.</div>';return}
+  const L=[];const re=await sha(recJson);
+  L.push(re===m[2]?`<span class="ok">✔ 문서 지문값 일치</span> <span class="note">서명 후 계약 조건·갑의 정보·서명이 바뀌지 않았습니다. (확인서 인쇄값과 같은지 눈으로도 확인하세요: ${m[2].slice(0,12)}…)</span>`:`<span class="bad">✖ 문서 지문값 불일치</span> <span class="note">서명 후 내용이 변경되었습니다. 고객에게 다시 받으세요.</span>`);
+  const h=store.get("seju.hist",[]),r=h.find(x=>x.code===rec.code);
+  let codeOk=false,link=null;
+  if(rec.c){codeOk=(await sha(rec.c)).slice(0,8).toUpperCase()===rec.code;try{link=unpackLink(rec.c)}catch(e){}}
+  if(r)L.push(`<span class="ok">✔ 발송 이력과 일치</span> <span class="note">${esc(r.d.slice(0,10))} 발송 · ${esc(r.n||"이름 미입력")} · 문서번호 ${esc(r.id)}</span>`);
+  else L.push(codeOk?`<span class="mid">! 이 PC의 발송 이력에는 없는 코드입니다 (${esc(rec.code)})</span> <span class="note">다른 PC에서 보냈다면 ‘보낸 링크로 대조’나 그 PC의 백업 파일로 확인하세요.</span>`:`<span class="bad">✖ 발송코드가 링크와 맞지 않습니다</span>`);
+  if(link&&codeOk){const df=condDiff(link,rec);L.push(df.length?`<span class="mid">! 계약 조건이 발송 때와 다릅니다</span> <span class="note">${esc(df.join(" / "))}</span>`:`<span class="ok">✔ 계약 조건이 발송한 링크와 같습니다</span>`)}
+  L.push(`<span class="note">${esc((TYPES[rec.t]||{}).label||"")} · 서명자: ${esc(rec.g&&(rec.g.corp||rec.g.rep))} · ${esc(rec.g&&rec.g.rep)} · ${esc(rec.g&&(rec.g.bizno||rec.g.birth))} / ${esc(condText(rec))}${rec.pay?" · 매월 "+esc(rec.pay)+"일":""} / 서명 ${esc(rec.signed)}</span>`);
+  L.push(`<span class="note">받은 파일 지문값(SHA-256): <span style="font-family:Consolas,monospace;word-break:break-all">${fh}</span>${r?" — 발송 이력에 기록했습니다.":""}</span>`);
+  if(r){r.rcv={at:new Date().toISOString(),file:file.name,fh,hash:m[2],corp:rec.g&&(rec.g.corp||rec.g.rep),signed:rec.signed};store.set("seju.hist",h);renderHist()}
+  out.innerHTML=L.map(x=>`<div>${x}</div>`).join("");
 }
 
-/* ---------- 고객 ---------- */
+/* ===================== 고객 ===================== */
 const openedAt=kst(new Date());
-let sigMode="draw",stampData=null,drawn=false;
+let sigMode="draw",stampData=null,drawn=false,AGREE=[];
+function gFields(t){
+  if(t==="i")return [["rep","성명 (대표상속인)",1,"","name"],["birth","생년월일",1,"예) 1977-07-21",""],["tel","연락처",1,"010-0000-0000","tel"],["addr","주소",1,"","street-address",1],["mail","이메일 (안내 수신용)",0,"","email"]];
+  const idl={p:"사업자등록번호 (미등록 시 생년월일)",c:"사업자번호 (법인등록번호)",a:"사업자등록번호 (법인등록번호)",w:"사업자등록번호 (미등록 시 생년월일)"}[t];
+  const repl={p:"대표자",c:"사내이사 (대표자)",a:"대표이사 (대표자)",w:"성명 (대표자)"}[t];
+  return [["corp",t==="w"?"상호 (개인은 성명)":"상호",1,"","organization"],["bizno",idl,1,"000-00-00000",""],["addr",t==="w"?"소재지 (주소)":"소재지",1,"","street-address",1],["rep",repl,1,"","name"],["tel","연락처",0,"","tel"],["mail","이메일 (안내 수신용)",0,"","email"]];
+}
 function startClient(s){
-  st={...s,s:[...s.s],pay:s.p||"",g:{corp:s.n||""}};
+  const T=TYPES[s.t]||TYPES.p;
+  st={...s,s:s.s?[...s.s]:[],pay:s.p||"",re:(s.re||[]).map(r=>[...r]),g:{}};
+  if(s.t==="i")st.g.rep=s.n||"";else st.g.corp=s.n||"";
   $("office").hidden=true;$("client").hidden=false;$("modeBadge").textContent=previewMode?"미리보기":"고객 서명";
   $("previewBar").hidden=!previewMode;
-  $("c-title").textContent=(st.t==="c"?"법인사업자":"개인사업자")+" 기장대리 계약서 전자서명";
-  $("c-idLabel").textContent=st.t==="c"?"사업자번호 (법인등록번호)":"사업자등록번호 (미등록 시 생년월일)";
-  $("c-repLabel").textContent=st.t==="c"?"사내이사 (대표자)":"대표자";
-  $("c-corp").value=st.g.corp;
-  $("c-fee").textContent=won(st.f)+"원";
-  $("c-lockNote").textContent=st.l?"(사무소와 협의된 내용으로 고정)":"(해당 업무를 선택해 주세요)";
-  $("c-svc").innerHTML=SVCS.map((x,i)=>`<label class="chip${st.s[i]?" on":""}${st.l?" dis":""}"><input type="checkbox" id="c-s${i}" ${st.s[i]?"checked":""} ${st.l?"disabled":""}>${x}</label>`).join("");
-  $("c-svc").querySelectorAll("input").forEach((inp,i)=>inp.onchange=()=>{st.s[i]=inp.checked;inp.parentElement.classList.toggle("on",inp.checked);renderDoc()});
-  $("c-pay").innerHTML=PAYS.map(p=>`<label class="chip${st.pay===p?" on":""}"><input type="radio" name="pay" value="${p}" ${st.pay===p?"checked":""}>매월 ${p}일</label>`).join("");
-  $("c-pay").querySelectorAll("input").forEach(inp=>inp.onchange=()=>{st.pay=inp.value;$("c-pay").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.querySelector("input").checked));renderDoc()});
-  ["corp","bizno","addr","rep","tel","mail"].forEach(k=>$("c-"+k).oninput=()=>{st.g[k]=$("c-"+k).value.trim();renderDocSoon()});
+  $("c-title").textContent=T.label+" 전자서명";
+  $("c-gTitle").textContent=s.t==="i"?"인적사항 (갑 · 대표상속인)":"인적사항 (갑)";
+  /* 1. 조건 */
+  $("c-bk").hidden=!T.bk;$("c-gen").hidden=!!T.bk;
+  if(T.bk){
+    $("c-fee").textContent=won(st.f)+"원";
+    $("c-lockNote").textContent=st.l?"(사무소와 협의된 내용으로 고정)":"(해당 업무를 선택해 주세요)";
+    $("c-svc").innerHTML=SVCS.map((x,i)=>`<label class="chip${st.s[i]?" on":""}${st.l?" dis":""}"><input type="checkbox" id="c-s${i}" ${st.s[i]?"checked":""} ${st.l?"disabled":""}>${x}</label>`).join("");
+    $("c-svc").querySelectorAll("input").forEach((inp,i)=>inp.onchange=()=>{st.s[i]=inp.checked;inp.parentElement.classList.toggle("on",inp.checked);renderDoc()});
+    $("c-pay").innerHTML=PAYS.map(p=>`<label class="chip${st.pay===p?" on":""}"><input type="radio" name="pay" value="${p}" ${st.pay===p?"checked":""}>매월 ${p}일</label>`).join("");
+    $("c-pay").querySelectorAll("input").forEach(inp=>inp.onchange=()=>{st.pay=inp.value;$("c-pay").querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.querySelector("input").checked));renderDoc()});
+  }else renderCond();
+  /* 3. 인적사항 */
+  $("c-fields").innerHTML=gFields(s.t).map(([k,l,req,ph,ac,full])=>`<label class="f"${full?' style="grid-column:1/-1"':""}><span>${l}${req?' <span class="req">*</span>':""}</span><input type="${k==="mail"?"email":k==="tel"?"tel":"text"}" id="c-${k}" data-k="${k}" placeholder="${ph||""}"${ac?` autocomplete="${ac}"`:""}${k==="tel"||k==="bizno"?' inputmode="numeric"':""} value="${esc(st.g[k]||"")}"></label>`).join("");
+  $("c-fields").querySelectorAll("input").forEach(inp=>inp.oninput=()=>{st.g[inp.dataset.k]=inp.value.trim();renderDocSoon()});
+  /* 4. 동의 */
+  AGREE=["계약서 전문을 모두 읽고 내용을 확인했습니다."];
+  AGREE.push("이 계약을 전자적 방식으로 체결하고, 위 서명(날인 이미지)을 저의 서명·기명날인으로 하는 데 동의합니다. (전자서명법 제3조 제2항)");
+  $("c-agree").innerHTML=AGREE.map((t,i)=>`<label class="agree"><input type="checkbox" id="ag${i}"><span>${esc(t)}</span></label>`).join("");
   $("backOffice").onclick=()=>{previewMode=false;initOffice()};
   initSig();renderDoc();
   window.scrollTo(0,0);
 }
+function renderCond(){
+  const x=st,R=[];
+  if(x.t==="i"){
+    R.push(["피상속인",`(고) ${esc(x.d)}`],["대행보수",`<b>${won(x.f)}원</b> (부가가치세 포함)`],["착수금",`${won(x.a1)}원 · 계약일 청구, 반환되지 않음`],["잔금",`${won(Math.max(0,x.f-x.a1))}원 · 신고서 접수일 청구, 3일 이내 지급`]);
+    if(x.su)R.push(["성공보수","세무조사 단계에서 절감되는 세액의 일정비율, 별도 협의"]);
+  }else if(x.t==="a"){
+    R.push(["업무내용",esc(x.w)],["착수금",`<b>${won(x.a1)}원</b> · 계약일, 반환 없음`],["잔금",`<b>${won(x.a2)}원</b> · 세무조사 종결일`],["합계",`<b>${won((x.a1||0)+(x.a2||0))}원</b> (부가가치세 포함)`]);
+  }else{
+    R.push(["업무내용",(x.it||[]).map((t,i)=>`${i+1}. ${esc(t)}`).join("<br>")],["착수금",`<b>${won(x.a1)}원</b> · ${esc(x.t1)}`],["잔금",`<b>${won(x.a2)}원</b> · ${esc(x.t2)}`],["합계",`<b>${won((x.a1||0)+(x.a2||0))}원</b> (부가가치세 포함)`]);
+  }
+  let html=`<table class="sumt">${R.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join("")}</table>`;
+  $("c-gen").innerHTML=html;
+}
 let tm;function renderDocSoon(){clearTimeout(tm);tm=setTimeout(renderDoc,250)}
-function renderDoc(){$("ps").innerHTML=pages(st,currentSig());fitPaper()}
+function renderDoc(){if(!st)return;paginate($("ps"),DOCS[st.t](st,currentSig()),st);fitPaper()}
 function fitPaper(){const w=$("pw").clientWidth,sc=Math.min(1,w/794);$("ps").style.transform=`scale(${sc})`;$("pw").style.height=($("ps").scrollHeight*sc)+"px"}
 addEventListener("resize",()=>{if(!$("client").hidden)fitPaper()});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(st&&!$("client").hidden)renderDoc()});
 
-let cv,ctx,lastPt=null,sigCache=null;
+let cv,ctx,lastPt=null,sigCache=null,sigInit=false;
 function initSig(){
   cv=$("sig");ctx=cv.getContext("2d",{willReadFrequently:true});
-  const size=()=>{const r=cv.getBoundingClientRect(),dpr=Math.max(2,devicePixelRatio||1);const old=drawn?cv.toDataURL():null;cv.width=r.width*dpr;cv.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#0d0a55";if(old){const im=new Image();im.onload=()=>ctx.drawImage(im,0,0,r.width,r.height);im.src=old}};
-  size();new ResizeObserver(()=>size()).observe(cv);
+  const size=()=>{const r=cv.getBoundingClientRect();if(!r.width)return;const dpr=Math.max(2,devicePixelRatio||1);const old=drawn?cv.toDataURL():null;cv.width=r.width*dpr;cv.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#0d0a55";if(old){const im=new Image();im.onload=()=>ctx.drawImage(im,0,0,r.width,r.height);im.src=old}};
+  size();if(sigInit)return;sigInit=true;new ResizeObserver(()=>size()).observe(cv);
   const pt=e=>{const r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top,p:e.pressure||.5}};
   cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);lastPt=pt(e);$("sigPh").hidden=true};
   cv.onpointermove=e=>{if(!lastPt)return;const p=pt(e);ctx.lineWidth=2.2+2*(p.p||.5);ctx.beginPath();ctx.moveTo(lastPt.x,lastPt.y);ctx.lineTo(p.x,p.y);ctx.stroke();lastPt=p;drawn=true;sigCache=null};
@@ -720,38 +993,43 @@ function trimmed(){
   if(x1<=x0)return null;const pad=12;x0=Math.max(0,x0-pad);y0=Math.max(0,y0-pad);x1=Math.min(w,x1+pad);y1=Math.min(h,y1+pad);
   const c=document.createElement("canvas");c.width=x1-x0;c.height=y1-y0;c.getContext("2d").drawImage(cv,x0,y0,c.width,c.height,0,0,c.width,c.height);return c.toDataURL("image/png");
 }
-function packSeal(im){
-  const S=120,c=document.createElement("canvas");c.width=S;c.height=S;
-  const x=c.getContext("2d",{willReadFrequently:true}),r=Math.min(S/im.width,S/im.height),w=im.width*r,h=im.height*r;
-  x.drawImage(im,(S-w)/2,(S-h)/2,w,h);const id=x.getImageData(0,0,S,S),d=id.data;
-  for(let i=0;i<d.length;i+=4){const R=d[i],G=d[i+1],B=d[i+2],A=d[i+3];if(!A)continue;const red=R-Math.max(G,B),lum=.3*R+.59*G+.11*B;
-    let al=red>40?Math.min(255,red*3):lum>150?0:Math.min(255,(200-lum)*2);al=Math.min(al,A);
-    if(al<70){d[i+3]=0}else{d[i]=200;d[i+1]=30;d[i+2]=30;d[i+3]=255}}
-  x.putImageData(id,0,0);
-  let u=c.toDataURL("image/webp",.8);
-  if(!u.startsWith("data:image/webp")||u.length>9000)u=c.toDataURL("image/png");
-  return u;
-}
 function cleanStamp(im){
   const max=600,sc=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*sc;c.height=im.height*sc;
   const x=c.getContext("2d",{willReadFrequently:true});x.drawImage(im,0,0,c.width,c.height);const id=x.getImageData(0,0,c.width,c.height),d=id.data;
-  for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],lum=.3*r+.59*g+.11*b,red=r-Math.max(g,b);
+  for(let i=0;i<d.length;i+=4){const r=d[i],gg=d[i+1],b=d[i+2],lum=.3*r+.59*gg+.11*b,red=r-Math.max(gg,b);
     if(red>40){d[i+3]=Math.min(255,red*3)}else if(lum>150){d[i+3]=0}else{d[i+3]=Math.min(255,(200-lum)*2)}}
   x.putImageData(id,0,0);return c.toDataURL("image/png");
 }
 function currentSig(){if(sigMode==="stamp")return stampData;if(!drawn)return null;if(!sigCache)sigCache=trimmed();return sigCache}
 
 function validate(){
-  const e=[];const g=st.g;
-  if(!st.s.some(Boolean))e.push("업무 범위를 하나 이상 선택해 주세요.");
-  if(!st.pay)e.push("매월 지급일을 선택해 주세요.");
-  if(!g.corp)e.push("상호를 입력해 주세요.");
-  if(!g.bizno)e.push("사업자번호를 입력해 주세요.");
-  if(!g.addr)e.push("소재지를 입력해 주세요.");
-  if(!g.rep)e.push((st.t==="c"?"사내이사(대표자)":"대표자")+" 성명을 입력해 주세요.");
+  const e=[];
+  if(TYPES[st.t].bk){if(!st.s.some(Boolean))e.push("업무 범위를 하나 이상 선택해 주세요.");if(!st.pay)e.push("매월 지급일을 선택해 주세요.")}
+  gFields(st.t).forEach(([k,l,req])=>{if(req&&!st.g[k])e.push(`${l.replace(/ \(.*\)$/,"")}을(를) 입력해 주세요.`)});
   if(!currentSig())e.push(sigMode==="stamp"?"도장 사진을 올려 주세요.":"서명란에 서명해 주세요.");
-  if(!$("ag1").checked||!$("ag2").checked)e.push("서명 전 동의 항목 2개에 모두 체크해 주세요.");
+  if(AGREE.some((_,i)=>!$("ag"+i).checked))e.push(`서명 전 동의 항목 ${AGREE.length}개에 모두 체크해 주세요.`);
   return e;
+}
+function auditPage(st,a){
+  const row=(k,v,cls="")=>`<tr><th>${k}</th><td class="${cls}">${v}</td></tr>`;
+  const who=st.t==="i"?`${esc(a.g.rep)} (대표상속인) · 생년월일 ${esc(a.g.birth)}`:`${esc(a.g.corp)} · ${esc(a.g.rep)} · ${esc(a.g.bizno)}`;
+  return `<div class="audit"><h3>전자서명 확인서</h3><div class="sub">본 확인서는 계약서 【전자계약】 조항에 따라 계약서의 일부를 이룹니다.</div>
+  <table>
+  ${row("계약서",`${esc(TYPES[st.t].label)} (본문·첨부 ${a.pages}쪽)`)}
+  ${row("문서번호",esc(st.id||"-"))}
+  ${row("발송코드",`<b>${esc(st.code||"-")}</b> — 사무소가 발송한 계약 조건의 지문입니다. 사무소 발송 이력과 대조합니다.`)}
+  ${row("발송일시",esc(st.iss?kst(new Date(st.iss)):"-"))}
+  ${row("계약 조건",esc(condText(st))+(st.pay?` · 매월 ${esc(st.pay)}일 지급`:""))}
+  ${row("서명자(갑)",`${who}<br>연락처 ${esc(a.g.tel||"-")} · 이메일 ${esc(a.g.mail||"-")}`)}
+  ${row("서명 방식",a.method)}
+  ${row("서명 이미지",`<img class="sigprev" src="${a.sig}" alt="">`)}
+  ${row("열람 시작",esc(a.opened))}
+  ${row("서명 완료",`<b>${esc(a.signed)}</b>`)}
+  ${row("동의 내용",AGREE.map((t,i)=>`${CIRC[i]} ${esc(t)}`).join("<br>"))}
+  ${row("작성 환경",esc(a.ua),"mono")}
+  ${row("문서 지문값 (SHA-256)",esc(a.hash),"mono")}
+  </table>
+  <p style="margin-top:14px;color:#555;font-size:11px">문서 지문값은 서명 완료 시점의 계약 조건·갑의 입력정보·서명 이미지·서명일시를 하나로 묶어 계산한 값입니다. 내용이 한 글자라도 달라지면 값이 바뀝니다. 이 PDF 파일 안에는 지문값 계산에 쓰인 원본 기록이 함께 들어 있어, 을은 받은 파일로 지문값을 다시 계산해 대조할 수 있습니다.</p></div>`;
 }
 let pdfBlob=null,pdfName="";
 async function makePdf(){
@@ -761,19 +1039,25 @@ async function makePdf(){
   try{
     if(!window.html2canvas||!window.jspdf)throw new Error("PDF 도구를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침해 주세요.");
     const sig=currentSig(),signed=kst(new Date());
-    const recJson=JSON.stringify({v:1,c:st.raw||"",code:st.code,id:st.id,t:st.t,f:st.f,s:st.s,l:st.l,pay:st.pay,dt:st.dt,iss:st.iss,g:st.g,sig,method:sigMode,opened:openedAt,signed,ua:navigator.userAgent.slice(0,180)});
+    const pick=["t","f","a1","a2","s","l","pay","d","su","w","it","t1","t2","en","ex"],x={};pick.forEach(k=>{if(st[k]!==undefined)x[k]=st[k]});
+    const recJson=JSON.stringify({v:2,c:st.raw||"",code:st.code,id:st.id,dt:st.dt,iss:st.iss,...x,g:st.g,sig,method:sigMode,agree:AGREE,opened:openedAt,signed,ua:navigator.userAgent.slice(0,180)});
     const hash=await sha(recJson);
-    const a={g:st.g,sig,signed,opened:openedAt,hash:hash||"(이 브라우저에서 계산 불가)",ua:navigator.userAgent.slice(0,180),method:sigMode==="stamp"?"날인 이미지 업로드":"화면 직접 서명"};
-    const stage=$("stage");stage.innerHTML=pages(st,sig)+auditPage(st,a);
-    await document.fonts.ready;await Promise.all([...stage.querySelectorAll("img")].map(i=>i.complete?0:new Promise(r=>{i.onload=i.onerror=r})));
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    const stage=$("stage");
+    const secs=DOCS[st.t](st,sig);
+    const body=paginate(stage,secs,st).length;
+    const a={g:st.g,sig,signed,opened:openedAt,hash:hash||"(이 브라우저에서 계산 불가)",ua:navigator.userAgent.slice(0,180),method:sigMode==="stamp"?"날인 이미지 업로드":"화면 직접 서명",pages:body};
+    paginate(stage,[...secs,{blocks:[auditPage(st,a)]}],st);
+    await Promise.all([...stage.querySelectorAll("img")].map(i=>i.complete?0:new Promise(r=>{i.onload=i.onerror=r})));
     const {jsPDF}=window.jspdf,pdf=new jsPDF({unit:"mm",format:"a4",compress:true}),thumbs=[];
     const els=[...stage.querySelectorAll(".paper")];
     for(let i=0;i<els.length;i++){
       const c=await html2canvas(els[i],{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
       const img=c.toDataURL("image/jpeg",.82);if(i)pdf.addPage();pdf.addImage(img,"JPEG",0,0,210,297);thumbs.push(img);
     }
-    pdf.setProperties({title:`기장대리계약서_${st.g.corp}`,subject:`문서번호 ${st.id} / 발송코드 ${st.code}`,author:st.g.rep,creator:"세주세무회계 전자 기장계약",keywords:"SEJU1:"+b64e(recJson)+"."+hash});
-    pdfBlob=pdf.output("blob");pdfName=`기장대리계약서_${st.g.corp.replace(/[\\/:*?"<>|]/g,"")}_${st.dt.replace(/-/g,"")}.pdf`;
+    const nm=(st.g.corp||st.g.rep||"").replace(/[\\/:*?"<>|]/g,"");
+    pdf.setProperties({title:`${TYPES[st.t].short}_${nm}`,subject:`문서번호 ${st.id} / 발송코드 ${st.code}`,author:st.g.rep,creator:"세주세무회계 전자계약",keywords:"SEJU1:"+b64e(recJson)+"."+hash});
+    pdfBlob=pdf.output("blob");pdfName=`${TYPES[st.t].short}_${nm}_${st.dt.replace(/-/g,"")}.pdf`;
     stage.innerHTML="";
     $("c-thumbs").innerHTML=thumbs.map((t,i)=>`<img src="${t}" alt="${i+1}쪽">`).join("");
     $("c-okmsg").textContent=`서명이 완료되었습니다 (${signed}). 아래 버튼으로 사무소에 보내 주세요.`;
@@ -784,7 +1068,7 @@ async function makePdf(){
   finally{btn.disabled=false;btn.textContent="서명 완료 · 계약서 PDF 다시 만들기"}
 }
 $("c-make").onclick=makePdf;
-$("c-share").onclick=async()=>{try{await navigator.share({files:[new File([pdfBlob],pdfName,{type:"application/pdf"})],title:pdfName,text:`[기장대리계약서] ${st.g.corp} 서명본 (문서번호 ${st.id})`})}catch(e){}};
+$("c-share").onclick=async()=>{try{await navigator.share({files:[new File([pdfBlob],pdfName,{type:"application/pdf"})],title:pdfName,text:`[${TYPES[st.t].label}] ${st.g.corp||st.g.rep} 서명본 (문서번호 ${st.id})`})}catch(e){}};
 $("c-save").onclick=async()=>{
   const note=$("c-saveNote");
   if(!await saveBlob(pdfName,pdfBlob)){note.textContent="저장이 취소되었습니다.";return}
@@ -806,10 +1090,10 @@ if(c){
   (async()=>{
     try{
       const s=unpackLink(c);
-      if(s.v===3){const sec=await openSecret(s.key);s.a=sec.a;s.k=sec.k}
+      if(s.v>=3){const sec=await openSecret(s.key);s.a=sec.a;s.k=sec.k}
       startClient({...s,code:"…",raw:c});
       const h=await sha(c);st.code=(h.slice(0,8).toUpperCase())||"-";renderDoc();
-    }catch(e){showErr()}
+    }catch(e){console.error(e);showErr()}
   })();
 }else initOffice();
 })();
