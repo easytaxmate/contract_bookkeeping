@@ -59,6 +59,7 @@ input.in{border:1px solid var(--line);border-radius:8px;padding:10px;font:inheri
 <div class="wrap" id="app"><div class="bad">확인서를 여는 중입니다…</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 <script>
 /* === 세주 전자서명확인서 링크 코덱 v2 (app·sign 공용) === */
 const SJ_PH=['에 관하여 설명을 듣고 그 사실관계가 신고 내용과 같음을 확인합니다.','임을 확인합니다.','음을 확인합니다.','하였음을 확인합니다.','확인합니다.','본인은 ','본인(법정대리인)은 ','수증자는 ','세무대리인','세무사 사무소','설명을 들었습니다','양도소득세','증여세','상속세','종합소득세','부가가치세','법인세','2026년 ','2027년 ','2025년 ','월 ','일 ','원을 ','원(','만원','주택','계약금','매매계약','양도일','취득','증여일','증여재산','공제','신고서','신고','제출하','하였','있으며','없음','있음','이전','이후','현재','실제로 ','사실이 ','관련 ','세무서','납부','가산세','이 주택','이 집','부동산','분양권','입주권','주식','자녀','배우자','부모','증빙','이체내역','확인서','사실관계','국내','거주'];
@@ -72,7 +73,9 @@ const SJ_TT=['양도소득세','증여세','상속세','종합소득세','부가
 function sjSub(s,enc){ if(enc){ SJ_PH.forEach((p,i)=>{s=s.split(p).join(String.fromCharCode(0xE000+i))}); return s; } return s.replace(/[-]/g,ch=>SJ_PH[ch.charCodeAt(0)-0xE000]??''); }
 function sjB64(u){let b='';for(let i=0;i<u.length;i+=0x8000)b+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(b).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function sjUnB64(s){const b=atob(s.replace(/-/g,'+').replace(/_/g,'/'));const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
-async function sjPipe(u,stream){const w=stream.writable.getWriter();w.write(u);w.close();return new Uint8Array(await new Response(stream.readable).arrayBuffer())}
+async function sjPipe(u,stream){const w=stream.writable.getWriter();w.write(u).catch(()=>{});w.close().catch(()=>{});return new Uint8Array(await new Response(stream.readable).arrayBuffer())}
+async function sjDeflate(u){ try{ if(window.CompressionStream) return await sjPipe(u,new CompressionStream('deflate-raw')); }catch(e){} if(window.pako) return pako.deflateRaw(u,{level:9}); throw new Error('이 브라우저는 압축을 지원하지 않습니다'); }
+async function sjInflate(u){ try{ if(window.DecompressionStream) return await sjPipe(u,new DecompressionStream('deflate-raw')); }catch(e){} if(window.pako) return pako.inflateRaw(u); throw new Error('이 브라우저는 압축 해제를 지원하지 않습니다'); }
 /* doc: {tax:'양도소득세', kind:'예정신고', title, intro, summary:[[k,v]], items:[], closing, signer, guardian, guardianName, docNo, issuedAt} */
 async function sjPack(doc){
   const t=doc.tax||''; const std=sjStdItems(t);
@@ -83,10 +86,10 @@ async function sjPack(doc){
     (doc.items||[]).map(x=>{const i=std.indexOf(x);return i>=0?String.fromCharCode(0xE180+i):x}).join('\u0002')];
   const s=sjSub(arr.join('\u0004'),true);
   const u=new Uint8Array(s.length*2); for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);u[2*i]=c&255;u[2*i+1]=c>>8}
-  return '2'+sjB64(await sjPipe(u,new CompressionStream('deflate-raw')));
+  return '2'+sjB64(await sjDeflate(u));
 }
 async function sjUnpack(code){
-  const u=await sjPipe(sjUnB64(code.slice(1)),new DecompressionStream('deflate-raw'));
+  const u=await sjInflate(sjUnB64(code.slice(1)));
   let s=''; for(let i=0;i+1<u.length;i+=2) s+=String.fromCharCode(u[i]|(u[i+1]<<8));
   const a=sjSub(s,false).split('\u0004');
   const t=/^\d+$/.test(a[0])?SJ_TT[+a[0]]:a[0]; const std=sjStdItems(t);
