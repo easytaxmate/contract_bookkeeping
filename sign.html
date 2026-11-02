@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>신고내용 확인서 서명 | 세주세무회계사무소</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap">
+<style>
+:root{--bg:#eef0ee;--ink:#1b222c;--muted:#5d6672;--line:#d3d8d3;--accent:#1f4a73;--seal:#b3261e;--ok:#2e6b3f;
+ --f-body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--f-doc:"Nanum Myeongjo","AppleMyungjo","Batang",serif;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6}
+.top{background:var(--accent);color:#fff;padding:14px max(16px,env(safe-area-inset-left)) 14px max(16px,env(safe-area-inset-right));padding-top:calc(14px + env(safe-area-inset-top))}
+.top b{font-size:16px}.top div{font-size:12.5px;opacity:.85}
+.wrap{max-width:760px;margin:0 auto;padding:16px max(12px,env(safe-area-inset-left)) 40px max(12px,env(safe-area-inset-right))}
+.guide{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;border:1px solid var(--line)}
+.guide ol{margin:6px 0 0;padding-left:20px}
+.paper{background:#fffefb;color:#1a1a1a;font-family:var(--f-doc);padding:34px 30px 30px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.paper h1{font-weight:800;font-size:22px;text-align:center;letter-spacing:.1em;margin:0 0 6px;text-indent:.1em;text-wrap:balance}
+.docno{text-align:center;font-size:12px;color:#555;margin-bottom:20px;font-family:var(--f-body)}
+.lead{font-size:14.5px;line-height:1.85;margin:0 0 16px;text-align:justify}
+table.dt{width:100%;border-collapse:collapse;font-size:13.5px;margin:0 0 18px;font-family:var(--f-body)}
+table.dt th,table.dt td{border:1px solid #444;padding:6px 8px;text-align:left;vertical-align:top}
+table.dt th{background:#f1f0eb;width:32%;font-weight:600}
+h3{font-size:15.5px;font-weight:800;margin:20px 0 8px;border-bottom:1.5px solid #222;padding-bottom:4px}
+ol.items{margin:0;padding:0;list-style:none;counter-reset:it}
+ol.items li{counter-increment:it;display:grid;grid-template-columns:26px minmax(0,1fr) 70px;gap:6px;padding:10px 0;border-bottom:1px solid #ddd;font-size:14.5px;line-height:1.75}
+ol.items li::before{content:counter(it) ".";font-weight:700}
+.chk{font-family:var(--f-body);font-size:12.5px;border:1.5px solid #999;border-radius:6px;min-height:34px;display:grid;place-items:center;color:#777;background:#fff;cursor:pointer;padding:0 4px;align-self:start}
+.chk.y{border-color:var(--seal);color:var(--seal);font-weight:700}
+.chk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.closing{font-size:14.5px;line-height:1.85;margin:18px 0 20px}
+.date{text-align:center;font-size:15px;margin:16px 0 18px;letter-spacing:.06em}
+.sig{display:grid;grid-template-columns:auto minmax(0,1fr) 140px;gap:10px;align-items:center;font-size:14.5px;margin:6px 0}
+.sig .lbl{text-align:right}.sig .nm{font-weight:700;letter-spacing:.12em;text-align:right}
+.sig .mark{height:56px;border-bottom:1px solid #999;display:grid;place-items:center;color:#aaa;font-size:12px;font-family:var(--f-body)}
+.sig .mark img{max-height:56px;max-width:140px}
+.to{margin-top:24px;font-size:16px;font-weight:800}
+.office{margin-top:16px;border-top:1px solid #bbb;padding-top:10px;font-size:11.5px;color:#444;font-family:var(--f-body)}
+.card{background:#fff;border-radius:10px;padding:14px;margin-top:14px;border:1px solid var(--line)}
+.card h2{font-size:16px;margin:0 0 8px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);margin-top:10px}
+input.in{border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;color:var(--ink)}
+.pad{width:100%;height:180px;border:1.5px solid var(--line);border-radius:8px;background:#fff;touch-action:none;display:block;margin-top:6px}
+.row{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;color:var(--ink)}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent);width:100%;padding:14px;font-size:16px;margin-top:14px}
+.btn.sm{padding:5px 10px;font-size:13px;font-weight:500}
+.err{color:var(--seal);font-size:13.5px;margin-top:8px;min-height:1em}
+.done{background:#e1efe4;color:var(--ok);border-radius:10px;padding:14px;margin-top:14px;font-size:14.5px}
+.done a{color:var(--accent);font-weight:600}
+.bad{background:#fff;border-radius:10px;padding:24px;text-align:center}
+@media (max-width:520px){.paper{padding:24px 16px}.sig{grid-template-columns:minmax(0,1fr) 120px}.sig .lbl{grid-column:1/3;text-align:left}ol.items li{grid-template-columns:22px minmax(0,1fr) 62px}}
+</style>
+</head>
+<body>
+<div class="top"><b>세주세무회계사무소</b><div>이태현 세무사 · 신고내용 확인서 전자서명</div></div>
+<div class="wrap" id="app"><div class="bad">확인서를 여는 중입니다…</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const OFFICE={name:'세주세무회계사무소',cpa:'이태현 세무사',tel:'02-2205-0659 / 010-6510-0659',fax:'02-2205-0657',email:'sejutaxmapo@gmail.com',addr:'서울시 마포구 독막로 239 성진빌딩 4층',kakao:'http://pf.kakao.com/_nrRhK'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+function korDate(s){const m=String(s||'').match(/(\d{4})\D?(\d{1,2})\D?(\d{1,2})/);return m?`${m[1]}년 ${+m[2]}월 ${+m[3]}일`:s}
+async function decode(code){
+  const b=atob(code.replace(/-/g,'+').replace(/_/g,'/'));const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);
+  const ds=new DecompressionStream('deflate-raw');const w=ds.writable.getWriter();w.write(u);w.close();
+  return JSON.parse(new TextDecoder().decode(await new Response(ds.readable).arrayBuffer()));
+}
+function pad(canvas){
+  const ctx=canvas.getContext('2d');let dr=false,has=false,last=null;
+  const r=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx.scale(dpr,dpr);
+  ctx.lineWidth=2.6;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#111';
+  const pos=e=>{const b=canvas.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top}};
+  canvas.onpointerdown=e=>{dr=true;has=true;last=pos(e);canvas.setPointerCapture(e.pointerId)};
+  canvas.onpointermove=e=>{if(!dr)return;const p=pos(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p};
+  canvas.onpointerup=canvas.onpointercancel=()=>dr=false;
+  return{clear(){ctx.clearRect(0,0,canvas.width,canvas.height);has=false},empty:()=>!has,data:()=>canvas.toDataURL('image/png')};
+}
+function docHTML(d,st){
+  return `<div class="paper" id="paper"><h1>${esc(d.t)}</h1><div class="docno">${esc(d.no||'')}</div>
+  <p class="lead">${esc(d.i)}</p>
+  <table class="dt"><tbody>${(d.s||[]).map(([k,v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+  <h3>확인 사항</h3>
+  <ol class="items">${(d.it||[]).map((t,i)=>`<li><span>${esc(t)}</span>${st.final?`<span class="chk ${st.checks[i]?'y':''}">${st.checks[i]?'확인함':'확인'}</span>`:`<button type="button" class="chk ${st.checks[i]?'y':''}" data-k="${i}" aria-pressed="${!!st.checks[i]}">${st.checks[i]?'확인함':'확인'}</button>`}</li>`).join('')}</ol>
+  <p class="closing">${esc(d.c)}</p>
+  <div class="date">${st.date?korDate(st.date):'&nbsp;&nbsp;&nbsp;&nbsp;년&nbsp;&nbsp;&nbsp;월&nbsp;&nbsp;&nbsp;일'}</div>
+  <div class="sig"><span class="lbl">확인자(신고인)</span><span class="nm">${esc(st.name||d.sg)}</span><span class="mark">${st.img?`<img src="${st.img}" alt="서명">`:'(서명)'}</span></div>
+  ${d.g?`<div class="sig"><span class="lbl">법정대리인(친권자)</span><span class="nm">${esc(st.gname||d.gn||'')}</span><span class="mark">${st.gimg?`<img src="${st.gimg}" alt="법정대리인 서명">`:'(서명)'}</span></div>`:''}
+  <div class="to">${OFFICE.name} ${OFFICE.cpa} 귀하</div>
+  <div class="office">${OFFICE.name} · ${OFFICE.cpa} · ${OFFICE.addr}<br>전화 ${OFFICE.tel} · 팩스 ${OFFICE.fax} · ${OFFICE.email}${st.at?`<br>전자서명 일시 ${esc(st.at)} · ${esc(st.ua||'')}`:''}</div></div>`;
+}
+(async()=>{
+  const app=$('#app'); const m=location.hash.match(/#c=([A-Za-z0-9_-]+)/);
+  if(!m){app.innerHTML=`<div class="bad"><b>확인서 정보가 없는 주소입니다.</b><p>사무실에서 보낸 링크 전체를 다시 눌러 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
+  let P; try{P=await decode(m[1])}catch(e){app.innerHTML=`<div class="bad"><b>링크가 손상되었습니다.</b><p>링크가 잘리지 않았는지 확인하시고, 다시 받아 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
+  const d=P.d; const st={checks:d.it.map(()=>false),name:d.sg,gname:d.gn};
+  app.innerHTML=`<div class="guide"><b>${esc(d.sg)}님, 신고내용 확인을 부탁드립니다.</b><ol><li>확인서의 각 항목을 읽고 오른쪽 <b>확인</b> 버튼을 누릅니다.</li><li>아래에 성명을 적고 서명합니다.</li><li><b>서명 완료</b>를 누르면 PDF가 저장됩니다. 그 PDF를 카카오톡 채널 또는 메일로 보내 주세요.</li></ol></div>
+   <div id="doc"></div>
+   <div class="card"><h2>서명</h2>
+    <label class="f">확인자 성명<input class="in" id="nm" value="${esc(d.sg)}" autocomplete="name"></label>
+    <div class="row" style="margin-top:10px"><span style="font-size:13px;color:var(--muted)">확인자 서명 (손가락으로 써 주세요)</span><button class="btn sm" id="c1" type="button">지우기</button></div><canvas class="pad" id="p1"></canvas>
+    ${d.g?`<label class="f">법정대리인 성명<input class="in" id="gn" value="${esc(d.gn||'')}"></label><div class="row" style="margin-top:10px"><span style="font-size:13px;color:var(--muted)">법정대리인 서명</span><button class="btn sm" id="c2" type="button">지우기</button></div><canvas class="pad" id="p2"></canvas>`:''}
+    <div class="err" id="err"></div>
+    <button class="btn pri" id="ok" type="button">서명 완료 · PDF 저장</button></div>
+   <div id="after"></div>`;
+  const drawDoc=()=>{$('#doc').innerHTML=docHTML(d,st);document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{st.checks[+b.dataset.k]=!st.checks[+b.dataset.k];drawDoc()})};
+  drawDoc();
+  const p1=pad($('#p1')),p2=d.g?pad($('#p2')):null;
+  $('#c1').onclick=()=>p1.clear(); if(p2)$('#c2').onclick=()=>p2.clear();
+  $('#ok').onclick=async()=>{
+    const err=$('#err'); err.textContent='';
+    if(st.checks.some(x=>!x)){err.textContent='확인 사항 '+(st.checks.findIndex(x=>!x)+1)+'번부터 모든 항목의 [확인] 버튼을 눌러 주세요.';document.querySelector('[data-k]:not(.y)')?.scrollIntoView({behavior:'smooth',block:'center'});return}
+    if(!$('#nm').value.trim()){err.textContent='성명을 입력해 주세요.';return}
+    if(p1.empty()||(p2&&p2.empty())){err.textContent='서명란에 서명해 주세요.';return}
+    const now=new Date(); st.final=true; st.name=$('#nm').value.trim(); st.gname=p2?$('#gn').value.trim():''; st.img=p1.data(); st.gimg=p2?p2.data():'';
+    st.date=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`; st.at=now.toLocaleString('ko-KR'); st.ua=(navigator.userAgent.match(/(iPhone|Android|Windows|Macintosh)/)||['모바일'])[0]+' 전자서명';
+    drawDoc(); $('#ok').disabled=true; $('#ok').textContent='PDF를 만들고 있습니다…';
+    try{
+      await document.fonts.ready;
+      const el=$('#paper'); const cv=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',windowWidth:794});
+      const pdf=new jspdf.jsPDF({unit:'mm',format:'a4'}); const W=210,H=297,ih=cv.height*W/cv.width; const img=cv.toDataURL('image/jpeg',0.92);
+      if(ih<=H)pdf.addImage(img,'JPEG',0,0,W,ih); else{let y=0;while(y<ih){pdf.addImage(img,'JPEG',0,-y,W,ih);y+=H;if(y<ih)pdf.addPage()}}
+      const fn=`${st.name}_신고내용확인서_서명본.pdf`; pdf.save(fn);
+      $('#ok').textContent='서명 완료';
+      $('#after').innerHTML=`<div class="done"><b>서명을 마쳤습니다.</b><br>저장된 PDF(${esc(fn)})를 아래 중 편한 방법으로 보내 주세요.<br>· 카카오톡 채널: <a href="${OFFICE.kakao}" target="_blank" rel="noopener">세주세무회계 채널 열기</a><br>· 메일: ${OFFICE.email}<br>PDF가 저장되지 않았다면 이 화면을 캡처해서 보내 주셔도 됩니다.</div>`;
+      $('#after').scrollIntoView({behavior:'smooth'});
+    }catch(e){$('#ok').disabled=false;$('#ok').textContent='서명 완료 · PDF 저장';err.textContent='PDF를 만들지 못했습니다. 화면을 캡처해 보내 주세요.'}
+  };
+})();
+</script>
+</body>
+</html>
