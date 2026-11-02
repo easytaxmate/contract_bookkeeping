@@ -99,6 +99,13 @@ async function sjUnpack(code){
     items:a[9]?a[9].split('\u0002').map(x=>{const c=x.charCodeAt(0);return x.length===1&&c>=0xE180&&c<0xE190?std[c-0xE180]:x}):[]};
 }
 
+/* === 짧은 링크: 구글 시트(암호문) === */
+const SJ_SHEET='1DUy6sMxMb2pIeTxzKDnePaoHYfbVbp0vUAe-lJAifOU';
+async function sjEncrypt(text){const key=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));const k=await crypto.subtle.importKey('raw',key,'AES-GCM',false,['encrypt']);const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},k,new TextEncoder().encode(text)));const all=new Uint8Array(12+ct.length);all.set(iv);all.set(ct,12);return {key:sjB64(key),data:sjB64(all)}}
+async function sjDecrypt(data,keyB64){const all=sjUnB64(data),key=sjUnB64(keyB64);const k=await crypto.subtle.importKey('raw',key,'AES-GCM',false,['decrypt']);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:all.slice(0,12)},k,all.slice(12));return new TextDecoder().decode(pt)}
+function sjNewId(){return sjB64(crypto.getRandomValues(new Uint8Array(6)))}
+async function sjFetchRow(id){const tq=encodeURIComponent(`select B where A = '${id}'`);const r=await fetch(`https://docs.google.com/spreadsheets/d/${SJ_SHEET}/gviz/tq?tqx=out:json&headers=1&tq=${tq}&_=${Date.now()}`);const t=await r.text();const j=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));if(j.status==='error')throw new Error('sheet');const row=j.table&&j.table.rows&&j.table.rows[0];return row&&row.c&&row.c[0]?row.c[0].v:null}
+
 const OFFICE={name:'세주세무회계사무소',cpa:'이태현 세무사',tel:'02-2205-0659 / 010-6510-0659',fax:'02-2205-0657',email:'sejutaxmapo@gmail.com',addr:'서울시 마포구 독막로 239 성진빌딩 4층',kakao:'http://pf.kakao.com/_nrRhK'};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=s=>document.querySelector(s);
@@ -137,7 +144,14 @@ function docHTML(d,st){
   const openExt=()=>{const h=location.href; if(isKakao){location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(h);return} if(isAndroid){location.href='intent://'+h.replace(/^https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end'}};
   let kx=null; try{kx=sessionStorage.getItem('sj.kx')}catch(e){}
   if(isKakao&&!kx){try{sessionStorage.setItem('sj.kx','1')}catch(e){} setTimeout(openExt,300)}
-  const qc=new URLSearchParams(location.search).get('c');
+  const sp=new URLSearchParams(location.search); let qc=sp.get('c'); const qs=sp.get('s');
+  if(qs){ app.innerHTML='<div class="bad">확인서를 불러오고 있습니다…</div>';
+    try{ const id=qs.slice(0,8), key=qs.slice(8); let row=null;
+      for(let i=0;i<3&&!row;i++){ row=await sjFetchRow(id); if(!row) await new Promise(r=>setTimeout(r,2500)); }
+      if(!row){app.innerHTML=`<div class="bad"><b>확인서를 아직 불러올 수 없습니다.</b><p>방금 받은 링크라면 1~2분 뒤 다시 열어 주세요.<br>계속 안 열리면 사무소로 연락해 주세요. ${OFFICE.tel}</p></div>`;return}
+      qc=await sjDecrypt(row,key);
+    }catch(e){app.innerHTML=`<div class="bad"><b>확인서를 불러오지 못했습니다.</b><p>링크 전체가 그대로인지 확인해 주시고, 계속 안 되면 사무소로 연락해 주세요.<br>${OFFICE.tel}</p></div>`;return}
+  }
   const m=qc?[null,qc]:location.hash.match(/#c=([A-Za-z0-9_-]+)/);
   if(!m){app.innerHTML=`<div class="bad"><b>확인서 정보가 없는 주소입니다.</b><p>사무실에서 보낸 링크 전체를 다시 눌러 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
   let P; try{
@@ -145,14 +159,14 @@ function docHTML(d,st){
     else P=await decode(m[1]);
   }catch(e){app.innerHTML=`<div class="bad"><b>링크가 손상되었습니다.</b><p>링크가 잘리지 않았는지 확인하시고, 다시 받아 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
   const d=P.d; const st={checks:d.it.map(()=>false),name:d.sg,gname:d.gn};
-  app.innerHTML=(isKakao?`<div class="guide" style="background:#fff8e1"><b>카카오톡 안에서는 서명 PDF 저장이 안 될 수 있습니다.</b><br>아래 버튼으로 휴대폰 기본 브라우저(크롬·사파리)에서 열어 주세요.<div style="margin-top:8px"><button class="btn sm" id="openExt" type="button">기본 브라우저로 열기</button></div></div>`:'')+`<div class="guide"><b>${esc(d.sg)}님, 신고내용 확인을 부탁드립니다.</b><ol><li>확인서의 각 항목을 읽고 오른쪽 <b>확인</b> 버튼을 누릅니다.</li><li>아래에 성명을 적고 서명합니다.</li><li><b>서명 완료</b>를 누르면 PDF가 저장됩니다. 그 PDF를 카카오톡 채널 또는 메일로 보내 주세요.</li></ol></div>
+  app.innerHTML=(isKakao?`<div class="guide" style="background:#fff8e1"><b>카카오톡 안에서는 서명 PDF 저장이 안 될 수 있습니다.</b><br>아래 버튼으로 휴대폰 기본 브라우저(크롬·사파리)에서 열어 주세요.<div style="margin-top:8px"><button class="btn sm" id="openExt" type="button">기본 브라우저로 열기</button></div></div>`:'')+`<div class="guide"><b>${esc(d.sg)}님, 신고내용 확인을 부탁드립니다.</b><ol><li>확인서의 각 항목을 읽고 오른쪽 <b>확인</b> 버튼을 누릅니다.</li><li>아래에 성명을 적고 서명합니다.</li><li><b>서명 완료</b>를 누른 뒤 <b>카카오톡으로 보내기</b>로 세주세무회계에 보내 주세요.</li></ol></div>
    <div id="doc"></div>
    <div class="card"><h2>서명</h2>
     <label class="f">확인자 성명<input class="in" id="nm" value="${esc(d.sg)}" autocomplete="name"></label>
     <div class="row" style="margin-top:10px"><span style="font-size:13px;color:var(--muted)">확인자 서명 (손가락으로 써 주세요)</span><button class="btn sm" id="c1" type="button">지우기</button></div><canvas class="pad" id="p1"></canvas>
     ${d.g?`<label class="f">법정대리인 성명<input class="in" id="gn" value="${esc(d.gn||'')}"></label><div class="row" style="margin-top:10px"><span style="font-size:13px;color:var(--muted)">법정대리인 서명</span><button class="btn sm" id="c2" type="button">지우기</button></div><canvas class="pad" id="p2"></canvas>`:''}
     <div class="err" id="err"></div>
-    <button class="btn pri" id="ok" type="button">서명 완료 · PDF 저장</button></div>
+    <button class="btn pri" id="ok" type="button">서명 완료</button></div>
    <div id="after"></div>`;
   const drawDoc=()=>{$('#doc').innerHTML=docHTML(d,st);document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{st.checks[+b.dataset.k]=!st.checks[+b.dataset.k];drawDoc()})};
   drawDoc(); const oe=document.getElementById('openExt'); if(oe) oe.onclick=openExt;
@@ -171,11 +185,29 @@ function docHTML(d,st){
       const el=$('#paper'); const cv=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',windowWidth:794});
       const pdf=new jspdf.jsPDF({unit:'mm',format:'a4'}); const W=210,H=297,ih=cv.height*W/cv.width; const img=cv.toDataURL('image/jpeg',0.92);
       if(ih<=H)pdf.addImage(img,'JPEG',0,0,W,ih); else{let y=0;while(y<ih){pdf.addImage(img,'JPEG',0,-y,W,ih);y+=H;if(y<ih)pdf.addPage()}}
-      const fn=`${st.name}_신고내용확인서_서명본.pdf`; pdf.save(fn);
-      $('#ok').textContent='서명 완료';
-      $('#after').innerHTML=`<div class="done"><b>서명을 마쳤습니다.</b><br>저장된 PDF(${esc(fn)})를 아래 중 편한 방법으로 보내 주세요.<br>· 카카오톡 채널: <a href="${OFFICE.kakao}" target="_blank" rel="noopener">세주세무회계 채널 열기</a><br>· 메일: ${OFFICE.email}<br>PDF가 저장되지 않았다면 이 화면을 캡처해서 보내 주셔도 됩니다.</div>`;
+      const fn=`${st.name}_전자서명확인서_서명본.pdf`;
+      const pdfFile=new File([pdf.output('blob')],fn,{type:'application/pdf'});
+      const jpgBlob=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.9));
+      const jpgFile=new File([jpgBlob],fn.replace('.pdf','.jpg'),{type:'image/jpeg'});
+      const canShare=f=>!!(navigator.canShare&&navigator.canShare({files:[f]}));
+      $('#ok').textContent='서명 완료'; $('#ok').hidden=true;
+      $('#after').innerHTML=`<div class="done"><b>서명을 마쳤습니다.</b><br>아래 <b>카카오톡으로 보내기</b>를 누르고, 공유 목록에서 <b>카카오톡 → 세주세무회계</b> 채팅방을 골라 보내 주세요.
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <button class="btn pri" style="margin:0;background:#fee500;color:#191919;border-color:#fee500" id="shPdf" type="button">카카오톡으로 보내기 (PDF)</button>
+          <button class="btn" id="shJpg" type="button">사진으로 보내기 (PDF가 안 보내질 때)</button>
+          <button class="btn" id="svPdf" type="button">PDF 내 휴대폰에 저장</button>
+          <a class="btn" style="text-align:center;text-decoration:none" href="${OFFICE.kakao}/chat" target="_blank" rel="noopener">세주세무회계 카카오톡 채널 열기</a>
+        </div><div id="shMsg" style="margin-top:8px;font-size:13px"></div>
+        <div style="margin-top:8px;font-size:12.5px;color:#555">메일로 보내실 때: ${OFFICE.email}</div></div>`;
+      const msg=t=>{$('#shMsg').textContent=t};
+      const share=async f=>{
+        if(canShare(f)){ try{ await navigator.share({files:[f],title:'전자서명확인서',text:`[전자서명확인서] ${st.name} 서명본입니다.`}); msg('보내기 화면을 열었습니다. 카카오톡에서 세주세무회계 채팅방을 골라 주세요.'); }catch(e){ if(e.name!=='AbortError') msg('보내기를 열지 못했습니다. PDF 저장 후 채널에서 첨부해 주세요.'); } }
+        else { const a=document.createElement('a'); a.href=URL.createObjectURL(f); a.download=f.name; a.click(); msg('이 기기는 바로 보내기를 지원하지 않아 파일로 저장했습니다. 카카오톡 채널을 열어 저장된 파일을 첨부해 주세요.'); }
+      };
+      $('#shPdf').onclick=()=>share(pdfFile); $('#shJpg').onclick=()=>share(jpgFile);
+      $('#svPdf').onclick=()=>{ pdf.save(fn); msg('PDF를 저장했습니다.'); };
       $('#after').scrollIntoView({behavior:'smooth'});
-    }catch(e){$('#ok').disabled=false;$('#ok').textContent='서명 완료 · PDF 저장';err.textContent='PDF를 만들지 못했습니다. 화면을 캡처해 보내 주세요.'}
+    }catch(e){$('#ok').disabled=false;$('#ok').textContent='서명 완료';err.textContent='PDF를 만들지 못했습니다. 화면을 캡처해 보내 주세요.'}
   };
 })();
 </script>
