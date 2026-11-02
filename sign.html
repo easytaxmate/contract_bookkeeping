@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>신고내용 확인서 서명 | 세주세무회계사무소</title>
+<title>전자서명확인서 | 세주세무회계사무소</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap">
 <style>
 :root{--bg:#eef0ee;--ink:#1b222c;--muted:#5d6672;--line:#d3d8d3;--accent:#1f4a73;--seal:#b3261e;--ok:#2e6b3f;
@@ -60,6 +60,42 @@ input.in{border:1px solid var(--line);border-radius:8px;padding:10px;font:inheri
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+/* === 세주 전자서명확인서 링크 코덱 v2 (app·sign 공용) === */
+const SJ_PH=['에 관하여 설명을 듣고 그 사실관계가 신고 내용과 같음을 확인합니다.','임을 확인합니다.','음을 확인합니다.','하였음을 확인합니다.','확인합니다.','본인은 ','본인(법정대리인)은 ','수증자는 ','세무대리인','세무사 사무소','설명을 들었습니다','양도소득세','증여세','상속세','종합소득세','부가가치세','법인세','2026년 ','2027년 ','2025년 ','월 ','일 ','원을 ','원(','만원','주택','계약금','매매계약','양도일','취득','증여일','증여재산','공제','신고서','신고','제출하','하였','있으며','없음','있음','이전','이후','현재','실제로 ','사실이 ','관련 ','세무서','납부','가산세','이 주택','이 집','부동산','분양권','입주권','주식','자녀','배우자','부모','증빙','이체내역','확인서','사실관계','국내','거주'];
+const SJ_LB=['신고인','세목·구분','신고 내용','양도가액','취득가액','과세표준','산출세액','납부할 세액','자진납부할 세액','증여재산가액','증여세 과세가액','증여재산공제(직계존속)','접수번호','접수일','결정세액','과세가액'];
+function sjStdItems(t){return [`본인은 위 ${t} 신고서와 첨부서류의 내용을 설명받았으며, 신고 내용이 본인이 알고 있는 사실 및 제공한 자료와 같음을 확인합니다.`,
+ `본인이 제공한 자료나 사실관계가 실제와 다르거나 누락된 자료가 있어 추가 세액·가산세가 생기는 경우, 그 책임은 본인에게 있음을 확인합니다.`,
+ `신고 후 세무서의 소명 요청이나 해명 안내를 받으면 즉시 세무대리인에게 알리겠습니다.`]}
+function sjIntro(t){return `본인은 세주세무회계사무소(이태현 세무사)에 ${t} 신고 대리를 의뢰하였고, 아래와 같이 신고되었음을 확인합니다.`}
+const SJ_CLOSE='위 사항을 충분히 설명받고 이해하였으며, 각 항목을 직접 확인하고 서명합니다.';
+const SJ_TT=['양도소득세','증여세','상속세','종합소득세','부가가치세','법인세','종합부동산세','취득세'];
+function sjSub(s,enc){ if(enc){ SJ_PH.forEach((p,i)=>{s=s.split(p).join(String.fromCharCode(0xE000+i))}); return s; } return s.replace(/[-]/g,ch=>SJ_PH[ch.charCodeAt(0)-0xE000]??''); }
+function sjB64(u){let b='';for(let i=0;i<u.length;i+=0x8000)b+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(b).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function sjUnB64(s){const b=atob(s.replace(/-/g,'+').replace(/_/g,'/'));const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+async function sjPipe(u,stream){const w=stream.writable.getWriter();w.write(u);w.close();return new Uint8Array(await new Response(stream.readable).arrayBuffer())}
+/* doc: {tax:'양도소득세', kind:'예정신고', title, intro, summary:[[k,v]], items:[], closing, signer, guardian, guardianName, docNo, issuedAt} */
+async function sjPack(doc){
+  const t=doc.tax||''; const std=sjStdItems(t);
+  const ti=SJ_TT.indexOf(t);
+  const arr=[ti>=0?ti:t, doc.kind||'', (doc.docNo||'').replace(/^세주-확인-/,''), (doc.issuedAt||'').replace(/-/g,''), doc.signer||'', doc.guardian?(doc.guardianName||'')+'\u0001':'',
+    doc.intro&&doc.intro!==sjIntro(t)?doc.intro:'', doc.closing&&doc.closing!==SJ_CLOSE?doc.closing:'',
+    (doc.summary||[]).map(([k,v])=>{const i=SJ_LB.indexOf(k);return (i>=0?String.fromCharCode(0xE100+i):k+'\u0003')+v}).join('\u0002'),
+    (doc.items||[]).map(x=>{const i=std.indexOf(x);return i>=0?String.fromCharCode(0xE180+i):x}).join('\u0002')];
+  const s=sjSub(arr.join('\u0004'),true);
+  const u=new Uint8Array(s.length*2); for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);u[2*i]=c&255;u[2*i+1]=c>>8}
+  return '2'+sjB64(await sjPipe(u,new CompressionStream('deflate-raw')));
+}
+async function sjUnpack(code){
+  const u=await sjPipe(sjUnB64(code.slice(1)),new DecompressionStream('deflate-raw'));
+  let s=''; for(let i=0;i+1<u.length;i+=2) s+=String.fromCharCode(u[i]|(u[i+1]<<8));
+  const a=sjSub(s,false).split('\u0004');
+  const t=/^\d+$/.test(a[0])?SJ_TT[+a[0]]:a[0]; const std=sjStdItems(t);
+  return {tax:t, kind:a[1], docNo:a[2]?'세주-확인-'+a[2]:'', issuedAt:a[3]?`${a[3].slice(0,4)}-${a[3].slice(4,6)}-${a[3].slice(6,8)}`:'', signer:a[4],
+    guardian:a[5].endsWith('\u0001'), guardianName:a[5].replace('\u0001',''), intro:a[6]||sjIntro(t), closing:a[7]||SJ_CLOSE,
+    summary:a[8]?a[8].split('\u0002').map(r=>{const c=r.charCodeAt(0);if(c>=0xE100&&c<0xE180)return [SJ_LB[c-0xE100],r.slice(1)];const k=r.indexOf('\u0003');return [r.slice(0,k),r.slice(k+1)]}):[],
+    items:a[9]?a[9].split('\u0002').map(x=>{const c=x.charCodeAt(0);return x.length===1&&c>=0xE180&&c<0xE190?std[c-0xE180]:x}):[]};
+}
+
 const OFFICE={name:'세주세무회계사무소',cpa:'이태현 세무사',tel:'02-2205-0659 / 010-6510-0659',fax:'02-2205-0657',email:'sejutaxmapo@gmail.com',addr:'서울시 마포구 독막로 239 성진빌딩 4층',kakao:'http://pf.kakao.com/_nrRhK'};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=s=>document.querySelector(s);
@@ -80,7 +116,7 @@ function pad(canvas){
   return{clear(){ctx.clearRect(0,0,canvas.width,canvas.height);has=false},empty:()=>!has,data:()=>canvas.toDataURL('image/png')};
 }
 function docHTML(d,st){
-  return `<div class="paper" id="paper"><h1>${esc(d.t)}</h1><div class="docno">${esc(d.no||'')}</div>
+  return `<div class="paper" id="paper"><h1>전자서명확인서</h1><div class="docno">${esc(d.sub||'')}${d.sub&&d.no?' · ':''}${esc(d.no||'')}</div>
   <p class="lead">${esc(d.i)}</p>
   <table class="dt"><tbody>${(d.s||[]).map(([k,v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
   <h3>확인 사항</h3>
@@ -93,11 +129,20 @@ function docHTML(d,st){
   <div class="office">${OFFICE.name} · ${OFFICE.cpa} · ${OFFICE.addr}<br>전화 ${OFFICE.tel} · 팩스 ${OFFICE.fax} · ${OFFICE.email}${st.at?`<br>전자서명 일시 ${esc(st.at)} · ${esc(st.ua||'')}`:''}</div></div>`;
 }
 (async()=>{
-  const app=$('#app'); const m=location.hash.match(/#c=([A-Za-z0-9_-]+)/);
+  const app=$('#app');
+  const UA=navigator.userAgent, isKakao=/KAKAOTALK/i.test(UA), isAndroid=/Android/i.test(UA);
+  const openExt=()=>{const h=location.href; if(isKakao){location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(h);return} if(isAndroid){location.href='intent://'+h.replace(/^https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end'}};
+  let kx=null; try{kx=sessionStorage.getItem('sj.kx')}catch(e){}
+  if(isKakao&&!kx){try{sessionStorage.setItem('sj.kx','1')}catch(e){} setTimeout(openExt,300)}
+  const qc=new URLSearchParams(location.search).get('c');
+  const m=qc?[null,qc]:location.hash.match(/#c=([A-Za-z0-9_-]+)/);
   if(!m){app.innerHTML=`<div class="bad"><b>확인서 정보가 없는 주소입니다.</b><p>사무실에서 보낸 링크 전체를 다시 눌러 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
-  let P; try{P=await decode(m[1])}catch(e){app.innerHTML=`<div class="bad"><b>링크가 손상되었습니다.</b><p>링크가 잘리지 않았는지 확인하시고, 다시 받아 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
+  let P; try{
+    if(qc){ const x=await sjUnpack(qc); P={d:{t:'전자서명확인서',sub:`${x.tax} ${x.kind} 신고내용 확인`.replace(/\s+/g,' ').trim(),no:x.docNo,i:x.intro,s:x.summary,it:x.items,c:x.closing,sg:x.signer,g:x.guardian?1:0,gn:x.guardianName}}; }
+    else P=await decode(m[1]);
+  }catch(e){app.innerHTML=`<div class="bad"><b>링크가 손상되었습니다.</b><p>링크가 잘리지 않았는지 확인하시고, 다시 받아 주세요.<br>문의 ${OFFICE.tel}</p></div>`;return}
   const d=P.d; const st={checks:d.it.map(()=>false),name:d.sg,gname:d.gn};
-  app.innerHTML=`<div class="guide"><b>${esc(d.sg)}님, 신고내용 확인을 부탁드립니다.</b><ol><li>확인서의 각 항목을 읽고 오른쪽 <b>확인</b> 버튼을 누릅니다.</li><li>아래에 성명을 적고 서명합니다.</li><li><b>서명 완료</b>를 누르면 PDF가 저장됩니다. 그 PDF를 카카오톡 채널 또는 메일로 보내 주세요.</li></ol></div>
+  app.innerHTML=(isKakao?`<div class="guide" style="background:#fff8e1"><b>카카오톡 안에서는 서명 PDF 저장이 안 될 수 있습니다.</b><br>아래 버튼으로 휴대폰 기본 브라우저(크롬·사파리)에서 열어 주세요.<div style="margin-top:8px"><button class="btn sm" id="openExt" type="button">기본 브라우저로 열기</button></div></div>`:'')+`<div class="guide"><b>${esc(d.sg)}님, 신고내용 확인을 부탁드립니다.</b><ol><li>확인서의 각 항목을 읽고 오른쪽 <b>확인</b> 버튼을 누릅니다.</li><li>아래에 성명을 적고 서명합니다.</li><li><b>서명 완료</b>를 누르면 PDF가 저장됩니다. 그 PDF를 카카오톡 채널 또는 메일로 보내 주세요.</li></ol></div>
    <div id="doc"></div>
    <div class="card"><h2>서명</h2>
     <label class="f">확인자 성명<input class="in" id="nm" value="${esc(d.sg)}" autocomplete="name"></label>
@@ -107,7 +152,7 @@ function docHTML(d,st){
     <button class="btn pri" id="ok" type="button">서명 완료 · PDF 저장</button></div>
    <div id="after"></div>`;
   const drawDoc=()=>{$('#doc').innerHTML=docHTML(d,st);document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{st.checks[+b.dataset.k]=!st.checks[+b.dataset.k];drawDoc()})};
-  drawDoc();
+  drawDoc(); const oe=document.getElementById('openExt'); if(oe) oe.onclick=openExt;
   const p1=pad($('#p1')),p2=d.g?pad($('#p2')):null;
   $('#c1').onclick=()=>p1.clear(); if(p2)$('#c2').onclick=()=>p2.clear();
   $('#ok').onclick=async()=>{
