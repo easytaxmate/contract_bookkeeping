@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사업자 정보 조회 · 세주세무회계</title>
+<meta name="description" content="사업자등록번호 또는 법인 상호로 휴·폐업, 과세유형, 고용·산재보험 정보를 조회합니다. 세주세무회계 이태현세무사">
+<style>
+:root{
+  --bg:#f3f5f8; --card:#fff; --ink:#18233a; --muted:#5d6a82; --line:#dfe4ec;
+  --navy:#1f3566; --navy-2:#2c4785; --ok:#1f7a4d; --ok-bg:#e7f5ee; --bad:#b3412c; --bad-bg:#fbecea; --warn:#9a6a00; --warn-bg:#fff6dd;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+header{background:var(--navy);color:#fff;padding:22px 18px 26px}
+header .wrap{max-width:720px;margin:0 auto}
+header small{opacity:.75;font-size:12.5px;letter-spacing:.02em}
+header h1{margin:4px 0 6px;font-size:22px;letter-spacing:-.01em}
+header p{margin:0;opacity:.85;font-size:13.5px}
+main{max-width:720px;margin:-16px auto 0;padding:0 14px 40px}
+.search{background:var(--card);border-radius:12px;box-shadow:0 4px 18px rgba(20,30,60,.08);padding:16px;display:flex;gap:8px}
+.search input{flex:1;min-width:0;font-size:16px;padding:12px 12px;border:1px solid var(--line);border-radius:8px;outline:none}
+.search input:focus{border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(44,71,133,.15)}
+.search button{flex:none;background:var(--navy-2);color:#fff;border:0;border-radius:8px;padding:0 18px;font-size:15px;font-weight:700;cursor:pointer}
+.search button:disabled{opacity:.6;cursor:default}
+.hint{color:var(--muted);font-size:12.5px;margin:8px 4px 0}
+.card{background:var(--card);border-radius:12px;box-shadow:0 2px 10px rgba(20,30,60,.06);margin-top:14px;overflow:hidden}
+.card h2{font-size:17px;margin:0}
+.head{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+.head .sub{color:var(--muted);font-size:13px;margin-top:2px;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;margin-top:10px}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.badge.bad{background:var(--bad-bg);color:var(--bad)}
+.badge.warn{background:var(--warn-bg);color:var(--warn)}
+.sec{padding:12px 16px 4px}
+.sec h3{font-size:12.5px;color:var(--navy-2);margin:0 0 6px;letter-spacing:.03em}
+.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.row:last-child{border-bottom:0}
+.row .k{color:var(--muted);flex:none}
+.row .v{text-align:right;font-weight:600;word-break:keep-all;font-variant-numeric:tabular-nums}
+.row .v.dim{color:#a0a9b8;font-weight:400}
+.list .item{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 16px;cursor:pointer;font:inherit;color:inherit}
+.list .item:hover{background:#f4f7fc}
+.list .item b{display:block;font-size:15px}
+.list .item span{color:var(--muted);font-size:13px}
+.msg{padding:18px 16px;color:var(--muted);font-size:14px}
+.msg.err{color:var(--bad)}
+.note{color:var(--muted);font-size:12.5px;padding:10px 16px 14px;background:#fafbfd;border-top:1px solid var(--line)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #c9d2e3;border-top-color:var(--navy-2);border-radius:50%;animation:s 1s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+footer{max-width:720px;margin:0 auto;padding:6px 18px 36px;color:var(--muted);font-size:13px}
+footer .office{background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 2px 10px rgba(20,30,60,.05)}
+footer .office b{color:var(--ink);font-size:14.5px}
+footer a{color:var(--navy-2);text-decoration:none;font-weight:600}
+footer .links{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+footer .legal{margin-top:12px;font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <small>세주세무회계 · 이태현세무사</small>
+    <h1>사업자 정보 조회</h1>
+    <p>사업자등록번호로 휴·폐업과 과세유형, 고용·산재보험 정보를 확인합니다.</p>
+  </div>
+</header>
+
+<main>
+  <form class="search" id="f" autocomplete="off">
+    <input id="q" inputmode="text" placeholder="사업자등록번호 10자리 또는 법인명" aria-label="사업자등록번호 또는 법인명">
+    <button id="go" type="submit">조회</button>
+  </form>
+  <p class="hint">예) 206-30-68022 · 상호 검색은 <b>법인만</b> 가능합니다. 개인사업자는 사업자등록번호로 조회해 주세요.</p>
+  <div id="out"></div>
+</main>
+
+<footer>
+  <div class="office">
+    <b>세주세무회계 이태현세무사</b>
+    <div class="links">
+      <a href="tel:02-2205-0659">📞 02-2205-0659</a>
+      <a href="http://pf.kakao.com/_nrRhK" target="_blank" rel="noopener">💬 카카오톡 상담</a>
+      <a href="https://www.easytaxmate.co.kr" target="_blank" rel="noopener">💻 홈페이지</a>
+    </div>
+    <div style="margin-top:6px">서울시 마포구 독막로 239 성진빌딩 4층</div>
+  </div>
+  <div class="legal">
+    국세청 사업자등록 상태조회, 근로복지공단 고용·산재보험 현황, 금융위원회 기업기본정보(공공데이터포털)를 조회해 보여 드립니다.
+    기관별 갱신 주기에 따라 실제와 차이가 있을 수 있으며, 법적 효력이 필요한 확인은 홈택스(사업자등록상태 조회)와 각 기관에서 해 주세요.
+    입력하신 번호는 조회에만 쓰이고 저장하지 않습니다.
+  </div>
+</footer>
+
+<script>
+var API = 'https://script.google.com/macros/s/AKfycbxGxahuXTPshD5RGGupAX4XINnY6xOazugLm8Lm0lswcwTiaz4exzvCH9AbLRSgVYeN/exec';
+var out = document.getElementById('out'), q = document.getElementById('q'), go = document.getElementById('go');
+
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function busy(on, text){ go.disabled = on; if (on) out.innerHTML = '<div class="card"><div class="msg"><span class="spin"></span>' + esc(text || '조회 중입니다…') + '</div></div>'; }
+function fail(msg){ out.innerHTML = '<div class="card"><div class="msg err">' + esc(msg) + '</div></div>'; }
+
+function call(params){
+  var u = API + '?' + Object.keys(params).map(function(k){ return k + '=' + encodeURIComponent(params[k]); }).join('&');
+  return fetch(u, { method: 'GET', redirect: 'follow' }).then(function(r){ return r.json(); });
+}
+
+function lookupBiz(b){
+  busy(true, '국세청·근로복지공단에서 조회 중입니다…');
+  try { history.replaceState(null, '', '?b=' + b); } catch(e) {}
+  call({ bizNo: b }).then(function(d){
+    go.disabled = false;
+    if (!d.ok) return fail(d.error || '조회하지 못했습니다.');
+    renderBiz(d);
+  }).catch(function(){ go.disabled = false; fail('잠시 후 다시 시도해 주세요. (네트워크 오류)'); });
+}
+
+function searchName(n){
+  busy(true, '법인명으로 찾는 중입니다…');
+  call({ name: n }).then(function(d){
+    go.disabled = false;
+    if (!d.ok) return fail(d.error || '조회하지 못했습니다.');
+    if (!d.items.length) {
+      out.innerHTML = '<div class="card"><div class="msg">"' + esc(n) + '"(으)로 등록된 법인을 찾지 못했습니다.<br>정확한 법인명(예: 주식회사 OOO)으로 다시 찾아보시거나, 사업자등록번호로 조회해 주세요.</div><div class="note">' + esc(d.note) + '</div></div>';
+      return;
+    }
+    if (d.items.length === 1) return lookupBiz(d.items[0]['사업자등록번호'].replace(/\D/g, ''));
+    out.innerHTML = '<div class="card list"><div class="head"><h2>검색 결과 ' + d.items.length + '곳</h2><div class="sub">조회할 법인을 선택해 주세요.</div></div>' +
+      d.items.map(function(it){
+        return '<button class="item" data-b="' + esc(it['사업자등록번호']) + '"><b>' + esc(it['상호']) + '</b><span>' + esc(it['사업자등록번호']) + ' · 대표 ' + esc(it['대표자'] || '-') + ' · ' + esc(it['주소'] || '') + '</span></button>';
+      }).join('') + '<div class="note">' + esc(d.note) + '</div></div>';
+    out.querySelectorAll('.item').forEach(function(btn){
+      btn.onclick = function(){ lookupBiz(btn.getAttribute('data-b').replace(/\D/g, '')); };
+    });
+  }).catch(function(){ go.disabled = false; fail('잠시 후 다시 시도해 주세요. (네트워크 오류)'); });
+}
+
+function row(k, v, suffix){
+  var empty = v === '' || v == null;
+  return '<div class="row"><span class="k">' + esc(k) + '</span><span class="v' + (empty ? ' dim' : '') + '">' + (empty ? '없음' : esc(v) + (suffix || '')) + '</span></div>';
+}
+
+function renderBiz(d){
+  var st = d['영업상태'] || '';
+  var cls = /계속/.test(st) ? 'ok' : (/휴업/.test(st) ? 'warn' : 'bad');
+  var html = '<div class="card">' +
+    '<div class="head"><h2>' + esc(d['상호'] || '상호 정보 없음') + '</h2>' +
+    '<div class="sub">' + esc(d['사업자등록번호']) + ' · ' + esc(d['법인/개인']) + '</div>' +
+    '<span class="badge ' + cls + '">' + esc(st) + '</span></div>' +
+    '<div class="sec"><h3>국세청 사업자등록 상태</h3>' +
+      row('과세유형', d['과세유형']) + row('폐업일', d['폐업일']) + row('과세유형 변경일', d['과세유형 변경일']) + row('세금계산서 적용일', d['세금계산서 적용일']) +
+    '</div>' +
+    '<div class="sec"><h3>근로복지공단 고용·산재보험</h3>' +
+      row('고용보험 상시인원', d['고용 상시인원'], '명') + row('고용보험 성립일', d['고용보험 성립일']) +
+      row('산재보험 상시인원', d['산재 상시인원'], '명') + row('산재보험 성립일', d['산재보험 성립일']) +
+      row('업종', d['고용업종']) + row('사업장 주소', d['사업장 주소(근로복지공단)']) +
+    '</div>' +
+    '<div class="note">조회일시 ' + esc(d['조회일시']) + ' · 상호와 주소는 근로복지공단 등록 기준이며, 고용·산재보험에 가입하지 않은 사업장은 표시되지 않습니다.</div>' +
+  '</div>';
+  out.innerHTML = html;
+}
+
+document.getElementById('f').addEventListener('submit', function(e){
+  e.preventDefault();
+  var v = q.value.trim();
+  if (!v) return;
+  var digits = v.replace(/\D/g, '');
+  if (digits.length === 10 && /^[\d\-\s]+$/.test(v)) lookupBiz(digits);
+  else if (/^[\d\-\s]+$/.test(v)) fail('사업자등록번호는 숫자 10자리입니다.');
+  else searchName(v);
+});
+
+(function(){
+  var m = location.search.match(/[?&]b=(\d{10})/);
+  if (m) { q.value = m[1].replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3'); lookupBiz(m[1]); }
+})();
+</script>
+</body>
+</html>
